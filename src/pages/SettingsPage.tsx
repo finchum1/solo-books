@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import type { Session } from '@supabase/supabase-js'
 import { supabase } from '../lib/supabase'
 import { ThemeToggle } from '../components/ThemeToggle'
@@ -58,6 +59,10 @@ export function SettingsPage({ session }: { session: Session }) {
             >
               Sign out
             </button>
+            <p className="text-xs text-slate-400 dark:text-slate-500 text-center mt-4">
+              <Link to="/privacy" className="underline hover:text-slate-600 dark:hover:text-slate-300">Privacy Policy</Link> ·{' '}
+              <Link to="/terms" className="underline hover:text-slate-600 dark:hover:text-slate-300">Terms of Service</Link>
+            </p>
           </section>
         </div>
       )}

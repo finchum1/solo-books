@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import type { Session } from '@supabase/supabase-js'
 import { supabase } from './lib/supabase'
 import { Landing } from './pages/Landing'
 import { ResetPassword } from './pages/ResetPassword'
+import { PrivacyPage, TermsPage } from './pages/LegalPages'
 import { Sidebar } from './components/Sidebar'
 import { MobileHeader } from './components/MobileHeader'
 import { MobileNav } from './components/MobileNav'
@@ -24,6 +25,7 @@ function App() {
   const [session, setSession] = useState<Session | null>(null)
   const [checked, setChecked] = useState(false)
   const [recovering, setRecovering] = useState(OPENED_FROM_RECOVERY_LINK)
+  const { pathname } = useLocation()
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -36,6 +38,10 @@ function App() {
     })
     return () => listener.subscription.unsubscribe()
   }, [])
+
+  // Public pages: reachable signed in or out, so they can be linked from anywhere.
+  if (pathname === '/privacy') return <PrivacyPage />
+  if (pathname === '/terms') return <TermsPage />
 
   if (!checked) {
     return (

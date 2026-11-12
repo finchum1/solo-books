@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import type { FormEvent } from 'react'
+import { Link } from 'react-router-dom'
 import { motion, useInView } from 'framer-motion'
 import { supabase } from '../lib/supabase'
 import { panel } from '../lib/landingTheme'
@@ -271,6 +272,13 @@ function SignInPanel({ mode, onModeChange }: { mode: AuthMode; onModeChange: (m:
         >
           {loading ? (isSignUp ? 'Creating account…' : 'Signing in…') : isSignUp ? 'Create account' : 'Sign in'}
         </button>
+        {isSignUp && (
+          <p className="text-xs text-center mt-3" style={{ color: panel.inkDim }}>
+            By creating an account you agree to the{' '}
+            <Link to="/terms" className="underline transition hover:opacity-75" style={{ color: panel.gold }}>Terms of Service</Link> and{' '}
+            <Link to="/privacy" className="underline transition hover:opacity-75" style={{ color: panel.gold }}>Privacy Policy</Link>.
+          </p>
+        )}
       </form>
       <p className="text-xs text-center mt-4" style={{ color: panel.inkDim }}>
         {isSignUp ? (
@@ -538,7 +546,9 @@ export function Landing() {
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <Wordmark />
           <p className="text-xs" style={{ color: panel.inkDim }}>
-            © {new Date().getFullYear()} Solo Books
+            © {new Date().getFullYear()} Solo Books ·{' '}
+            <Link to="/privacy" className="underline transition hover:opacity-75">Privacy</Link> ·{' '}
+            <Link to="/terms" className="underline transition hover:opacity-75">Terms</Link>
           </p>
         </div>
       </footer>
