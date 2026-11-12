@@ -142,18 +142,22 @@ export function Shot({ name, alt, frame = true, className = '', priority = false
  * "SOLO BOOKS" set so it spans the full width of its container, with the
  * baseline on the bottom edge. Drawn as SVG text so the baseline position is
  * exact (an HTML line box would leave an unpredictable gap below the letters),
- * measured with the real font once it loads, and pinned to that width with
+ * measured with the real font once it loads (to its ink edges, so the margins
+ * are equal and the round letters are whole), and pinned to that width with
  * textLength so a fallback face can't leave it short.
+ *
+ * Its one motion is a glow: a band of near-white gold sweeps across the name on
+ * a loop, and a halo of light (two blurred copies, one tight and one wide) rides
+ * along behind it, so whichever letters the light is passing over burn bright.
+ * The letters themselves never move. Flat gold under reduced motion.
  */
 export function FitWordmark({ text = 'SOLO BOOKS', className = '', shine = true }: { text?: string; className?: string; shine?: boolean }) {
   const CAP = 69 // Libre Caslon Display cap height at font-size 100 (690 / 1000 em)
   const OVERSHOOT = 1.6 // round letters (S, O) dip 16 units below the baseline; keep them whole
   const TRACK = 2 // a touch of open tracking suits Roman capitals
-  const LIFT = 9 // how far each letter rises in the ripple (font units at size 100)
-  const CYCLE = 4.4 // seconds for the ripple + light to cross the name and begin again
-  const STAGGER = 0.26 // seconds between one letter and the next
-  // x: where the ink starts; w: ink width; adv: the text's advance width (for textLength); xs: each letter's x
-  const [box, setBox] = useState<{ x: number; w: number; adv: number; xs: number[] | null }>({ x: 4, w: 600, adv: 610, xs: null })
+  const CYCLE = 4.2 // seconds per sweep, including the short rest
+  // x: where the ink starts; w: ink width; adv: the text's advance width (for textLength)
+  const [box, setBox] = useState({ x: 4, w: 600, adv: 610 })
   // Motion honors the visitor's reduced-motion setting.
   const [still, setStill] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches)
   const gid = useId().replace(/:/g, '')
@@ -182,9 +186,7 @@ export function FitWordmark({ text = 'SOLO BOOKS', className = '', shine = true 
       const adv = m.width + gaps
       const inkLeft = -m.actualBoundingBoxLeft
       const inkRight = m.actualBoundingBoxRight + gaps
-      // Each letter's own x, from the width of everything before it (so kerning is kept).
-      const xs = Array.from(text).map((_, i) => ctx.measureText(text.slice(0, i)).width + TRACK * i)
-      if (adv > 100 && inkRight > inkLeft) setBox({ x: Math.round(inkLeft * 10) / 10, w: Math.round((inkRight - inkLeft) * 10) / 10, adv: Math.round(adv), xs })
+      if (adv > 100 && inkRight > inkLeft) setBox({ x: Math.round(inkLeft * 10) / 10, w: Math.round((inkRight - inkLeft) * 10) / 10, adv: Math.round(adv) })
     }
     measure()
     return () => {
@@ -192,66 +194,75 @@ export function FitWordmark({ text = 'SOLO BOOKS', className = '', shine = true 
     }
   }, [text])
 
-  const animated = shine && !still && box.xs !== null
+  const animated = shine && !still
   const w = box.w
   const FONT = "'Libre Caslon Display', 'Iowan Old Style', Georgia, serif"
+  const textProps = { x: 0, y: CAP, fontFamily: FONT, fontWeight: 400, fontSize: 100, letterSpacing: TRACK, textLength: box.adv, lengthAdjust: 'spacing' as const }
+  // Both gradients slide with identical timing so the halo stays locked to the light.
+  const slide = (
+    <animateTransform
+      attributeName="gradientTransform"
+      type="translate"
+      values={`${-w * 0.8} 0; ${w * 0.8} 0; ${w * 0.8} 0`}
+      keyTimes="0; 0.86; 1"
+      calcMode="spline"
+      keySplines="0.4 0 0.6 1; 0 0 1 1"
+      dur={`${CYCLE}s`}
+      repeatCount="indefinite"
+    />
+  )
 
   return (
     <svg
-      viewBox={`${box.x} ${-LIFT} ${box.w} ${CAP + OVERSHOOT + LIFT}`}
+      viewBox={`${box.x} 0 ${box.w} ${CAP + OVERSHOOT}`}
       className={`block w-full overflow-visible ${className}`}
       role="img"
       aria-label={text === 'SOLO BOOKS' ? 'Solo Books' : text}
       preserveAspectRatio="xMidYMax meet"
     >
-      {animated ? (
-        <>
-          <defs>
-            {/* Brand gold with a wide band of near-white gold (and a slightly deeper gold shoulder either side for contrast), slid across the whole name in step with the ripple. */}
-            <linearGradient id={gid} gradientUnits="userSpaceOnUse" x1={box.x} y1="0" x2={box.x + w} y2="0">
-              <stop offset="0" stopColor="#cbb078" />
-              <stop offset="0.22" stopColor="#bd9e5f" />
-              <stop offset="0.4" stopColor="#ead69f" />
-              <stop offset="0.5" stopColor="#fff7dc" />
-              <stop offset="0.6" stopColor="#ead69f" />
-              <stop offset="0.78" stopColor="#bd9e5f" />
-              <stop offset="1" stopColor="#cbb078" />
-              <animateTransform
-                attributeName="gradientTransform"
-                type="translate"
-                values={`${-w * 0.85} 0; ${w * 0.85} 0; ${w * 0.85} 0`}
-                keyTimes="0; 0.82; 1"
-                calcMode="spline"
-                keySplines="0.4 0 0.6 1; 0 0 1 1"
-                dur={`${CYCLE}s`}
-                repeatCount="indefinite"
-              />
-            </linearGradient>
-          </defs>
-          {Array.from(text).map((ch, i) =>
-            ch === ' ' ? null : (
-              <text key={i} x={box.xs![i]} y={CAP} fontFamily={FONT} fontWeight={400} fontSize={100} fill={`url(#${gid})`}>
-                {ch}
-                {/* Rise, settle, rest: one letter after another, left to right, forever. */}
-                <animate
-                  attributeName="y"
-                  values={`${CAP}; ${CAP - LIFT}; ${CAP}; ${CAP}`}
-                  keyTimes="0; 0.17; 0.38; 1"
-                  calcMode="spline"
-                  keySplines="0.3 0 0.3 1; 0.4 0 0.2 1; 0 0 1 1"
-                  dur={`${CYCLE}s`}
-                  begin={`${(i * STAGGER).toFixed(2)}s`}
-                  repeatCount="indefinite"
-                />
-              </text>
-            ),
-          )}
-        </>
-      ) : (
-        <text x="0" y={CAP} fontFamily={FONT} fontWeight={400} fontSize={100} letterSpacing={TRACK} textLength={box.adv} lengthAdjust="spacing" fill={panel.gold}>
-          {text}
-        </text>
+      {animated && (
+        <defs>
+          {/* The letters: brand gold, a deeper shoulder either side of the light for contrast, a near-white core. */}
+          <linearGradient id={`${gid}-f`} gradientUnits="userSpaceOnUse" x1={box.x} y1="0" x2={box.x + w} y2="0">
+            <stop offset="0" stopColor="#cbb078" />
+            <stop offset="0.2" stopColor="#b79852" />
+            <stop offset="0.36" stopColor="#f0dca4" />
+            <stop offset="0.5" stopColor="#fffbea" />
+            <stop offset="0.64" stopColor="#f0dca4" />
+            <stop offset="0.8" stopColor="#b79852" />
+            <stop offset="1" stopColor="#cbb078" />
+            {slide}
+          </linearGradient>
+          {/* The halo: invisible everywhere except under the light. */}
+          <linearGradient id={`${gid}-g`} gradientUnits="userSpaceOnUse" x1={box.x} y1="0" x2={box.x + w} y2="0">
+            <stop offset="0.14" stopColor="#ffe9a6" stopOpacity="0" />
+            <stop offset="0.36" stopColor="#ffe9a6" stopOpacity="0.75" />
+            <stop offset="0.5" stopColor="#fff6d2" stopOpacity="1" />
+            <stop offset="0.64" stopColor="#ffe9a6" stopOpacity="0.75" />
+            <stop offset="0.86" stopColor="#ffe9a6" stopOpacity="0" />
+            {slide}
+          </linearGradient>
+          <filter id={`${gid}-b1`} x="-4%" y="-45%" width="108%" height="190%">
+            <feGaussianBlur stdDeviation="2.6" />
+          </filter>
+          <filter id={`${gid}-b2`} x="-8%" y="-90%" width="116%" height="280%">
+            <feGaussianBlur stdDeviation="9" />
+          </filter>
+        </defs>
       )}
+      {animated && (
+        <>
+          <text {...textProps} fill={`url(#${gid}-g)`} filter={`url(#${gid}-b2)`} opacity="0.95" aria-hidden="true">
+            {text}
+          </text>
+          <text {...textProps} fill={`url(#${gid}-g)`} filter={`url(#${gid}-b1)`} aria-hidden="true">
+            {text}
+          </text>
+        </>
+      )}
+      <text {...textProps} fill={animated ? `url(#${gid}-f)` : panel.gold}>
+        {text}
+      </text>
     </svg>
   )
 }
