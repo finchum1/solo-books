@@ -57,6 +57,17 @@ const ICONS: Record<string, (props: { size: number }) => ReactElement> = {
   ),
 }
 
+/** The "More" tab's icon: three dots. */
+export function MoreIcon({ size = 20 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} {...ICON_PROPS}>
+      <circle cx="5" cy="12" r="1.2" fill="currentColor" />
+      <circle cx="12" cy="12" r="1.2" fill="currentColor" />
+      <circle cx="19" cy="12" r="1.2" fill="currentColor" />
+    </svg>
+  )
+}
+
 export function NavIcon({ to, size = 20 }: { to: string; size?: number }) {
   const Icon = ICONS[to]
   return Icon ? <Icon size={size} /> : null
