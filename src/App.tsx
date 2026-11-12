@@ -2,9 +2,8 @@ import { useEffect, useState } from 'react'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import type { Session } from '@supabase/supabase-js'
 import { supabase } from './lib/supabase'
-import { Landing } from './pages/Landing'
+import { PublicSite } from './marketing/PublicSite'
 import { ResetPassword } from './pages/ResetPassword'
-import { PrivacyPage, TermsPage } from './pages/LegalPages'
 import { Sidebar } from './components/Sidebar'
 import { MobileHeader } from './components/MobileHeader'
 import { MobileNav } from './components/MobileNav'
@@ -39,9 +38,8 @@ function App() {
     return () => listener.subscription.unsubscribe()
   }, [])
 
-  // Public pages: reachable signed in or out, so they can be linked from anywhere.
-  if (pathname === '/privacy') return <PrivacyPage />
-  if (pathname === '/terms') return <TermsPage />
+  // Privacy and Terms are public pages: reachable signed in or out, so they can be linked from anywhere.
+  if (pathname === '/privacy' || pathname === '/terms') return <PublicSite signedIn={!!session} />
 
   if (!checked) {
     return (
@@ -52,7 +50,7 @@ function App() {
   }
 
   if (!session) {
-    return <Landing />
+    return <PublicSite />
   }
 
   if (recovering) {

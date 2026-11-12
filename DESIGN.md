@@ -1,208 +1,237 @@
 ---
-name: Sovereign Books — Landing (Played-Straight Fintech World)
-description: A near-black graphite fintech surface with one restrained champagne-gold accent and real app screenshots in browser-chrome frames — the category standard (Mercury/Ramp/Brex) executed straight, no governing object metaphor.
+name: Solo Books
+description: Black, white and one champagne gold; a calm private ledger for people who run their own businesses, with a light and a dark theme.
 colors:
-  bg-deep: "#0a0b0d"
-  bg: "#0d0f12"
-  bg-raised: "#16181c"
-  bg-raised-2: "#1d2025"
-  ink: "#f4f4f2"
-  ink-dim: "#9a9ca3"
   gold: "#cbb078"
-  gold-bright: "#ddc48f"
-  gold-dim: "#8a7856"
-  income: "#34d399"
-  income-dim: "#123b2c"
-  expense: "#f87171"
-  expense-dim: "#3d1e1e"
-  border: "rgba(255, 255, 255, 0.08)"
-  border-strong: "rgba(255, 255, 255, 0.14)"
+  gold-text-on-white: "#85692f"
+  gold-bright-light: "#b8995a"
+  gold-bright-dark: "#e2cb97"
+  on-gold: "#0a0b0d"
+  ink-light: "#0a0b0d"
+  ink-dim-light: "#585a61"
+  page-light: "#ffffff"
+  band-light: "#f6f6f4"
+  raised-light: "#ffffff"
+  well-light: "#efefec"
+  ink-dark: "#f5f4f0"
+  ink-dim-dark: "#a0a2a9"
+  page-dark: "#07080a"
+  band-dark: "#0c0d10"
+  raised-dark: "#14161a"
+  well-dark: "#1b1e23"
+  income-light: "#047857"
+  income-dark: "#34d399"
+  expense-light: "#b91c1c"
+  expense-dark: "#f87171"
 typography:
   display:
-    fontFamily: "'Hanken Grotesk', system-ui, 'Segoe UI', Roboto, sans-serif"
-    fontSize: "clamp(2.25rem, 5.5vw, 3.4rem)"
+    fontFamily: "Hanken Grotesk, system-ui, Segoe UI, Roboto, sans-serif"
+    fontSize: "clamp(2.5rem, 6.2vw, 5rem)"
     fontWeight: 600
-    lineHeight: 1.05
-    letterSpacing: "-0.01em"
+    lineHeight: 1.02
+    letterSpacing: "-0.035em"
   headline:
-    fontFamily: "'Hanken Grotesk', sans-serif"
-    fontSize: "1.875rem"
+    fontFamily: "Hanken Grotesk, system-ui, Segoe UI, Roboto, sans-serif"
+    fontSize: "clamp(1.9rem, 4vw, 3.1rem)"
     fontWeight: 600
-    lineHeight: 1.1
+    lineHeight: 1.06
+    letterSpacing: "-0.03em"
   title:
-    fontFamily: "'Hanken Grotesk', sans-serif"
-    fontSize: "1.5rem"
+    fontFamily: "Hanken Grotesk, system-ui, Segoe UI, Roboto, sans-serif"
+    fontSize: "1.25rem to 1.5rem"
     fontWeight: 600
-    lineHeight: 1.15
+    letterSpacing: "-0.025em"
   body:
-    fontFamily: "'Hanken Grotesk', sans-serif"
-    fontSize: "0.9375rem"
+    fontFamily: "Hanken Grotesk, system-ui, Segoe UI, Roboto, sans-serif"
+    fontSize: "16px to 17px"
     fontWeight: 400
-    lineHeight: 1.6
+    lineHeight: 1.625
   label:
-    fontFamily: "'Hanken Grotesk', sans-serif"
-    fontSize: "11px"
+    fontFamily: "Hanken Grotesk, system-ui, Segoe UI, Roboto, sans-serif"
+    fontSize: "14px to 15px"
     fontWeight: 500
-    letterSpacing: "0.12em"
-  tabular:
-    fontFamily: "'Hanken Grotesk', sans-serif"
-    fontVariation: "tabular-nums"
-    fontWeight: 500
+  figure:
+    fontFamily: "Hanken Grotesk, system-ui, Segoe UI, Roboto, sans-serif"
+    fontSize: "1.25rem to 2.25rem"
+    fontWeight: 600
+    fontFeature: "tabular-nums"
 rounded:
-  md: "8px"
-  lg: "12px"
+  xl: "12px"
+  2xl: "16px"
+  3xl: "24px"
   full: "9999px"
 spacing:
-  xs: "6px"
-  sm: "12px"
-  md: "20px"
-  lg: "32px"
-  xl: "48px"
-  2xl: "80px"
+  gutter: "20px"
+  gutter-sm: "32px"
+  band: "96px"
+  band-lg: "128px"
 components:
   button-primary:
     backgroundColor: "{colors.gold}"
-    textColor: "{colors.bg-deep}"
-    rounded: "{rounded.lg}"
-    padding: "10px 20px"
-  button-primary-hover:
-    backgroundColor: "{colors.gold-bright}"
+    textColor: "{colors.on-gold}"
+    rounded: "{rounded.full}"
+    padding: "12px 24px"
+  button-outline:
+    textColor: "{colors.ink-light}"
+    rounded: "{rounded.full}"
+    padding: "12px 24px"
   button-ghost:
-    backgroundColor: "transparent"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.lg}"
-    padding: "10px 16px"
-  input-field:
-    backgroundColor: "{colors.bg-raised-2}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.lg}"
-    padding: "10px 12px"
+    textColor: "{colors.ink-light}"
+    rounded: "{rounded.full}"
+    padding: "8px 16px"
+  surface:
+    backgroundColor: "{colors.raised-light}"
+    rounded: "{rounded.3xl}"
+  input:
+    backgroundColor: "{colors.well-light}"
+    textColor: "{colors.ink-light}"
+    rounded: "{rounded.xl}"
+    padding: "12px 16px"
+  browser-frame:
+    backgroundColor: "{colors.raised-light}"
+    rounded: "{rounded.2xl}"
 ---
 
-# Design System: Sovereign Books — Landing (Played-Straight Fintech World)
+# Design System: Solo Books
 
 ## Overview
 
-**Creative North Star: "Category Standard, Played Straight"**
+**Creative North Star: "The Quiet Ledger"**
 
-This is the third visual world this landing page has shipped, and the first with no governing object or place metaphor. The first world ("Switchboard," a patch-bay panel) and the second ("The House Ledger," a bound accounting ledger) were each retired in full. This time the user was dealt a bespoke-tailoring concept ("Cut to Measure") and chose to skip it, naming Mercury, Ramp, and Brex directly as the craft bar instead: a private fintech product rendered at full craft with no conceit standing between the viewer and the product. The whole page reads as one register — near-black graphite grounds, a single restrained champagne-gold accent, and the real running app mounted in a browser-chrome frame — rather than a material or narrative world. Because no approved comp image was pinned for this canon path, this world is judged against the general register of the named real references, not against a screenshot fixed at build time; a future editor should keep checking new work against how Mercury/Ramp/Brex actually look and behave, not only against this file's prose.
+The public site is a calm, black-and-white page with a single metal in it. Gold is the only color; everything else is ink, paper and the real product. It reads as a serious financial tool for someone who runs their own books, not a startup toy: one typeface, hairline borders, large type, real screenshots of the app and a live payroll calculator in place of illustration. It follows the app's own light/dark toggle (the `html.dark` class, `lib/theme.ts`), so the visitor's theme carries from the app to the site and back.
 
-There is no photographed or textured material asset anywhere on this page — a first for this product across all three worlds. Every surface is flat color plus one shared, page-level SVG-noise grain (`.sb-grain`) applied once, not per-card material texture. Typography is a second deliberate departure: one grotesque family (Hanken Grotesk) carries headlines, body copy, and tabular dollar figures alike via CSS `font-variant-numeric: tabular-nums`, replacing both prior worlds' serif/mono splits — because the named references actually set type this way. Geist was the first pick and was swapped mid-build after the project's own mechanical detector flagged it by name as one of a handful of faces so common across AI-generated UIs that it reads as a tell rather than a choice.
-
-The product itself was renamed from "Business Ledger" to "Sovereign Books" in this same session (see PRODUCT.md for the shortlist). The GitHub repo and Vercel project rename to match is still pending on the user's end — no `gh` CLI or Vercel rename tool was available in this environment — so the working folder name (`business-ledger`) and the shipped product name currently differ; that is expected, not a defect.
+Depth comes from one idea, liquid glass: a floating pill header that refracts the page beneath it, and the gold light-leaks at the top of each hero that give it something to refract. The page closes on the product name set edge to edge in flat gold on black. Nothing else glows, blurs or floats.
 
 **Key Characteristics:**
-- Near-black graphite grounds (`#0a0b0d` / `#0d0f12`) with a single champagne-gold accent (`#cbb078`) used sparingly — button fills, small marks, focus rings — never a wash.
-- One type family (Hanken Grotesk) for everything, including dollar figures set with tabular numerals rather than a separate mono face.
-- No photographed material anywhere; a single shared, faint page-level SVG grain overlay (`.sb-grain`, ~3.5% opacity, overlay blend) is the only depth-suggesting texture.
-- The signature device is `BrowserFrame` — a traffic-light-dot, hairline-bordered browser chrome wrapping a real app screenshot — used for both the hero image and the "real thing, running" screenshot gallery.
-- Real dollar totals climb digit-by-digit on activation (`TickerTotal`, 700ms cubic ease-out) rather than snapping or counting linearly.
+- Black, white and gold only; gold carries all emphasis. Green and red appear solely as money signs.
+- Light and dark themes from the same tokens; the footer and Payroll band stay black in both.
+- Hanken Grotesk alone, tight tracking on large type, tabular figures for money.
+- Liquid glass reserved for the header pill and one hero chip.
+- Real product evidence: theme-following app screenshots and a payroll demo that runs the app's calculator.
+- Headings stand alone; no labels, kickers or eyebrows above them.
 
 ## Colors
 
-A near-black graphite palette with one warm gold accent and two semantic signal colors; deliberately unsaturated compared to both prior worlds, matching how the named references treat color as accent rather than atmosphere.
+A monochrome field with one champagne gold. Tokens are CSS variables (`--mk-*`) on `:root` (light), `.dark` (dark) and `.mk-dark` (always black); components read them through `panel.*` in `lib/landingTheme.ts`.
 
 ### Primary
-- **Graphite Ground** (`#0a0b0d` deepest / `#0d0f12` base): the page background and every section's flat ground — nav, hero, alternating section backgrounds. Always flat color, never a gradient or textured fill.
-
-### Secondary
-- **Champagne Gold** (`#cbb078` base / `#ddc48f` bright / `#8a7856` dim): the one accent — primary button fill and its hover state, the wordmark mark, `RowDot`'s active fill, link text, focus-ring glow, `::selection` tint, and input caret color. Ties back to "Sovereign" without reaching for the literal brass/gold-foil material language of the retired ledger world.
-
-### Tertiary
-- **Income Green** (`#34d399`) / **Expense Red** (`#f87171`): transaction-sign colors — positive totals, active `TickerTotal` figures, status/success text (green) and error text (red). Reserved for figures and status, never decorative.
+- **Champagne Gold** (#cbb078): the only accent, identical in both themes. Used as fill: primary buttons, the BrandMark, check chips, the footer wordmark, focus rings, selected-row dots, the hero light-leaks (at 40% light / 26% dark alpha).
+- **Library Brass** (#85692f, `--mk-gold-text`): gold used AS text or a link on white, deepened to pass contrast. On black regions `--mk-gold-text` resolves back to #cbb078.
+- **Gold Highlight** (#b8995a light, #e2cb97 dark, `--mk-gold-bright`): hover/brightened gold.
 
 ### Neutral
-- **Raised Panel** (`#16181c` / `#1d2025`): card and input backgrounds — `Card`, `BrowserFrame`, `sb-input` fields — layered flat over the graphite ground with no material texture.
-- **Ink** (`#f4f4f2`) / **Ink Dim** (`#9a9ca3`): primary and secondary text on dark ground throughout.
-- **Border** (`rgba(255,255,255,0.08)`) / **Border Strong** (`rgba(255,255,255,0.14)`): the single plain 8%-white hairline used for every card outline, divider, and section rule — a departure from both prior worlds' colored (brass/gold-tinted) hairlines.
+- **Ink** (#0a0b0d light, #f5f4f0 dark): headings and primary text. Also the text color on gold fills in both themes.
+- **Dim Ink** (#585a61 light, #a0a2a9 dark): running copy, captions, secondary rows.
+- **Paper / Void** (#ffffff light, #07080a dark): page ground (`--mk-bg-deep`).
+- **Band** (#f6f6f4 light, #0c0d10 dark): alternate section ground.
+- **Raised** (#ffffff light, #14161a dark): cards, frames. **Well** (#efefec light, #1b1e23 dark): inputs and chips inside a card.
+- **Hairlines**: ink at 10% (light) or white at 9% (dark) for borders; 18% / 16% for strong borders.
+
+### Semantic
+- **Income green** (#047857 light, #34d399 dark) and **Expense red** (#b91c1c light, #f87171 dark): money figures only, never decoration.
 
 ### Named Rules
-**The One Accent Rule.** Gold appears only on interactive/emphasis elements (buttons, links, active selection state, focus rings, caret, selection highlight) — never as a section wash, card fill, or decorative surface. Everything else is graphite, ink, or the plain white-alpha border.
+**The One Metal Rule.** Gold is the only chromatic color on the site. No second accent, no gradient text, no gold-to-anything gradient on type.
+
+**The Brass On White Rule.** Gold as a fill is #cbb078 everywhere; gold as text or link on a light ground is #85692f. Never set #cbb078 text on white.
+
+**The Black Stays Black Rule.** The footer and the Payroll band carry `.mk-dark` and are black in both themes. The header pill flips to the dark token set while it overlaps them (detected by `data-mk-band` on those regions), so its glass, mark and links keep contrast.
 
 ## Typography
 
-**Display Font:** Hanken Grotesk (with system-ui, Segoe UI, Roboto fallback)
-**Body Font:** Hanken Grotesk (same family, no split)
-**Label/Mono Font:** none — labels are small tracked Hanken Grotesk; dollar figures are Hanken Grotesk with `font-variant-numeric: tabular-nums`, not a separate mono face
+**Display / Body / Label Font:** Hanken Grotesk (with system-ui, Segoe UI, Roboto, sans-serif), weights 400 to 800. One family, no pairing.
 
-**Character:** One confident grotesque voice carries the entire page — headline, body, caption, and tabular dollar figure — in place of either prior world's display/body/mono split. This is a direct match to how Mercury, Ramp, and Brex actually set type: a single sans doing all the work, with numeral alignment handled by a CSS feature rather than a costume change.
+**Character:** Confident and plain. Weight and size do the hierarchy; large type is tightened, body is relaxed. Money is set in the same sans with tabular numerals, never a mono costume.
 
 ### Hierarchy
-- **Display** (600, `clamp(2.25rem, 5.5vw, 3.4rem)`, 1.05 line-height, -0.01em tracking): hero `h1` only.
-- **Headline** (600, 1.875rem–2.25rem, 1.1 line-height): section `h2`s (Mechanism, Features, Screenshots, Positioning, Sign-in).
-- **Title** (600, 1.5rem, sign-in card heading): also used for the Features row `h3`s at a smaller size (1.125rem).
-- **Body** (400, 0.9375rem–1.125rem, 1.6 line-height): running copy in `ink-dim`, capped by `max-w-xl`/`max-w-2xl` containers.
-- **Label** (500, 11px, 0.12em tracking, uppercase): the `Tag` primitive — a plain quiet caption, `ink-dim`, used for feature row labels, screenshot captions, sign-in mode badge, and the Mechanism card's business-name/total-row headers. Never a decorative plate or foil mark, unlike either prior world's label device.
-- **Tabular** (500, `font-variant-numeric: tabular-nums`): every dollar figure — `TickerTotal` throughout the Mechanism card, footer copyright year. Set in the same Hanken Grotesk face as everything else, distinguished only by the numeral feature.
+- **Display** (600, clamp(2.5rem, 6.2vw, 5rem), 1.02, -0.035em): page H1, balanced wrap.
+- **Headline** (600, clamp(1.9rem, 4vw, 3.1rem), 1.06, -0.03em): section H2.
+- **Title** (600, 20px / 24px at sm, tight tracking): H3 inside cards and tiles.
+- **Body** (400, 16px / 17px at sm, 1.625, dim ink): running copy at a 62ch maximum.
+- **Label** (500, 14 to 15px): nav, buttons, row names, captions at 12 to 14px dim ink.
+- **Figure** (600, tabular-nums, 20 to 36px): totals and net pay.
+- **Wordmark** (800, tracking -3 at size 100, SVG): the footer's SOLO BOOKS only.
 
 ### Named Rules
-**The One-Voice Rule.** Hanken Grotesk is the only typeface on the page — headlines, body, labels, and dollar figures alike. Numeral alignment for money is achieved with `font-variant-numeric: tabular-nums`, never by switching to a mono face. A number set in a different family is not a system figure.
+**The Tabular Money Rule.** Every dollar amount uses tabular numerals (`tabular-nums`) so columns and tickers do not jitter.
+
+**The Headings Stand Alone Rule.** No small uppercase label, kicker, eyebrow or pill sits above a heading. The heading is the first thing in its block.
 
 ## Layout
 
-A single-column, centered content spine (`max-w-xl` to `max-w-6xl` depending on section) with vertical rhythm of `py-20` (80px) on mobile stepping to `py-28` (112px) at `sm`; horizontal page padding fixed at `px-5` (20px) / `sm:px-8` (32px). Sections alternate between the deepest graphite (`bgDeep`, nav/hero) and a slightly lifted graphite (`bg`, Mechanism/Screenshots/Sign-in) with unbanded sections (Features, Positioning) sitting on `bgDeep` again — a two-tone alternation, plainer than either prior world's strict cover/page or leather/paper banding. The hero's `BrowserFrame` screenshot sits inside a `max-w-4xl` container beneath the centered headline/CTA block — the load-bearing composition of the whole hero, and the template for the Screenshots section's `sm:grid-cols-2` gallery of the same frame repeated five times (the last spanning both columns).
+Single-column centered pages built from full-bleed bands on a `max-w-6xl` container (`Wrap`; `max-w-5xl` for hero shots, `max-w-4xl` for the header and hero copy, `max-w-3xl` for section intros) with 20px gutters, 32px from sm. Bands are separated by 96px vertical padding (128px from sm), alternating page ground and Band ground, with one black band. Feature tiles sit on a 6-column grid at lg (4+2 and 2+4 splits), one column below. Hero copy is centered under a 128 to 176px top pad that clears the floating header. Screenshots may bleed off a tile's bottom-right edge. Pages: `/`, `/features`, `/features/payroll`, `/security`, `/signin`, `/signup`, `/privacy`, `/terms`.
 
 ## Elevation & Depth
 
-Flat by design, not layered or lifted: every card and frame is a flat-colored panel bounded by a 1px inset white-alpha hairline (`boxShadow: 0 0 0 1px {border}`) rather than a drawn border, with a soft ambient drop shadow (`0 30–80px, -20px offset, rgba(0,0,0,0.6)`) reserved for the hero `BrowserFrame` and the sign-in card — the two elements meant to visually lift off the page. No card carries a photographed or textured surface; the only depth cue applied page-wide is the single fixed, page-level `.sb-grain` SVG-noise overlay (3.5% opacity, `mix-blend-mode: overlay`) sitting over the whole graphite ground, matching how Mercury and Brex grain their dark fields rather than using a flat, dead black.
+Hybrid: hairline-bordered flat surfaces for content, glass for the one floating layer, and soft large-radius shadows only under product frames and the primary button.
 
 ### Shadow Vocabulary
-- **Card-hairline** (`0 0 0 1px rgba(255,255,255,0.08)`): the standard treatment for every `Card` and `BrowserFrame` — no ambient shadow, edge only.
-- **Lifted-panel** (`0 0 0 1px {border}, 0 30–40px / 60–80px -20px rgba(0,0,0,0.6)`): the hero `BrowserFrame` and sign-in `Card` — the two elements given an ambient shadow in addition to the hairline.
-- **Focus-glow** (`inset 0 0 0 1px rgba(255,255,255,0.08), 0 0 0 3px rgba(203,176,120,0.35)`): the `.sb-input:focus` ring, gold-tinted, replacing the browser default outline.
+- **Hairline** (`box-shadow: 0 0 0 1px var(--mk-border)`): every Surface and BrowserFrame edge instead of a CSS border.
+- **Frame lift** (`--mk-frame-shadow`: `0 40px 80px -30px rgba(10,11,13,0.35)` light, `0 50px 90px -30px rgba(0,0,0,0.8)` dark): app screenshots in BrowserFrame and the interactive demo card.
+- **Gold button glow** (`0 1px 0 rgba(255,255,255,0.45) inset, 0 8px 22px -8px rgba(203,176,120,0.55)`): primary button only.
+- **Glass** (`.mk-glass`): `backdrop-filter: blur(24px) saturate(1.9) brightness(1.04)`, a 135deg fill gradient from `--mk-glass-fill-a` to `-b`, a 1px edge, a lit top edge (`inset 0 1px 0 --mk-glass-lit`), and a `::before` sheen: a 120px radial highlight following the pointer (`--mx`, `--my`) over a diagonal specular streak. Falls back to a solid raised pane without backdrop-filter.
+- **Focus ring**: 2px gold outline, 3px offset, on `.mk-root :focus-visible`; inputs get a 3px gold 40% halo.
 
 ### Named Rules
-**The Flat-Ground Rule.** No section, card, or frame in this world uses a photographed texture or a decorative gradient standing in for material. Depth comes only from the hairline border, the sparing ambient shadow on the two lifted elements, and the single shared page-level grain.
+**The One Glass Rule.** Glass is for the floating header pill (and its mobile menu) and the single hero "Payroll recorded" chip. Not cards, not tiles, not modals.
+
+**The Light-Leak Rule.** Each hero carries two soft gold radial leaks at the top (`HeroGlow`, `--mk-glow`) so the glass has something to refract. They are atmosphere at the top edge, not a background pattern for the rest of the page.
 
 ## Shapes
 
-Corners are moderate and consistent: `rounded-lg` (8px) for buttons and inputs, `rounded-xl` (12px) for every card and frame (`Card`, `BrowserFrame`, sign-in card). There is no per-card ornamental hardware silhouette in this world — no corner brackets, no repeated stamp on every panel — a deliberate departure from both prior worlds' authored-SVG ornament devices. The one recurring drawn mark inside cards is `RowDot`, a plain filled circle with an inset ring and a checkmark glyph on activation, functioning as the SaaS equivalent of a checkbox rather than a diagram element. The brand itself does carry one authored-SVG mark — see `BrandMark` below — but it appears only in the nav/footer wordmark and the app sidebar, never repeated as card decoration.
-
-### BrandMark (signet seal, added after initial ship)
-`src/components/BrandMark.tsx` — concentric double rings (`stroke-width` 2.2 / 1.3) around a geometric `S` built from two cubic-bezier hooks, all in the gold accent. Authored SVG, no raster asset, so it scales cleanly from the 22px sidebar mark up to the favicon. Takes a `color` prop (`currentColor` by default) specifically so the same component works both on the landing page's fixed dark world (passed `panel.gold` explicitly) and inside the app's own light/dark-toggling Sidebar (passed `var(--color-amber-400)`, the app's retinted gold token, which is the same hex in both themes by design — this is the one accent color that does not flip with the theme). Also used, flattened onto a `bgDeep` rounded-square backdrop, as `public/favicon.svg` — which replaces a leftover unrelated purple abstract mark from the original Vite scaffold that had never been swapped out. The S's curve direction was verified by rendering candidate paths next to a reference system-font "S" and comparing by eye before committing to the final path — worth doing again if this mark is ever redrawn, since a mirrored/backward S is very easy to end up with from three-control-point bezier reasoning alone.
+Round and soft against a precise grid. Buttons, the header pill, chips and the theme toggle are fully round (9999px). Content surfaces are 24px (`rounded-3xl`); browser frames and floating chips 16px; inputs, list rows and wells 12px. Surfaces are never nested. Dividers are 1px hairlines; the dashed 1.5px "+ Add a business" well is the only dashed edge. Icons are inline SVG strokes (2 to 2.4px, round caps).
 
 ## Components
 
 ### Buttons
-- **Shape:** `rounded-lg` (8px).
-- **Primary:** `gold` (#cbb078) background, `bgDeep` (#0a0b0d) text, `px-5 py-2.5` padding, medium weight, `hover:brightness-110`, `active:scale-[0.98]`. Used for nav "Get Started," hero "Get Started," and the sign-in submit button.
-- **Ghost:** transparent background, `ink` text, no border or ring at rest, `hover:bg-white/5` (nav "Sign In") — the one hover state visually confirmed by screenshot in this build.
-- **Hover coverage note:** hover-state code (`hover:brightness-110`, `hover:bg-white/[0.04]`, `hover:bg-white/5`, `hover:opacity-75`) is present on every interactive element — nav buttons, hero CTA, Mechanism row buttons, sign-in submit, and the sign-in/sign-up toggle links — but only the hero/nav "Get Started" button's hover was actually captured and confirmed rendering in a screenshot during finish review. Treat the rest as implemented-but-unverified-by-screenshot, not confirmed.
-
-### Cards / Containers
-- **Corner Style:** `rounded-xl` (12px) uniformly — the Mechanism card, Features card, sign-in card, and every `BrowserFrame`.
-- **Background:** flat `bgRaised` (#16181c) fill, no texture.
-- **Shadow Strategy:** Card-hairline vocabulary by default; Lifted-panel vocabulary for the hero frame and sign-in card only (see Elevation & Depth).
-- **Border:** none as a drawn border; the 1px inset white-alpha hairline box-shadow stands in for one, uniformly.
-- **Internal Padding:** `p-6` (24px) mobile stepping to `p-8` (32px) at `sm`.
-
-### Inputs / Fields
-- **Style:** `bgRaised2` (#1d2025) fill, `ink` text, `rounded-lg`, base state carries a 1px inset white-alpha hairline via the `.sb-input` class (moved out of inline style specifically so the focus rule can override it).
-- **Focus:** `.sb-input:focus` adds a 3px gold-tinted glow ring (`rgba(203,176,120,0.35)`) outside the hairline — a real custom focus treatment, unlike the retired ledger world's unstyled `outline:none` gap.
-- **Caret / Selection:** `caretColor: panel.gold` is set inline on all three auth inputs, and a page-wide `::selection { background: rgba(203,176,120,0.35) }` rule themes text selection gold. Both are present in code but neither was demonstrated in a screenshot — a static capture cannot show an active selection or a blinking caret. Record as present-in-code, visually unverified, not as a confirmed visual device.
-- **Error:** inline text below the form in `expense` (#f87171), `role="alert"`.
+- **Shape:** pill (9999px), 97% scale on press, 200ms transitions.
+- **Primary:** Champagne Gold fill, ink text, gold glow. Sizes: sm 16x8, md 24x12 (15px text), lg 32x16 (16px text). Hover brightens 5%.
+- **Outline:** transparent, 1px inset strong hairline, ink text; hover tints ink at 7%.
+- **Ghost:** ink text only; same hover tint. Used for Sign in.
 
 ### Navigation
-- Sticky header on the deepest graphite ground (`bgDeep` at ~90% opacity via `e6` hex alpha) with `backdrop-blur` and a 1px plain white-alpha hairline bottom border. Left: `Wordmark` (the `BrandMark` signet seal at 26px, plus "Sovereign Books" in Hanken Grotesk semibold). Right: ghost "Sign In" then primary "Get Started," both scrolling to the same in-page sign-in card and toggling its mode — no separate nav link list, single-scroll page, unchanged in structure from both prior worlds.
+The floating glass pill header: 56px tall, max 896px wide, 12px from the top, mark and "Solo Books" at left, Features / Payroll / Security centered, theme toggle (sun/moon rotate swap), Sign in and Get started at right. Active link is Library Brass. Below md, links collapse into a hamburger opening a glass panel. Signed-in visitors see "Open app".
 
-### BrowserFrame (signature component)
-The page's one signature device, replacing both the switchboard world's jack/cable vocabulary and the ledger world's photographed ledger book / gold-corner ornament entirely. A flat `rounded-xl` panel with a hairline-bordered top strip holding three plain filled traffic-light dots (`borderStrong` color, no red/yellow/green tinting), wrapping a real app screenshot below. Used identically for the hero's own screenshot and for all five images in the "real thing, running" gallery via `ScreenshotWindow` (which adds a small caption row below: an income-green dot plus a `Tag` label). No decorative panel or object stands in for the product anywhere on this page — every instance of `BrowserFrame` frames a real, freshly recaptured screenshot of the running app, never a mockup or illustration.
+### Surfaces and Browser Frame
+Surface: Raised ground, 24px radius, hairline edge, 24 to 40px padding. BrowserFrame: 16px radius, hairline plus frame lift, with a strip of three neutral dots over a real screenshot.
 
-### RowDot / TickerTotal (Mechanism device)
-The Mechanism section's selector/total mechanic, reinvented a third time. `RowDot` is a plain 18px circle with an inset ring (`border` at rest, `gold` fill when active) and an animated checkmark SVG on activation — the flat SaaS-checkbox equivalent, replacing the switchboard world's `Jack` and the ledger world's `LedgerStamp`. `TickerTotal` climbs digit-by-digit to its value over 700ms with cubic ease-out — the mechanic is unchanged across all three worlds, but it now renders in tabular Hanken Grotesk rather than a mono face, consistent with this world's One-Voice typography rule.
+### Inputs / Fields
+`.sb-input`: 12px radius, well ground, 1px inset hairline, 12x16 padding, 15px text. Focus: strong hairline plus 3px gold 40% halo. Used on sign-in, sign-up and reset password.
+
+### Screenshots (Shot)
+Real app captures that follow the page theme: `/landing/shot-{name}-{dark|light}.jpg` (home, ledger, reports, payroll, payroll-report, mobile-home, mobile-payroll), swapped live via a `useIsDark` observer on `<html>`. Meaningful alt text; first-viewport shot loads eagerly.
+
+### Live Payroll Demo (PayrollSample)
+A made-up employee run through the app's own payroll calculator, shown with tabular figures; evidence of the product rather than an illustration. Lives in the black Payroll band and on the Payroll feature page.
+
+### Footer and Wordmark
+Always black. Gold hairline across the top, four-column link grid, then SOLO BOOKS as an SVG wordmark (`FitWordmark`): 800 weight, flat gold, measured to its ink bounds with canvas `measureText` after the font loads, pinned by `textLength`, spanning edge to edge (gutter clamp(10px, 1.6vw, 28px)) with the baseline resting on the bottom edge. It rises 34% and fades in once on view.
+
+### Interactive Row (RowDot, TickerTotal)
+Selectable business rows with a gold-filled 18px dot and digit-climbing totals; select to isolate, select again to restore.
+
+### Motion
+`Reveal`: fade and rise 22px once, 0.7s on ease `cubic-bezier(0.16, 1, 0.3, 1)`, triggered 10% inside the viewport. Hero copy and shot rise on load; the hero chip scales in at 0.9s. `prefers-reduced-motion` collapses transitions to near-zero.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** set every dollar figure in Hanken Grotesk with `font-variant-numeric: tabular-nums` — never introduce a separate mono face for numbers on this page.
-- **Do** wrap every app screenshot in `BrowserFrame` (hairline top strip, three plain traffic-light dots, no color-coding) rather than a decorative panel, mat, or illustrated mockup.
-- **Do** keep the gold accent confined to interactive/emphasis elements (buttons, active state, links, focus ring, caret, selection) — never a section wash or card fill.
-- **Do** use the single shared page-level `.sb-grain` overlay for depth on flat graphite grounds; don't introduce a second, per-card texture.
-- **Do** move any state style that must win over an inline `style` prop (like the input focus ring) into a CSS class (`.sb-input`) rather than fighting inline-style specificity from React.
+- **Do** keep gold as the single accent: #cbb078 for fills, #85692f for gold text on white, via `panel.*` variables, never hard-coded hex.
+- **Do** build every new page from `MarketingShell`, `Wrap`, `H1`/`H2`/`H3`/`P`, `Surface`, `MkLink` and `Reveal`.
+- **Do** let heading and copy start every block; put context in the heading or the paragraph.
+- **Do** use `DarkBand` for the one black band and keep the footer black in both themes.
+- **Do** show real product: `Shot` captures in both themes, or a demo that runs the real calculator, labeled "sample data" when made up.
+- **Do** set every money value with `tabular-nums`; use green and red only for income and expense.
+- **Do** use `.mk-glass` only on the header pill and the one hero chip, over a `HeroGlow` hero.
+- **Do** use hairline `0 0 0 1px` edges instead of borders and keep radii to 12 / 16 / 24 / full.
 
 ### Don't:
-- **Don't** reintroduce either retired world's material vocabulary — the switchboard's jacks/cables/lamps/IBM Plex, or the ledger's photographed leather/paper textures, gold-foil corner brackets, or Bodoni Moda/Spectral/Courier Prime type split. Both worlds were replaced in full, not layered under this one.
-- **Don't** treat the `::selection` gold tint or the auth-input `caretColor` as a confirmed visual device to extend elsewhere. Both are present in code and reviewed as intentional, but neither was ever demonstrated in a screenshot (a static capture cannot show them); describe them as present-in-code, visually unverified.
-- **Don't** treat hover states beyond the hero/nav "Get Started" button as confirmed. The Tailwind hover utilities exist on every interactive element, but only that one button's hover was actually screenshotted; the rest are implemented-but-unverified.
-- **Don't** revert to a governing object/place metaphor for this canon path. The user explicitly chose to play the category standard straight against Mercury/Ramp/Brex; a future editor introducing a new controlling metaphor is reopening a decision that was deliberately closed.
-- **Don't** use a hard-offset, zero-blur shadow anywhere in this system; every recorded shadow carries real blur, and most surfaces use no shadow at all (hairline only).
+- **Don't** put a label, kicker, eyebrow or pill above a heading. A finish review removed a "NEW" pill that did exactly this.
+- **Don't** use gradient text, or a second accent color.
+- **Don't** use glass on cards, tiles, modals or footers.
+- **Don't** make the footer or Payroll band follow the light theme; black stays black.
+- **Don't** set #cbb078 as text on a white ground.
+- **Don't** nest Surfaces or add side-stripe accent borders.
+- **Don't** add display faces, a mono costume for numbers, or glyph/emoji icons; icons are inline SVG.
+- **Don't** invent testimonials, logos or invented metrics; sample data is labeled as sample.
+- **Don't** treat the small "New" badge on the Payroll nav link as a pattern to repeat; it is carried by the build as a defect, not a house device.

@@ -2,7 +2,6 @@ import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { supabase } from '../lib/supabase'
 import { panel } from '../lib/landingTheme'
-import { Card } from '../components/landing/primitives'
 import { BrandMark } from '../components/BrandMark'
 
 /**
@@ -49,7 +48,7 @@ export function ResetPassword({ onDone }: { onDone: () => void }) {
       className="min-h-screen flex items-center justify-center px-5"
       style={{ background: panel.bgDeep, color: panel.ink, fontFamily: "'Hanken Grotesk', sans-serif" }}
     >
-      <Card className="relative w-full max-w-md p-6 sm:p-8" style={{ boxShadow: `0 0 0 1px ${panel.border}, 0 30px 60px -20px rgba(0,0,0,0.6)` }}>
+      <div className="rounded-3xl relative w-full max-w-md p-6 sm:p-8" style={{ background: panel.bgRaised, boxShadow: `0 0 0 1px ${panel.border}, var(--mk-frame-shadow)` }}>
         <div className="flex items-center gap-2 mb-5">
           <BrandMark color={panel.gold} size={24} />
           <span className="font-semibold tracking-tight text-[15px]">Solo Books</span>
@@ -101,7 +100,7 @@ export function ResetPassword({ onDone }: { onDone: () => void }) {
             Cancel and sign out
           </button>
         </p>
-      </Card>
+      </div>
     </div>
   )
 }

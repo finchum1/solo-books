@@ -101,36 +101,148 @@ input[type='date']::-webkit-calendar-picker-indicator {
   filter: invert(1);
 }
 
-/* Landing-page brand touches -- text selection and the three auth-form
-   focus rings pick up the same champagne-gold accent as the rest of the
-   page instead of the browser's unbranded default blue/outline. */
+/* ------------------------------------------------------------------ */
+/* Public site (marketing) -- black, white and gold, light + dark.      */
+/* `panel.*` in lib/landingTheme.ts points at these variables.          */
+/* ------------------------------------------------------------------ */
+:root {
+  --mk-bg-deep: #ffffff;
+  --mk-bg: #f6f6f4;
+  --mk-raised: #ffffff;
+  --mk-raised2: #efefec;
+  --mk-ink: #0a0b0d;
+  --mk-dim: #585a61;
+  --mk-gold: #cbb078;
+  --mk-gold-bright: #b8995a;
+  --mk-gold-dim: #85692f;
+  --mk-gold-text: #85692f;
+  --mk-income: #047857;
+  --mk-income-dim: #d1fae5;
+  --mk-expense: #b91c1c;
+  --mk-expense-dim: #fee2e2;
+  --mk-border: rgba(10, 11, 13, 0.1);
+  --mk-border-strong: rgba(10, 11, 13, 0.18);
+  --mk-glass-fill-a: rgba(255, 255, 255, 0.66);
+  --mk-glass-fill-b: rgba(255, 255, 255, 0.4);
+  --mk-glass-edge: rgba(10, 11, 13, 0.1);
+  --mk-glass-lit: rgba(255, 255, 255, 0.95);
+  --mk-glass-drop: 0 14px 34px -12px rgba(10, 11, 13, 0.28), 0 2px 6px rgba(10, 11, 13, 0.08);
+  --mk-frame-shadow: 0 40px 80px -30px rgba(10, 11, 13, 0.35);
+  --mk-glow: rgba(203, 176, 120, 0.4);
+}
+
+.dark,
+.mk-dark {
+  --mk-bg-deep: #07080a;
+  --mk-bg: #0c0d10;
+  --mk-raised: #14161a;
+  --mk-raised2: #1b1e23;
+  --mk-ink: #f5f4f0;
+  --mk-dim: #a0a2a9;
+  --mk-gold: #cbb078;
+  --mk-gold-bright: #e2cb97;
+  --mk-gold-dim: #8a7856;
+  --mk-gold-text: #cbb078;
+  --mk-income: #34d399;
+  --mk-income-dim: #123b2c;
+  --mk-expense: #f87171;
+  --mk-expense-dim: #3d1e1e;
+  --mk-border: rgba(255, 255, 255, 0.09);
+  --mk-border-strong: rgba(255, 255, 255, 0.16);
+  --mk-glass-fill-a: rgba(34, 36, 42, 0.62);
+  --mk-glass-fill-b: rgba(18, 19, 23, 0.4);
+  --mk-glass-edge: rgba(255, 255, 255, 0.14);
+  --mk-glass-lit: rgba(255, 255, 255, 0.42);
+  --mk-glass-drop: 0 18px 40px -14px rgba(0, 0, 0, 0.7), 0 2px 8px rgba(0, 0, 0, 0.35);
+  --mk-frame-shadow: 0 50px 90px -30px rgba(0, 0, 0, 0.8);
+  --mk-glow: rgba(203, 176, 120, 0.26);
+}
+
 ::selection {
-  background: rgba(203, 176, 120, 0.35);
+  background: rgba(203, 176, 120, 0.4);
   color: inherit;
 }
 
-/* Base + focus box-shadow both live in CSS (not the element's inline
-   style) so the focus rule can actually win -- an inline box-shadow set
-   from React would otherwise always beat a class selector, :focus or not. */
+.mk-root {
+  background: var(--mk-bg-deep);
+  color: var(--mk-ink);
+  font-family: 'Hanken Grotesk', system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-feature-settings: 'ss01' 0;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+/* Focus ring from the palette instead of the browser default. */
+.mk-root :focus-visible {
+  outline: 2px solid var(--mk-gold);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+.mk-root a {
+  text-underline-offset: 0.2em;
+}
+
+/* Form fields (sign-in, sign-up, reset). Base + focus ring live in CSS so the
+   focus rule can win over inline styles. */
 .sb-input {
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 0 0 1px var(--mk-border);
 }
 
 .sb-input:focus {
+  outline: none;
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
-    0 0 0 3px rgba(203, 176, 120, 0.35);
+    inset 0 0 0 1px var(--mk-border-strong),
+    0 0 0 3px rgba(203, 176, 120, 0.4);
 }
 
-/* A faint grain layer over the landing page's flat dark grounds -- the
-   depth cue this canon actually uses (Mercury/Brex both grain their dark
-   fields) in place of the two prior worlds' photographed material. */
-.sb-grain {
-  position: fixed;
+/* Liquid-glass pill: a translucent, heavily blurred and saturated pane with a
+   lit top edge, a faint bottom edge, and a specular sheen that follows the
+   pointer (--mx / --my set from MarketingHeader). */
+.mk-glass {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(135deg, var(--mk-glass-fill-a), var(--mk-glass-fill-b));
+  -webkit-backdrop-filter: blur(24px) saturate(1.9) brightness(1.04);
+  backdrop-filter: blur(24px) saturate(1.9) brightness(1.04);
+  border: 1px solid var(--mk-glass-edge);
+  box-shadow:
+    inset 0 1px 0 var(--mk-glass-lit),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 0 22px rgba(255, 255, 255, 0.05),
+    var(--mk-glass-drop);
+}
+
+.mk-glass::before {
+  content: '';
+  position: absolute;
   inset: 0;
+  border-radius: inherit;
+  z-index: -1;
+  background:
+    radial-gradient(circle 120px at var(--mx, 30%) var(--my, 0%), rgba(255, 255, 255, 0.32), transparent 70%),
+    linear-gradient(112deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.03) 30%, transparent 52%, rgba(255, 255, 255, 0.07) 100%);
   pointer-events: none;
-  z-index: 1;
-  opacity: 0.035;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.dark .mk-glass::before {
+  background:
+    radial-gradient(circle 120px at var(--mx, 30%) var(--my, 0%), rgba(255, 255, 255, 0.16), transparent 70%),
+    linear-gradient(112deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.02) 30%, transparent 52%, rgba(255, 255, 255, 0.05) 100%);
+}
+
+/* Browsers without backdrop-filter get a solid pane instead of a see-through one. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .mk-glass {
+    background: var(--mk-raised);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mk-root * {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

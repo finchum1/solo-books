@@ -1,34 +1,193 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-26T00:00:00Z",
-  "title": "Design System: Sovereign Books — Landing (Played-Straight Fintech World)",
+  "generatedAt": "2026-11-12T17:19:04.328646+00:00",
+  "title": "Design System: Solo Books",
   "extensions": {
     "colorMeta": {
-      "bg-deep": { "role": "primary", "displayName": "Graphite Deepest", "canonical": "#0a0b0d", "tonalRamp": ["#0a0b0d", "#0d0f12", "#16181c", "#1d2025", "#3a3d43", "#5c6068", "#9a9ca3", "#f4f4f2"] },
-      "bg": { "role": "primary", "displayName": "Graphite Base", "canonical": "#0d0f12", "tonalRamp": ["#0a0b0d", "#0d0f12", "#16181c", "#1d2025", "#3a3d43", "#5c6068", "#9a9ca3", "#f4f4f2"] },
-      "gold": { "role": "secondary", "displayName": "Champagne Gold", "canonical": "#cbb078", "tonalRamp": ["#211a10", "#3a301e", "#56482c", "#74613a", "#8a7856", "#b89a5c", "#cbb078", "#ddc48f"] },
-      "income": { "role": "tertiary", "displayName": "Signal Green", "canonical": "#34d399", "tonalRamp": ["#062018", "#0a3626", "#123b2c", "#166b4c", "#1f9c6c", "#34d399", "#6ee7b7", "#a7f3d0"] },
-      "expense": { "role": "tertiary", "displayName": "Signal Red", "canonical": "#f87171", "tonalRamp": ["#2a1010", "#3d1e1e", "#5c2626", "#7f2d2d", "#b34444", "#dd5f5f", "#f87171", "#fca5a5"] },
-      "border": { "role": "neutral", "displayName": "Plain Hairline", "canonical": "rgba(255,255,255,0.08)" }
+      "gold": {
+        "role": "primary",
+        "displayName": "Champagne Gold",
+        "canonical": "#cbb078",
+        "tonalRamp": [
+          "#3a2f16",
+          "#5c4a23",
+          "#85692f",
+          "#a88c4f",
+          "#cbb078",
+          "#dcc895",
+          "#e8dab5",
+          "#f4ecd9"
+        ]
+      },
+      "gold-text-on-white": {
+        "role": "primary",
+        "displayName": "Library Brass",
+        "canonical": "#85692f",
+        "tonalRamp": [
+          "#2b2110",
+          "#4a3919",
+          "#68531f",
+          "#85692f",
+          "#a28044",
+          "#bd9f67",
+          "#d6bf92",
+          "#ebdfc3"
+        ]
+      },
+      "ink-light": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#0a0b0d",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#1c1e22",
+          "#33353b",
+          "#585a61",
+          "#8a8c92",
+          "#b9bbc0",
+          "#dcdcd9",
+          "#f6f6f4"
+        ]
+      },
+      "page-dark": {
+        "role": "neutral",
+        "displayName": "Void",
+        "canonical": "#07080a",
+        "tonalRamp": [
+          "#07080a",
+          "#0c0d10",
+          "#14161a",
+          "#1b1e23",
+          "#2c2f35",
+          "#5c5f66",
+          "#a0a2a9",
+          "#f5f4f0"
+        ]
+      },
+      "page-light": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#efefec",
+          "#f6f6f4",
+          "#ffffff",
+          "#ffffff",
+          "#ffffff",
+          "#ffffff",
+          "#ffffff",
+          "#ffffff"
+        ]
+      },
+      "income-light": {
+        "role": "semantic",
+        "displayName": "Income Green",
+        "canonical": "#047857",
+        "tonalRamp": [
+          "#022c22",
+          "#064e3b",
+          "#047857",
+          "#059669",
+          "#10b981",
+          "#34d399",
+          "#6ee7b7",
+          "#d1fae5"
+        ]
+      },
+      "expense-light": {
+        "role": "semantic",
+        "displayName": "Expense Red",
+        "canonical": "#b91c1c",
+        "tonalRamp": [
+          "#450a0a",
+          "#7f1d1d",
+          "#b91c1c",
+          "#dc2626",
+          "#ef4444",
+          "#f87171",
+          "#fca5a5",
+          "#fee2e2"
+        ]
+      }
     },
     "typographyMeta": {
-      "display": { "displayName": "Hero Display", "purpose": "Hero h1 only." },
-      "headline": { "displayName": "Section Headline", "purpose": "Section h2 headings." },
-      "tabular": { "displayName": "Tabular Money", "purpose": "Every dollar figure, via font-variant-numeric: tabular-nums on the same Hanken Grotesk family -- never a separate mono face." },
-      "label": { "displayName": "Quiet Caption", "purpose": "Small tracked uppercase labels (Tag primitive) -- plain caption, no decorative plate." }
+      "display": {
+        "displayName": "Display",
+        "purpose": "Page H1 only."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section H2."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "H3 inside tiles."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Running copy at 62ch."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Nav, buttons, captions."
+      },
+      "figure": {
+        "displayName": "Figure",
+        "purpose": "Money totals, tabular numerals."
+      }
     },
     "shadows": [
-      { "name": "card-hairline", "value": "0 0 0 1px rgba(255,255,255,0.08)", "purpose": "Standard edge treatment for every Card and BrowserFrame; no ambient shadow." },
-      { "name": "lifted-panel", "value": "0 0 0 1px rgba(255,255,255,0.08), 0 30px 60px -20px rgba(0,0,0,0.6)", "purpose": "Hero BrowserFrame and sign-in Card only -- the two elements meant to visually lift off the page." },
-      { "name": "focus-glow", "value": "inset 0 0 0 1px rgba(255,255,255,0.08), 0 0 0 3px rgba(203,176,120,0.35)", "purpose": "Auth input focus ring, gold-tinted." }
+      {
+        "name": "hairline",
+        "value": "0 0 0 1px var(--mk-border)",
+        "purpose": "Edge of every Surface and frame."
+      },
+      {
+        "name": "frame-lift",
+        "value": "0 40px 80px -30px rgba(10,11,13,0.35)",
+        "purpose": "App screenshots in BrowserFrame (dark: 0 50px 90px -30px rgba(0,0,0,0.8))."
+      },
+      {
+        "name": "gold-button-glow",
+        "value": "0 1px 0 rgba(255,255,255,0.45) inset, 0 8px 22px -8px rgba(203,176,120,0.55)",
+        "purpose": "Primary button only."
+      },
+      {
+        "name": "glass",
+        "value": "backdrop-filter: blur(24px) saturate(1.9) brightness(1.04); inset 0 1px 0 var(--mk-glass-lit); var(--mk-glass-drop)",
+        "purpose": "Header pill and one hero chip."
+      }
     ],
     "motion": [
-      { "name": "ticker-climb", "value": "700ms cubic ease-out (1 - (1-t)^3)", "purpose": "TickerTotal digit-climb from 0 to its value on activation." },
-      { "name": "section-reveal", "value": "600ms, cubic-bezier(0.16, 1, 0.3, 1), opacity 0->1 + y 24px->0", "purpose": "Section-level scroll-in reveal via framer-motion useInView." },
-      { "name": "stamp-check", "value": "spring stiffness 400 damping 20, scale 0->1", "purpose": "RowDot's checkmark SVG appearing on activation." }
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Reveal, hero entrances, theme toggle, wordmark rise."
+      },
+      {
+        "name": "reveal",
+        "value": "0.7s, rise 22px, once, 10% inside viewport",
+        "purpose": "Section content entrance."
+      },
+      {
+        "name": "wordmark-rise",
+        "value": "1.1s, y 34% to 0, once",
+        "purpose": "Footer wordmark."
+      }
     ],
     "breakpoints": [
-      { "name": "sm", "value": "640px" }
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      }
     ]
   },
   "components": [
@@ -36,87 +195,119 @@
       "name": "Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "Gold-filled CTA button; used for nav/hero 'Get Started' and the sign-in submit.",
-      "html": "<button class=\"ds-btn-primary\">Get Started</button>",
-      "css": ".ds-btn-primary { background: #cbb078; color: #0a0b0d; border: none; border-radius: 8px; padding: 10px 20px; font-weight: 500; font-size: 14px; font-family: 'Hanken Grotesk', sans-serif; transition: filter 0.15s, transform 0.1s; cursor: pointer; } .ds-btn-primary:hover { filter: brightness(1.1); } .ds-btn-primary:active { transform: scale(0.98); } .ds-btn-primary:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(203,176,120,0.35); }"
+      "description": "Gold pill; the one call to action per block.",
+      "html": "<button class=\"ds-btn-primary\">Get started</button>",
+      "css": ".ds-btn-primary{background:#cbb078;color:#0a0b0d;border:0;border-radius:9999px;padding:12px 24px;font:500 15px 'Hanken Grotesk',system-ui,sans-serif;box-shadow:0 1px 0 rgba(255,255,255,.45) inset,0 8px 22px -8px rgba(203,176,120,.55);cursor:pointer;transition:filter .2s,transform .2s}.ds-btn-primary:hover{filter:brightness(1.05)}.ds-btn-primary:active{transform:scale(.97)}.ds-btn-primary:focus-visible{outline:2px solid #cbb078;outline-offset:3px}"
     },
     {
-      "name": "Ghost Button",
+      "name": "Outline Button",
       "kind": "button",
-      "refersTo": "button-ghost",
-      "description": "Transparent nav 'Sign In' button; only hover state confirmed by screenshot in this build.",
-      "html": "<button class=\"ds-btn-ghost\">Sign In</button>",
-      "css": ".ds-btn-ghost { background: transparent; color: #f4f4f2; border: none; border-radius: 8px; padding: 8px 16px; font-weight: 500; font-size: 14px; font-family: 'Hanken Grotesk', sans-serif; transition: background 0.15s, transform 0.1s; cursor: pointer; } .ds-btn-ghost:hover { background: rgba(255,255,255,0.05); } .ds-btn-ghost:active { transform: scale(0.98); }"
+      "refersTo": "button-outline",
+      "description": "Secondary pill with an inset hairline.",
+      "html": "<button class=\"ds-btn-outline\">See what's inside</button>",
+      "css": ".ds-btn-outline{background:transparent;color:#0a0b0d;border:0;border-radius:9999px;padding:12px 24px;font:500 15px 'Hanken Grotesk',system-ui,sans-serif;box-shadow:inset 0 0 0 1px rgba(10,11,13,.18);cursor:pointer;transition:background .2s,transform .2s}.ds-btn-outline:hover{background:rgba(10,11,13,.07)}.ds-btn-outline:active{transform:scale(.97)}.ds-btn-outline:focus-visible{outline:2px solid #cbb078;outline-offset:3px}"
     },
     {
-      "name": "Input Field",
-      "kind": "input",
-      "refersTo": "input-field",
-      "description": "Auth email/password field; gold focus glow, gold caret (caret confirmed only in code, not screenshot).",
-      "html": "<input class=\"ds-input\" type=\"email\" placeholder=\"you@company.com\" />",
-      "css": ".ds-input { background: #1d2025; color: #f4f4f2; border: none; border-radius: 8px; padding: 10px 12px; font-size: 14px; font-family: 'Hanken Grotesk', sans-serif; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08); caret-color: #cbb078; } .ds-input:focus { outline: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08), 0 0 0 3px rgba(203,176,120,0.35); } .ds-input::selection { background: rgba(203,176,120,0.35); }"
-    },
-    {
-      "name": "Card",
-      "kind": "card",
-      "refersTo": "card",
-      "description": "Flat bordered container -- the one container shape in this world, no material texture, no ornament.",
-      "html": "<div class=\"ds-card\">Card content</div>",
-      "css": ".ds-card { background: #16181c; border-radius: 12px; box-shadow: 0 0 0 1px rgba(255,255,255,0.08); padding: 24px; }"
-    },
-    {
-      "name": "BrowserFrame",
-      "kind": "custom",
-      "refersTo": "browser-frame",
-      "description": "Signature device: traffic-light-dot browser chrome wrapping a real app screenshot. Used for the hero image and the five-image screenshot gallery.",
-      "html": "<div class=\"ds-browserframe\"><div class=\"ds-browserframe-bar\"><span class=\"ds-dot\"></span><span class=\"ds-dot\"></span><span class=\"ds-dot\"></span></div><img class=\"ds-browserframe-img\" src=\"screenshot.png\" alt=\"App screenshot\" /></div>",
-      "css": ".ds-browserframe { background: #16181c; border-radius: 12px; overflow: hidden; box-shadow: 0 0 0 1px rgba(255,255,255,0.08), 0 40px 80px -20px rgba(0,0,0,0.6); } .ds-browserframe-bar { display: flex; align-items: center; gap: 6px; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); } .ds-dot { width: 10px; height: 10px; border-radius: 9999px; background: rgba(255,255,255,0.14); } .ds-browserframe-img { width: 100%; height: auto; display: block; }"
-    },
-    {
-      "name": "RowDot",
-      "kind": "custom",
-      "refersTo": "row-dot",
-      "description": "Selection indicator for the Mechanism section's business rows -- flat SaaS-checkbox equivalent, gold fill + checkmark when active.",
-      "html": "<span class=\"ds-rowdot ds-rowdot-active\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 16 16\"><path d=\"M3 8l3.5 3.5L13 4.5\" fill=\"none\" stroke=\"#0a0b0d\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span>",
-      "css": ".ds-rowdot { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 9999px; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,0.08); background: transparent; transition: background 0.2s; } .ds-rowdot-active { box-shadow: inset 0 0 0 1.5px #cbb078; background: #cbb078; }"
-    },
-    {
-      "name": "Nameplate Nav",
+      "name": "Glass Header Pill",
       "kind": "nav",
-      "refersTo": "nav",
-      "description": "Sticky header: gold-marked wordmark left, ghost Sign In + primary Get Started right, single-scroll page.",
-      "html": "<header class=\"ds-nav\"><div class=\"ds-wordmark\"><span class=\"ds-wordmark-dot\"></span><span class=\"ds-wordmark-text\">Sovereign Books</span></div><div style=\"display:flex;gap:8px\"><button class=\"ds-btn-ghost\">Sign In</button><button class=\"ds-btn-primary\">Get Started</button></div></header>",
-      "css": ".ds-nav { position: sticky; top: 0; background: rgba(10,11,13,0.9); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(255,255,255,0.08); padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; } .ds-wordmark { display: flex; align-items: center; gap: 8px; } .ds-wordmark-dot { width: 24px; height: 24px; border-radius: 6px; background: #cbb078; display: inline-block; } .ds-wordmark-text { font-family: 'Hanken Grotesk', sans-serif; font-weight: 600; font-size: 15px; color: #f4f4f2; }"
+      "refersTo": "",
+      "description": "Floating liquid-glass navigation; the only glass besides the hero chip.",
+      "html": "<div class=\"ds-glass\"><span class=\"ds-glass-name\">Solo Books</span><span class=\"ds-glass-links\">Features &nbsp; Payroll &nbsp; Security</span><button class=\"ds-glass-cta\">Get started</button></div>",
+      "css": ".ds-glass{display:flex;align-items:center;justify-content:space-between;gap:16px;height:56px;padding:0 8px 0 20px;border-radius:9999px;background:linear-gradient(135deg,rgba(255,255,255,.66),rgba(255,255,255,.4));backdrop-filter:blur(24px) saturate(1.9) brightness(1.04);border:1px solid rgba(10,11,13,.1);box-shadow:inset 0 1px 0 rgba(255,255,255,.95),0 14px 34px -12px rgba(10,11,13,.28),0 2px 6px rgba(10,11,13,.08);font-family:'Hanken Grotesk',system-ui,sans-serif;color:#0a0b0d;font-size:14px}.ds-glass-name{font-weight:600;font-size:15px}.ds-glass-cta{background:#cbb078;color:#0a0b0d;border:0;border-radius:9999px;padding:8px 16px;font:500 14px 'Hanken Grotesk',system-ui,sans-serif;cursor:pointer}.ds-glass-cta:focus-visible{outline:2px solid #cbb078;outline-offset:3px}"
+    },
+    {
+      "name": "Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Sign-in and sign-up field with gold focus halo.",
+      "html": "<input class=\"ds-input\" type=\"email\" placeholder=\"you@example.com\">",
+      "css": ".ds-input{width:100%;box-sizing:border-box;border:0;border-radius:12px;background:#efefec;color:#0a0b0d;padding:12px 16px;font:400 15px 'Hanken Grotesk',system-ui,sans-serif;box-shadow:inset 0 0 0 1px rgba(10,11,13,.1)}.ds-input:focus{outline:none;box-shadow:inset 0 0 0 1px rgba(10,11,13,.18),0 0 0 3px rgba(203,176,120,.4)}"
+    },
+    {
+      "name": "Surface Tile",
+      "kind": "card",
+      "refersTo": "surface",
+      "description": "Large hairline card holding a title, copy and sample rows.",
+      "html": "<div class=\"ds-surface\"><h3>Know who you paid.</h3><p>Tag an expense with a contractor, then pull a report.</p><div class=\"ds-row\"><span>Bob's Plumbing</span><span>$1,250.00</span></div></div>",
+      "css": ".ds-surface{background:#fff;border-radius:24px;padding:32px;box-shadow:0 0 0 1px rgba(10,11,13,.1);font-family:'Hanken Grotesk',system-ui,sans-serif;color:#0a0b0d;max-width:340px}.ds-surface h3{margin:0;font-size:22px;font-weight:600;letter-spacing:-.025em}.ds-surface p{margin:12px 0 20px;color:#585a61;line-height:1.6;font-size:16px}.ds-row{display:flex;justify-content:space-between;padding:10px 0;border-top:1px solid rgba(10,11,13,.1);font-size:14px}.ds-row span:last-child{color:#585a61;font-variant-numeric:tabular-nums}"
+    },
+    {
+      "name": "Footer Wordmark",
+      "kind": "custom",
+      "refersTo": "",
+      "description": "SOLO BOOKS in flat gold on black, edge to edge, resting on the bottom.",
+      "html": "<div class=\"ds-foot\"><svg viewBox=\"0 0 640 71\" width=\"100%\" role=\"img\" aria-label=\"Solo Books\"><text x=\"0\" y=\"70\" font-family=\"Hanken Grotesk, system-ui, sans-serif\" font-weight=\"800\" font-size=\"100\" letter-spacing=\"-3\" textLength=\"636\" lengthAdjust=\"spacing\" fill=\"#cbb078\">SOLO BOOKS</text></svg></div>",
+      "css": ".ds-foot{background:#07080a;padding:40px 16px 0;overflow:hidden}.ds-foot svg{display:block;overflow:visible}"
     }
   ],
   "narrative": {
-    "northStar": "Category Standard, Played Straight",
-    "overview": "This is the third visual world this landing page has shipped, and the first with no governing object or place metaphor. The first world (\"Switchboard,\" a patch-bay panel) and the second (\"The House Ledger,\" a bound accounting ledger) were each retired in full. This time the user was dealt a bespoke-tailoring concept (\"Cut to Measure\") and chose to skip it, naming Mercury, Ramp, and Brex directly as the craft bar instead: a private fintech product rendered at full craft with no conceit standing between the viewer and the product. The whole page reads as one register -- near-black graphite grounds, a single restrained champagne-gold accent, and the real running app mounted in a browser-chrome frame -- rather than a material or narrative world. Because no approved comp image was pinned for this canon path, this world is judged against the general register of the named real references, not against a screenshot fixed at build time; a future editor should keep checking new work against how Mercury/Ramp/Brex actually look and behave, not only against this file's prose. There is no photographed or textured material asset anywhere on this page -- a first for this product across all three worlds. Every surface is flat color plus one shared, page-level SVG-noise grain (.sb-grain) applied once, not per-card material texture. Typography is a second deliberate departure: one grotesque family (Hanken Grotesk) carries headlines, body copy, and tabular dollar figures alike via CSS font-variant-numeric: tabular-nums, replacing both prior worlds' serif/mono splits -- because the named references actually set type this way. Geist was the first pick and was swapped mid-build after the project's own mechanical detector flagged it by name as one of a handful of faces so common across AI-generated UIs that it reads as a tell rather than a choice.",
+    "northStar": "The Quiet Ledger",
+    "overview": "The public site is a calm, black-and-white page with a single metal in it. Gold is the only color; everything else is ink, paper and the real product. One typeface, hairline borders, large type, real screenshots and a live payroll calculator in place of illustration. It follows the app's light/dark toggle.\n\nDepth comes from liquid glass: a floating pill header that refracts the page beneath it, and gold light-leaks at the top of each hero. The page closes on the product name set edge to edge in flat gold on black.",
     "keyCharacteristics": [
-      "Near-black graphite grounds (#0a0b0d / #0d0f12) with a single champagne-gold accent (#cbb078) used sparingly -- button fills, small marks, focus rings -- never a wash.",
-      "One type family (Hanken Grotesk) for everything, including dollar figures set with tabular numerals rather than a separate mono face.",
-      "No photographed material anywhere; a single shared, faint page-level SVG grain overlay (.sb-grain, ~3.5% opacity, overlay blend) is the only depth-suggesting texture.",
-      "The signature device is BrowserFrame -- a traffic-light-dot, hairline-bordered browser chrome wrapping a real app screenshot -- used for both the hero image and the 'real thing, running' screenshot gallery.",
-      "Real dollar totals climb digit-by-digit on activation (TickerTotal, 700ms cubic ease-out) rather than snapping or counting linearly."
+      "Black, white and gold only; gold carries all emphasis.",
+      "Light and dark themes from the same tokens; footer and Payroll band stay black in both.",
+      "Hanken Grotesk alone, tight tracking on large type, tabular figures for money.",
+      "Liquid glass reserved for the header pill and one hero chip.",
+      "Real product evidence: theme-following screenshots and a live payroll demo.",
+      "Headings stand alone; no labels, kickers or eyebrows above them."
     ],
     "rules": [
-      { "name": "The One Accent Rule", "body": "Gold appears only on interactive/emphasis elements (buttons, links, active selection state, focus rings, caret, selection highlight) -- never as a section wash, card fill, or decorative surface. Everything else is graphite, ink, or the plain white-alpha border.", "section": "colors" },
-      { "name": "The One-Voice Rule", "body": "Hanken Grotesk is the only typeface on the page -- headlines, body, labels, and dollar figures alike. Numeral alignment for money is achieved with font-variant-numeric: tabular-nums, never by switching to a mono face. A number set in a different family is not a system figure.", "section": "typography" },
-      { "name": "The Flat-Ground Rule", "body": "No section, card, or frame in this world uses a photographed texture or a decorative gradient standing in for material. Depth comes only from the hairline border, the sparing ambient shadow on the two lifted elements, and the single shared page-level grain.", "section": "elevation" }
+      {
+        "name": "The One Metal Rule",
+        "body": "Gold is the only chromatic color on the site. No second accent, no gradient text.",
+        "section": "colors"
+      },
+      {
+        "name": "The Brass On White Rule",
+        "body": "Gold as a fill is #cbb078 everywhere; gold as text or link on a light ground is #85692f.",
+        "section": "colors"
+      },
+      {
+        "name": "The Black Stays Black Rule",
+        "body": "The footer and the Payroll band are black in both themes; the header pill flips to the dark token set while overlapping them.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tabular Money Rule",
+        "body": "Every dollar amount uses tabular numerals.",
+        "section": "typography"
+      },
+      {
+        "name": "The Headings Stand Alone Rule",
+        "body": "No label, kicker, eyebrow or pill sits above a heading.",
+        "section": "typography"
+      },
+      {
+        "name": "The One Glass Rule",
+        "body": "Glass is for the floating header pill and the single hero chip. Not cards, tiles or modals.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Light-Leak Rule",
+        "body": "Each hero carries two soft gold radial leaks at the top so the glass has something to refract.",
+        "section": "elevation"
+      }
     ],
     "dos": [
-      "Do set every dollar figure in Hanken Grotesk with font-variant-numeric: tabular-nums -- never introduce a separate mono face for numbers on this page.",
-      "Do wrap every app screenshot in BrowserFrame (hairline top strip, three plain traffic-light dots, no color-coding) rather than a decorative panel, mat, or illustrated mockup.",
-      "Do keep the gold accent confined to interactive/emphasis elements (buttons, active state, links, focus ring, caret, selection) -- never a section wash or card fill.",
-      "Do use the single shared page-level .sb-grain overlay for depth on flat graphite grounds; don't introduce a second, per-card texture.",
-      "Do move any state style that must win over an inline style prop (like the input focus ring) into a CSS class (.sb-input) rather than fighting inline-style specificity from React."
+      "Do keep gold as the single accent: #cbb078 for fills, #85692f for gold text on white, via panel.* variables.",
+      "Do build every new page from MarketingShell, Wrap, H1/H2/H3/P, Surface, MkLink and Reveal.",
+      "Do let heading and copy start every block.",
+      "Do use DarkBand for the one black band and keep the footer black in both themes.",
+      "Do show real product: Shot captures in both themes, or a demo running the real calculator, labeled sample data when made up.",
+      "Do set every money value with tabular-nums; green and red only for income and expense.",
+      "Do use .mk-glass only on the header pill and the one hero chip, over a HeroGlow hero.",
+      "Do use hairline 0 0 0 1px edges and keep radii to 12 / 16 / 24 / full."
     ],
     "donts": [
-      "Don't reintroduce either retired world's material vocabulary -- the switchboard's jacks/cables/lamps/IBM Plex, or the ledger's photographed leather/paper textures, gold-foil corner brackets, or Bodoni Moda/Spectral/Courier Prime type split. Both worlds were replaced in full, not layered under this one.",
-      "Don't treat the ::selection gold tint or the auth-input caretColor as a confirmed visual device to extend elsewhere. Both are present in code and reviewed as intentional, but neither was ever demonstrated in a screenshot (a static capture cannot show them); describe them as present-in-code, visually unverified.",
-      "Don't treat hover states beyond the hero/nav 'Get Started' button as confirmed. The Tailwind hover utilities exist on every interactive element, but only that one button's hover was actually screenshotted; the rest are implemented-but-unverified.",
-      "Don't revert to a governing object/place metaphor for this canon path. The user explicitly chose to play the category standard straight against Mercury/Ramp/Brex; a future editor introducing a new controlling metaphor is reopening a decision that was deliberately closed.",
-      "Don't use a hard-offset, zero-blur shadow anywhere in this system; every recorded shadow carries real blur, and most surfaces use no shadow at all (hairline only)."
+      "Don't put a label, kicker, eyebrow or pill above a heading.",
+      "Don't use gradient text, or a second accent color.",
+      "Don't use glass on cards, tiles, modals or footers.",
+      "Don't make the footer or Payroll band follow the light theme.",
+      "Don't set #cbb078 as text on a white ground.",
+      "Don't nest Surfaces or add side-stripe accent borders.",
+      "Don't add display faces, a mono costume for numbers, or glyph/emoji icons.",
+      "Don't invent testimonials, logos or metrics; label sample data.",
+      "Don't repeat the small New badge on the Payroll nav link as a pattern."
     ]
   }
 }

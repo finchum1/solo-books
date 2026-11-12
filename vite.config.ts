@@ -31,6 +31,9 @@ export default defineConfig({
       // stale data would be actively wrong.
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
+        // The public site's screenshots (jpg) and nothing under landing/ belong
+        // in the installed app's offline cache.
+        globIgnores: ['landing/**'],
       },
     }),
   ],

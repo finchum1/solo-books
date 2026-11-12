@@ -1,8 +1,7 @@
-import { useEffect } from 'react'
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { panel } from '../lib/landingTheme'
-import { BrandMark } from '../components/BrandMark'
+import { Wrap, usePageMeta } from '../marketing/ui'
 
 // Public Privacy Policy and Terms of Service, served at /privacy and /terms
 // whether or not the visitor is signed in (App.tsx renders them before the auth
@@ -16,58 +15,16 @@ const CONTACT = 'terrence@latchpointstudios.com'
 const UPDATED = 'November 11, 2026'
 
 function Shell({ title, children }: { title: string; children: ReactNode }) {
-  useEffect(() => {
-    const previous = document.title
-    document.title = `${title} | ${APP}`
-    return () => {
-      document.title = previous
-    }
-  }, [title])
-
+  usePageMeta(`${title} | ${APP}`, `${title} for ${APP}, the bookkeeping and payroll app from ${OPERATOR}.`)
   return (
-    <div
-      className="min-h-screen"
-      style={{ background: panel.bgDeep, color: panel.ink, fontFamily: "'Hanken Grotesk', sans-serif" }}
-    >
-      <header style={{ borderBottom: `1px solid ${panel.border}` }}>
-        <div className="max-w-3xl mx-auto px-5 sm:px-8 py-4 flex flex-wrap items-center justify-between gap-3">
-          <Link to="/" className="flex items-center gap-2">
-            <BrandMark color={panel.gold} size={24} />
-            <span className="font-semibold tracking-tight text-[15px]">{APP}</span>
-          </Link>
-          <nav className="flex items-center gap-5 text-sm" style={{ color: panel.inkDim }}>
-            <Link to="/privacy" className="hover:opacity-80">Privacy</Link>
-            <Link to="/terms" className="hover:opacity-80">Terms</Link>
-            <Link
-              to="/"
-              className="rounded-lg px-4 py-1.5 font-medium transition hover:brightness-110"
-              style={{ background: panel.gold, color: panel.bgDeep }}
-            >
-              Open {APP}
-            </Link>
-          </nav>
-        </div>
-      </header>
-
-      <main
-        className="max-w-3xl mx-auto px-5 sm:px-8 py-12 [&_h1]:text-4xl [&_h1]:font-semibold [&_h1]:tracking-tight [&_h1]:mb-2 [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:mt-10 [&_h2]:mb-3 [&_p]:leading-relaxed [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4 [&_ul]:space-y-2 [&_li]:leading-relaxed [&_a]:underline [&_a]:underline-offset-2"
+    <Wrap width="max-w-3xl" className="pb-24 pt-36 sm:pt-44">
+      <div
+        className="[&_h1]:text-4xl [&_h1]:font-semibold [&_h1]:tracking-tight [&_h1]:mb-2 sm:[&_h1]:text-5xl [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:mt-10 [&_h2]:mb-3 [&_p]:leading-relaxed [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4 [&_ul]:space-y-2 [&_li]:leading-relaxed [&_a]:underline [&_a]:underline-offset-2 [&_a]:text-[var(--mk-gold-text)]"
+        style={{ color: panel.ink }}
       >
         {children}
-      </main>
-
-      <footer style={{ borderTop: `1px solid ${panel.border}`, color: panel.inkDim }}>
-        <div className="max-w-3xl mx-auto px-5 sm:px-8 py-6 text-xs flex flex-wrap justify-between gap-2">
-          <span>
-            {APP} is built and operated by <a href="https://latchpointstudios.com" className="underline">{OPERATOR}</a>.
-          </span>
-          <span>
-            <Link to="/privacy" className="underline">Privacy</Link> ·{' '}
-            <Link to="/terms" className="underline">Terms</Link> ·{' '}
-            <a href={`mailto:${CONTACT}`} className="underline">{CONTACT}</a>
-          </span>
-        </div>
-      </footer>
-    </div>
+      </div>
+    </Wrap>
   )
 }
 
