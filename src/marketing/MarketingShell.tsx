@@ -129,7 +129,9 @@ function Header({ signedIn }: { signedIn: boolean }) {
           {/* The glass itself fades in on scroll; the bar's content sits above it. */}
           <span
             aria-hidden
-            className={`mk-glass pointer-events-none absolute inset-0 rounded-full transition-opacity duration-500 ${scrolled ? 'opacity-100' : 'opacity-0'}`}
+            // Inline, not utility classes: the unlayered .mk-glass rule (position: relative) would beat Tailwind's `absolute`.
+            style={{ position: 'absolute', inset: 0 }}
+            className={`mk-glass pointer-events-none rounded-full transition-opacity duration-500 ${scrolled ? 'opacity-100' : 'opacity-0'}`}
           />
           <div className="relative z-10 flex h-full items-center justify-between gap-2">
           <Link to="/" className="flex items-center gap-2.5" aria-label="Solo Books home">

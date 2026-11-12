@@ -149,9 +149,12 @@ export function FitWordmark({ text = 'SOLO BOOKS', className = '', shine = true 
   const CAP = 69 // Libre Caslon Display cap height at font-size 100 (690 / 1000 em)
   const OVERSHOOT = 1.6 // round letters (S, O) dip 16 units below the baseline; keep them whole
   const TRACK = 2 // a touch of open tracking suits Roman capitals
-  // x: where the ink starts; w: ink width; adv: the text's advance width (for textLength)
-  const [box, setBox] = useState({ x: 4, w: 600, adv: 610 })
-  // A moving light is motion: honor the visitor's reduced-motion setting.
+  const LIFT = 9 // how far each letter rises in the ripple (font units at size 100)
+  const CYCLE = 4.4 // seconds for the ripple + light to cross the name and begin again
+  const STAGGER = 0.26 // seconds between one letter and the next
+  // x: where the ink starts; w: ink width; adv: the text's advance width (for textLength); xs: each letter's x
+  const [box, setBox] = useState<{ x: number; w: number; adv: number; xs: number[] | null }>({ x: 4, w: 600, adv: 610, xs: null })
+  // Motion honors the visitor's reduced-motion setting.
   const [still, setStill] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches)
   const gid = useId().replace(/:/g, '')
 
@@ -179,7 +182,9 @@ export function FitWordmark({ text = 'SOLO BOOKS', className = '', shine = true 
       const adv = m.width + gaps
       const inkLeft = -m.actualBoundingBoxLeft
       const inkRight = m.actualBoundingBoxRight + gaps
-      if (adv > 100 && inkRight > inkLeft) setBox({ x: Math.round(inkLeft * 10) / 10, w: Math.round((inkRight - inkLeft) * 10) / 10, adv: Math.round(adv) })
+      // Each letter's own x, from the width of everything before it (so kerning is kept).
+      const xs = Array.from(text).map((_, i) => ctx.measureText(text.slice(0, i)).width + TRACK * i)
+      if (adv > 100 && inkRight > inkLeft) setBox({ x: Math.round(inkLeft * 10) / 10, w: Math.round((inkRight - inkLeft) * 10) / 10, adv: Math.round(adv), xs })
     }
     measure()
     return () => {
@@ -187,55 +192,66 @@ export function FitWordmark({ text = 'SOLO BOOKS', className = '', shine = true 
     }
   }, [text])
 
-  const animated = shine && !still
+  const animated = shine && !still && box.xs !== null
   const w = box.w
+  const FONT = "'Libre Caslon Display', 'Iowan Old Style', Georgia, serif"
 
   return (
     <svg
-      viewBox={`${box.x} 0 ${box.w} ${CAP + OVERSHOOT}`}
+      viewBox={`${box.x} ${-LIFT} ${box.w} ${CAP + OVERSHOOT + LIFT}`}
       className={`block w-full overflow-visible ${className}`}
       role="img"
       aria-label={text === 'SOLO BOOKS' ? 'Solo Books' : text}
       preserveAspectRatio="xMidYMax meet"
     >
-      {animated && (
-        <defs>
-          {/* Flat gold with a narrow band of brighter gold. The gradient is slid across the
-              letters on a loop: a slow ease-in-out sweep, a brief rest, then again, forever. */}
-          <linearGradient id={gid} gradientUnits="userSpaceOnUse" x1={box.x} y1="0" x2={box.x + w} y2="0">
-            <stop offset="0" stopColor="#cbb078" />
-            <stop offset="0.3" stopColor="#cbb078" />
-            <stop offset="0.42" stopColor="#e6d09b" />
-            <stop offset="0.5" stopColor="#fff1c9" />
-            <stop offset="0.58" stopColor="#e6d09b" />
-            <stop offset="0.7" stopColor="#cbb078" />
-            <stop offset="1" stopColor="#cbb078" />
-            <animateTransform
-              attributeName="gradientTransform"
-              type="translate"
-              values={`${-w * 0.65} 0; ${w * 0.65} 0; ${w * 0.65} 0`}
-              keyTimes="0; 0.88; 1"
-              calcMode="spline"
-              keySplines="0.37 0 0.63 1; 0 0 1 1"
-              dur="6.5s"
-              repeatCount="indefinite"
-            />
-          </linearGradient>
-        </defs>
+      {animated ? (
+        <>
+          <defs>
+            {/* Brand gold with a wide band of near-white gold (and a slightly deeper gold shoulder either side for contrast), slid across the whole name in step with the ripple. */}
+            <linearGradient id={gid} gradientUnits="userSpaceOnUse" x1={box.x} y1="0" x2={box.x + w} y2="0">
+              <stop offset="0" stopColor="#cbb078" />
+              <stop offset="0.22" stopColor="#bd9e5f" />
+              <stop offset="0.4" stopColor="#ead69f" />
+              <stop offset="0.5" stopColor="#fff7dc" />
+              <stop offset="0.6" stopColor="#ead69f" />
+              <stop offset="0.78" stopColor="#bd9e5f" />
+              <stop offset="1" stopColor="#cbb078" />
+              <animateTransform
+                attributeName="gradientTransform"
+                type="translate"
+                values={`${-w * 0.85} 0; ${w * 0.85} 0; ${w * 0.85} 0`}
+                keyTimes="0; 0.82; 1"
+                calcMode="spline"
+                keySplines="0.4 0 0.6 1; 0 0 1 1"
+                dur={`${CYCLE}s`}
+                repeatCount="indefinite"
+              />
+            </linearGradient>
+          </defs>
+          {Array.from(text).map((ch, i) =>
+            ch === ' ' ? null : (
+              <text key={i} x={box.xs![i]} y={CAP} fontFamily={FONT} fontWeight={400} fontSize={100} fill={`url(#${gid})`}>
+                {ch}
+                {/* Rise, settle, rest: one letter after another, left to right, forever. */}
+                <animate
+                  attributeName="y"
+                  values={`${CAP}; ${CAP - LIFT}; ${CAP}; ${CAP}`}
+                  keyTimes="0; 0.17; 0.38; 1"
+                  calcMode="spline"
+                  keySplines="0.3 0 0.3 1; 0.4 0 0.2 1; 0 0 1 1"
+                  dur={`${CYCLE}s`}
+                  begin={`${(i * STAGGER).toFixed(2)}s`}
+                  repeatCount="indefinite"
+                />
+              </text>
+            ),
+          )}
+        </>
+      ) : (
+        <text x="0" y={CAP} fontFamily={FONT} fontWeight={400} fontSize={100} letterSpacing={TRACK} textLength={box.adv} lengthAdjust="spacing" fill={panel.gold}>
+          {text}
+        </text>
       )}
-      <text
-        x="0"
-        y={CAP}
-        fontFamily="'Libre Caslon Display', 'Iowan Old Style', Georgia, serif"
-        fontWeight={400}
-        fontSize={100}
-        letterSpacing={TRACK}
-        textLength={box.adv}
-        lengthAdjust="spacing"
-        fill={animated ? `url(#${gid})` : panel.gold}
-      >
-        {text}
-      </text>
     </svg>
   )
 }
