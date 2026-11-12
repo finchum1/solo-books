@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from 'react'
+import { useEffect, useId, useLayoutEffect, useState } from 'react'
 import type { CSSProperties, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
@@ -145,12 +145,22 @@ export function Shot({ name, alt, frame = true, className = '', priority = false
  * measured with the real font once it loads, and pinned to that width with
  * textLength so a fallback face can't leave it short.
  */
-export function FitWordmark({ text = 'SOLO BOOKS', className = '' }: { text?: string; className?: string }) {
+export function FitWordmark({ text = 'SOLO BOOKS', className = '', shine = true }: { text?: string; className?: string; shine?: boolean }) {
   const CAP = 69 // Libre Caslon Display cap height at font-size 100 (690 / 1000 em)
   const OVERSHOOT = 1.6 // round letters (S, O) dip 16 units below the baseline; keep them whole
   const TRACK = 2 // a touch of open tracking suits Roman capitals
   // x: where the ink starts; w: ink width; adv: the text's advance width (for textLength)
   const [box, setBox] = useState({ x: 4, w: 600, adv: 610 })
+  // A moving light is motion: honor the visitor's reduced-motion setting.
+  const [still, setStill] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+  const gid = useId().replace(/:/g, '')
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const on = () => setStill(mq.matches)
+    mq.addEventListener('change', on)
+    return () => mq.removeEventListener('change', on)
+  }, [])
 
   useLayoutEffect(() => {
     let cancelled = false
@@ -177,6 +187,9 @@ export function FitWordmark({ text = 'SOLO BOOKS', className = '' }: { text?: st
     }
   }, [text])
 
+  const animated = shine && !still
+  const w = box.w
+
   return (
     <svg
       viewBox={`${box.x} 0 ${box.w} ${CAP + OVERSHOOT}`}
@@ -185,6 +198,31 @@ export function FitWordmark({ text = 'SOLO BOOKS', className = '' }: { text?: st
       aria-label={text === 'SOLO BOOKS' ? 'Solo Books' : text}
       preserveAspectRatio="xMidYMax meet"
     >
+      {animated && (
+        <defs>
+          {/* Flat gold with a narrow band of brighter gold. The gradient is slid across the
+              letters on a loop: a slow ease-in-out sweep, a brief rest, then again, forever. */}
+          <linearGradient id={gid} gradientUnits="userSpaceOnUse" x1={box.x} y1="0" x2={box.x + w} y2="0">
+            <stop offset="0" stopColor="#cbb078" />
+            <stop offset="0.3" stopColor="#cbb078" />
+            <stop offset="0.42" stopColor="#e6d09b" />
+            <stop offset="0.5" stopColor="#fff1c9" />
+            <stop offset="0.58" stopColor="#e6d09b" />
+            <stop offset="0.7" stopColor="#cbb078" />
+            <stop offset="1" stopColor="#cbb078" />
+            <animateTransform
+              attributeName="gradientTransform"
+              type="translate"
+              values={`${-w * 0.65} 0; ${w * 0.65} 0; ${w * 0.65} 0`}
+              keyTimes="0; 0.88; 1"
+              calcMode="spline"
+              keySplines="0.37 0 0.63 1; 0 0 1 1"
+              dur="6.5s"
+              repeatCount="indefinite"
+            />
+          </linearGradient>
+        </defs>
+      )}
       <text
         x="0"
         y={CAP}
@@ -194,7 +232,7 @@ export function FitWordmark({ text = 'SOLO BOOKS', className = '' }: { text?: st
         letterSpacing={TRACK}
         textLength={box.adv}
         lengthAdjust="spacing"
-        fill={panel.gold}
+        fill={animated ? `url(#${gid})` : panel.gold}
       >
         {text}
       </text>

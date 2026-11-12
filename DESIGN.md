@@ -192,7 +192,7 @@ Round and soft against a precise grid. Buttons, the header pill, chips and the t
 - **Ghost:** ink text only; same hover tint. Used for Sign in.
 
 ### Navigation
-The floating glass pill header: 56px tall, max 896px wide, 12px from the top, mark and "Solo Books" at left, Features / Payroll / Security centered, theme toggle (sun/moon rotate swap), Sign in and Get started at right. Active link is Library Brass. Below md, links collapse into a hamburger opening a glass panel. Signed-in visitors see "Open app".
+The floating glass pill header: 56px tall, max 896px wide, 12px from the top, mark and "Solo Books" at left, Features / Payroll / Security centered, theme toggle (sun/moon rotate swap), Sign in and Get started at right. Active link is Library Brass. Below md, links collapse into a hamburger opening a glass panel. Signed-in visitors see "Open app". **It is not a pill at the top of the page**: at scroll 0 it is a plain bar (no glass, no border) as wide as the page content (max 1152px) and aligned to the page gutters; once the page scrolls past 12px the bar condenses to the 896px glass pill (width and padding transition over 650ms, the glass layer fades in over 500ms) and returns to a plain bar at the top.
 
 ### Surfaces and Browser Frame
 Surface: Raised ground, 24px radius, hairline edge, 24 to 40px padding. BrowserFrame: 16px radius, hairline plus frame lift, with a strip of three neutral dots over a real screenshot.
@@ -207,7 +207,7 @@ Real app captures that follow the page theme: `/landing/shot-{name}-{dark|light}
 A made-up employee run through the app's own payroll calculator, shown with tabular figures; evidence of the product rather than an illustration. Lives in the black Payroll band and on the Payroll feature page.
 
 ### Footer and Wordmark
-Always black. Gold hairline across the top, four-column link grid, then SOLO BOOKS as an SVG wordmark (`FitWordmark`): 400 weight (Libre Caslon Display), flat gold, measured to its ink bounds with canvas `measureText` after the font loads, pinned by `textLength`, spanning edge to edge (gutter clamp(10px, 1.6vw, 28px)) with the baseline resting on the bottom edge. It rises 34% and fades in once on view.
+Always black. Gold hairline across the top, four-column link grid, then SOLO BOOKS as an SVG wordmark (`FitWordmark`): 400 weight (Libre Caslon Display), flat gold, measured to its ink bounds with canvas `measureText` after the font loads, pinned by `textLength`, spanning edge to edge (gutter clamp(10px, 1.6vw, 28px)) with the baseline resting on the bottom edge. It rises 34% and fades in once on view. The letters carry one continuous motion: a narrow band of lighter gold (#fff1c9 core) slides across them on a 6.5s ease-in-out loop (SMIL `animateTransform` on the gradient), pausing briefly between passes; with `prefers-reduced-motion` it renders flat gold and does not move. This is the page's single looping animation.
 
 ### Interactive Row (RowDot, TickerTotal)
 Selectable business rows with a gold-filled 18px dot and digit-climbing totals; select to isolate, select again to restore.

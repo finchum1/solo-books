@@ -52,10 +52,30 @@ function ThemePill() {
 function Header({ signedIn }: { signedIn: boolean }) {
   const [open, setOpen] = useState(false)
   const [overDark, setOverDark] = useState(false)
+  // At the very top the header is a plain bar aligned to the page gutters; once
+  // the page scrolls it condenses into the floating glass pill.
+  const [scrolled, setScrolled] = useState(() => window.scrollY > 12)
   const pill = useRef<HTMLDivElement>(null)
   const { pathname } = useLocation()
 
   useEffect(() => setOpen(false), [pathname])
+
+  useEffect(() => {
+    let raf = 0
+    const check = () => {
+      raf = 0
+      setScrolled(window.scrollY > 12)
+    }
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(check)
+    }
+    check()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      if (raf) cancelAnimationFrame(raf)
+    }
+  }, [])
 
   // While the pill sits over a region that is black in both themes (the Payroll
   // band, the footer), flip it to the dark token set so its glass, mark and
@@ -98,12 +118,20 @@ function Header({ signedIn }: { signedIn: boolean }) {
 
   return (
     <header className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-3 sm:px-5 sm:pt-4">
-      <div className={`pointer-events-auto relative w-full max-w-4xl ${overDark ? 'mk-dark' : ''}`}>
+      <div
+        className={`pointer-events-auto relative w-full transition-[max-width] duration-[650ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${scrolled ? 'max-w-4xl' : 'max-w-6xl'} ${overDark ? 'mk-dark' : ''}`}
+      >
         <div
           ref={pill}
           onPointerMove={track}
-          className="mk-glass flex h-14 items-center justify-between gap-2 rounded-full pl-4 pr-2 sm:pl-5"
+          className={`relative h-14 rounded-full transition-[padding] duration-[650ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${scrolled ? 'pl-4 pr-2 sm:pl-5' : 'px-1 sm:px-8'}`}
         >
+          {/* The glass itself fades in on scroll; the bar's content sits above it. */}
+          <span
+            aria-hidden
+            className={`mk-glass pointer-events-none absolute inset-0 rounded-full transition-opacity duration-500 ${scrolled ? 'opacity-100' : 'opacity-0'}`}
+          />
+          <div className="relative z-10 flex h-full items-center justify-between gap-2">
           <Link to="/" className="flex items-center gap-2.5" aria-label="Solo Books home">
             <BrandMark color={panel.goldText} size={30} />
             <span className="whitespace-nowrap text-[21px] leading-none" style={{ color: panel.ink, fontFamily: brandFont }}>
@@ -154,6 +182,7 @@ function Header({ signedIn }: { signedIn: boolean }) {
                 {open ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 8h16M4 16h16" />}
               </svg>
             </button>
+          </div>
           </div>
         </div>
 
