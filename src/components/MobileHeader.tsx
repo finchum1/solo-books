@@ -15,8 +15,8 @@ export function MobileHeader() {
       style={{ paddingTop: 'calc(env(safe-area-inset-top) + 0.75rem)' }}
     >
       <div className="flex items-center gap-2 min-w-0">
-        <BrandMark color="var(--color-amber-400)" size={20} />
-        <span className="font-semibold text-slate-900 dark:text-slate-100 truncate">Solo Books</span>
+        <BrandMark color="var(--color-amber-400)" size={24} />
+        <span className="font-brand text-xl leading-none text-slate-900 dark:text-slate-100 truncate">Solo Books</span>
       </div>
       <div className="flex items-center gap-1 shrink-0">
         <ThemeToggle />

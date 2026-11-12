@@ -146,24 +146,24 @@ export function Shot({ name, alt, frame = true, className = '', priority = false
  * textLength so a fallback face can't leave it short.
  */
 export function FitWordmark({ text = 'SOLO BOOKS', className = '' }: { text?: string; className?: string }) {
-  const CAP = 70 // Hanken Grotesk cap height at font-size 100
-  const OVERSHOOT = 1.4 // round letters (S, O) dip a hair below the baseline; keep them whole
-  const TRACK = -3
+  const CAP = 69 // Libre Caslon Display cap height at font-size 100 (690 / 1000 em)
+  const OVERSHOOT = 1.6 // round letters (S, O) dip 16 units below the baseline; keep them whole
+  const TRACK = 2 // a touch of open tracking suits Roman capitals
   // x: where the ink starts; w: ink width; adv: the text's advance width (for textLength)
-  const [box, setBox] = useState({ x: 4, w: 632, adv: 640 })
+  const [box, setBox] = useState({ x: 4, w: 600, adv: 610 })
 
   useLayoutEffect(() => {
     let cancelled = false
     async function measure() {
       try {
-        await document.fonts.load('800 100px "Hanken Grotesk"')
+        await document.fonts.load('400 100px "Libre Caslon Display"')
       } catch {
         /* fall through to the estimate */
       }
       if (cancelled) return
       const ctx = document.createElement('canvas').getContext('2d')
       if (!ctx) return
-      ctx.font = '800 100px "Hanken Grotesk", system-ui, sans-serif'
+      ctx.font = '400 100px "Libre Caslon Display", Georgia, serif'
       const m = ctx.measureText(text)
       const gaps = TRACK * (text.length - 1)
       const adv = m.width + gaps
@@ -188,8 +188,8 @@ export function FitWordmark({ text = 'SOLO BOOKS', className = '' }: { text?: st
       <text
         x="0"
         y={CAP}
-        fontFamily="'Hanken Grotesk', system-ui, sans-serif"
-        fontWeight={800}
+        fontFamily="'Libre Caslon Display', 'Iowan Old Style', Georgia, serif"
+        fontWeight={400}
         fontSize={100}
         letterSpacing={TRACK}
         textLength={box.adv}

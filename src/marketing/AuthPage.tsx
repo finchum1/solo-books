@@ -198,7 +198,7 @@ export function AuthPage({ mode }: { mode: Mode }) {
       <HeroGlow />
       <Wrap className="relative grid items-center gap-14 lg:grid-cols-[1.1fr_1fr] lg:gap-24" width="max-w-5xl">
         <Reveal className="hidden lg:block">
-          <BrandMark color={panel.gold} size={44} />
+          <BrandMark color={panel.goldText} size={44} />
           <H1 className="mt-6" style={{ fontSize: 'clamp(2.2rem, 4vw, 3.4rem)' }}>
             {mode === 'signup' ? 'Your books, in one private place.' : 'Good to see you again.'}
           </H1>

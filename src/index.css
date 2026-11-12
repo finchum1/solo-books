@@ -20,6 +20,8 @@
  * same brand colors as the website.
  */
 @theme {
+  --font-brand: 'Libre Caslon Display', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+
   --color-slate-50: #f7f7f7;
   --color-slate-100: #ececed;
   --color-slate-200: #d6d6d8;

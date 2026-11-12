@@ -105,7 +105,7 @@ Depth comes from one idea, liquid glass: a floating pill header that refracts th
 **Key Characteristics:**
 - Black, white and gold only; gold carries all emphasis. Green and red appear solely as money signs.
 - Light and dark themes from the same tokens; the footer and Payroll band stay black in both.
-- Hanken Grotesk alone, tight tracking on large type, tabular figures for money.
+- Hanken Grotesk for all reading and figures; Libre Caslon Display for the name only. Tight tracking on large type, tabular figures for money.
 - Liquid glass reserved for the header pill and one hero chip.
 - Real product evidence: theme-following app screenshots and a payroll demo that runs the app's calculator.
 - Headings stand alone; no labels, kickers or eyebrows above them.
@@ -139,7 +139,9 @@ A monochrome field with one champagne gold. Tokens are CSS variables (`--mk-*`) 
 
 ## Typography
 
-**Display / Body / Label Font:** Hanken Grotesk (with system-ui, Segoe UI, Roboto, sans-serif), weights 400 to 800. One family, no pairing.
+**Display / Body / Label Font:** Hanken Grotesk (with system-ui, Segoe UI, Roboto, sans-serif), weights 400 to 800, for every headline, paragraph, label and figure.
+
+**Brand Font:** Libre Caslon Display (400 only, with Iowan Old Style, Palatino and Georgia fallbacks), used for the name and nothing else: the header and footer "Solo Books", the app sidebar and mobile header, the reset screen, and the giant footer wordmark. It has a single weight, so it is never set bold (the browser would fake it). Chosen by the user from ten candidates for being the most elegant; its hairline serifs make it a name-only face, never body or UI text. Token: `brandFont` in `lib/landingTheme.ts`, `font-brand` in Tailwind.
 
 **Character:** Confident and plain. Weight and size do the hierarchy; large type is tightened, body is relaxed. Money is set in the same sans with tabular numerals, never a mono costume.
 
@@ -150,7 +152,7 @@ A monochrome field with one champagne gold. Tokens are CSS variables (`--mk-*`) 
 - **Body** (400, 16px / 17px at sm, 1.625, dim ink): running copy at a 62ch maximum.
 - **Label** (500, 14 to 15px): nav, buttons, row names, captions at 12 to 14px dim ink.
 - **Figure** (600, tabular-nums, 20 to 36px): totals and net pay.
-- **Wordmark** (800, tracking -3 at size 100, SVG): the footer's SOLO BOOKS only.
+- **Wordmark** (Libre Caslon Display 400, tracking +2 at size 100, SVG): the footer's SOLO BOOKS only.
 
 ### Named Rules
 **The Tabular Money Rule.** Every dollar amount uses tabular numerals (`tabular-nums`) so columns and tickers do not jitter.
@@ -205,7 +207,7 @@ Real app captures that follow the page theme: `/landing/shot-{name}-{dark|light}
 A made-up employee run through the app's own payroll calculator, shown with tabular figures; evidence of the product rather than an illustration. Lives in the black Payroll band and on the Payroll feature page.
 
 ### Footer and Wordmark
-Always black. Gold hairline across the top, four-column link grid, then SOLO BOOKS as an SVG wordmark (`FitWordmark`): 800 weight, flat gold, measured to its ink bounds with canvas `measureText` after the font loads, pinned by `textLength`, spanning edge to edge (gutter clamp(10px, 1.6vw, 28px)) with the baseline resting on the bottom edge. It rises 34% and fades in once on view.
+Always black. Gold hairline across the top, four-column link grid, then SOLO BOOKS as an SVG wordmark (`FitWordmark`): 400 weight (Libre Caslon Display), flat gold, measured to its ink bounds with canvas `measureText` after the font loads, pinned by `textLength`, spanning edge to edge (gutter clamp(10px, 1.6vw, 28px)) with the baseline resting on the bottom edge. It rises 34% and fades in once on view.
 
 ### Interactive Row (RowDot, TickerTotal)
 Selectable business rows with a gold-filled 18px dot and digit-climbing totals; select to isolate, select again to restore.

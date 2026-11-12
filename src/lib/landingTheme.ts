@@ -8,6 +8,9 @@
 // themes (the Payroll band and the footer). Components read `panel.*` in
 // inline styles exactly as before, so nothing else needed to change.
 //
+// The wordmark face. Libre Caslon Display has one weight (400): never apply bold to it.
+export const brandFont = "'Libre Caslon Display', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif"
+
 // The app's own Tailwind tokens (index.css @theme) are a separate system that
 // derives from the same gold hex.
 export const panel = {

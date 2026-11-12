@@ -92,8 +92,10 @@ viewed on screen, or exported as a clean PDF to hand to an accountant or keep fo
 ## Brand Commitments
 
 Name is **Solo Books** (2026-09-11), renamed from "Sovereign Books" (2026-08-25), itself renamed from the
-original "Business Ledger". "Solo" speaks to the owner-operator running their own books. The signet-seal
-BrandMark (an S inside concentric rings) is unchanged across both renames. Operated by Latchpoint Studios, LLC.
+original "Business Ledger". "Solo" speaks to the owner-operator running their own books. The mark is a single clean S
+(2026-11-12; it replaced the signet-seal S inside concentric rings), drawn from the outline of the wordmark face,
+Libre Caslon Display, so the mark and the name read as one family. The favicon and phone icons are that S in
+gold on near-black. Operated by Latchpoint Studios, LLC.
 
 **Standing visual preference (2026-08-25)**: when offered a bespoke-tailoring
 concept direction ("Cut to Measure") for the third landing-page world in one day, the user said "play it

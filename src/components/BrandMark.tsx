@@ -1,24 +1,22 @@
 /**
- * The Solo Books signet mark -- concentric rings around a geometric S,
- * like a wax seal or signet ring. Authored SVG (not a raster asset), so it
- * stays crisp at any size and matches the landing page's "no photographed
- * material" design rule. Shared between the landing page (fixed dark
- * world, passes an explicit hex) and the app's own Sidebar (passes
- * `currentColor` so it follows the app's own light/dark theme).
+ * The Solo Books mark: a single, clean S, drawn from the outline of Libre
+ * Caslon Display (the brand's wordmark face), so the mark and the name read as
+ * one family. Authored as vector paths, not live text, so it is crisp at any
+ * size and does not depend on the font having loaded. Takes a `color` so the
+ * same mark works on the dark/light site (passed a palette token) and in the
+ * app's sidebar (passed the app's gold token). The favicon and the phone
+ * icons are this S on a near-black square (public/favicon.svg, pwa-*.png).
  */
-export function BrandMark({ color = 'currentColor', size = 28 }: { color?: string; size?: number }) {
+const S_PATH =
+  'M493 185Q493 237 470.5 272.5Q448 308 411.5 332.0Q375 356 315 383Q248 414 211.5 436.0Q175 458 154.5 488.0Q134 518 134 562Q134 623 171.0 658.5Q208 694 270 694Q373 694 423 591Q448 540 464 473L474 476L464 694H451L427 646Q386 678 350.5 692.0Q315 706 274 706Q215 706 168.5 681.5Q122 657 95.5 613.5Q69 570 69 515Q69 461 93.5 423.5Q118 386 155.0 362.5Q192 339 247 315Q314 286 351.0 264.0Q388 242 409.5 211.0Q431 180 431 135Q431 71 390.5 33.5Q350 -4 278 -4Q194 -4 143 53Q118 81 102.5 119.0Q87 157 72 225L63 223L76 -16H89L110 39Q141 13 185.0 -1.5Q229 -16 276 -16Q338 -16 387.5 10.0Q437 36 465.0 81.5Q493 127 493 185Z'
+
+export function BrandMark({ color = 'currentColor', size = 24 }: { color?: string; size?: number }) {
+  // The glyph is 430 x 722 font units (y up). Scaled to 80% of the box height,
+  // centered, with the y axis flipped for SVG.
+  const s = 80 / 722
   return (
-    <svg width={size} height={size} viewBox="0 0 72 72" aria-hidden>
-      <circle cx="36" cy="36" r="33" fill="none" stroke={color} strokeWidth={2.2} />
-      <circle cx="36" cy="36" r="26" fill="none" stroke={color} strokeWidth={1.3} />
-      <path
-        d="M 46.2 25.8 C 46.2 20.7 41.1 19 36 19 C 29.2 19 25.8 22.4 25.8 27.5 C 25.8 36 46.2 32.6 46.2 41.1 C 46.2 46.2 41.1 49.6 34.3 49.6 C 29.2 49.6 24.1 47.9 24.1 42.8"
-        fill="none"
-        stroke={color}
-        strokeWidth={5.2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+    <svg width={size} height={size} viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+      <path d={S_PATH} fill={color} transform={`translate(${(100 - 430 * s) / 2 - 63 * s} ${10 + 706 * s}) scale(${s} ${-s})`} />
     </svg>
   )
 }

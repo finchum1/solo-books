@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { supabase } from '../lib/supabase'
-import { panel } from '../lib/landingTheme'
+import { brandFont, panel } from '../lib/landingTheme'
 import { BrandMark } from '../components/BrandMark'
 
 /**
@@ -50,8 +50,8 @@ export function ResetPassword({ onDone }: { onDone: () => void }) {
     >
       <div className="rounded-3xl relative w-full max-w-md p-6 sm:p-8" style={{ background: panel.bgRaised, boxShadow: `0 0 0 1px ${panel.border}, var(--mk-frame-shadow)` }}>
         <div className="flex items-center gap-2 mb-5">
-          <BrandMark color={panel.gold} size={24} />
-          <span className="font-semibold tracking-tight text-[15px]">Solo Books</span>
+          <BrandMark color={panel.goldText} size={28} />
+          <span className="text-xl leading-none" style={{ fontFamily: brandFont }}>Solo Books</span>
         </div>
         <h1 className="text-2xl font-semibold tracking-tight mb-1">Choose a new password</h1>
         <p className="text-sm mb-6" style={{ color: panel.inkDim }}>

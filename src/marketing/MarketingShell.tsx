@@ -4,7 +4,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { BrandMark } from '../components/BrandMark'
 import { applyTheme } from '../lib/theme'
-import { panel } from '../lib/landingTheme'
+import { brandFont, panel } from '../lib/landingTheme'
 import { FitWordmark, MkLink, Wrap, useIsDark } from './ui'
 
 const NAV = [
@@ -106,7 +106,7 @@ function Header({ signedIn }: { signedIn: boolean }) {
         >
           <Link to="/" className="flex items-center gap-2.5" aria-label="Solo Books home">
             <BrandMark color={panel.goldText} size={24} />
-            <span className="whitespace-nowrap text-[15px] font-semibold tracking-tight" style={{ color: panel.ink }}>
+            <span className="whitespace-nowrap text-[21px] leading-none" style={{ color: panel.ink, fontFamily: brandFont }}>
               Solo Books
             </span>
           </Link>
@@ -217,8 +217,8 @@ function Footer({ signedIn }: { signedIn: boolean }) {
         <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div className="max-w-sm">
             <div className="mb-4 flex items-center gap-2.5">
-              <BrandMark color={panel.gold} size={28} />
-              <span className="text-lg font-semibold tracking-tight">Solo Books</span>
+              <BrandMark color={panel.gold} size={30} />
+              <span className="text-2xl leading-none" style={{ fontFamily: brandFont }}>Solo Books</span>
             </div>
             <p className="mb-6 text-[15px] leading-relaxed" style={{ color: panel.inkDim }}>
               Books, receipts, contractors, clients and payroll. One private ledger for the business, or businesses, you run.
