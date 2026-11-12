@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import type { Session } from '@supabase/supabase-js'
 import { supabase } from './lib/supabase'
 import { Landing } from './pages/Landing'
+import { ResetPassword } from './pages/ResetPassword'
 import { Sidebar } from './components/Sidebar'
 import { MobileHeader } from './components/MobileHeader'
 import { MobileNav } from './components/MobileNav'
@@ -14,16 +15,23 @@ import { ContractorsPage } from './pages/ContractorsPage'
 import { ClientsPage } from './pages/ClientsPage'
 import { PayrollPage } from './pages/PayrollPage'
 
+// Read once, at import time: a password-reset email link lands here with
+// `#...&type=recovery` in the URL, and supabase-js strips that hash as soon as
+// it has processed it, so it has to be captured before React renders.
+const OPENED_FROM_RECOVERY_LINK = new URLSearchParams(window.location.hash.slice(1)).get('type') === 'recovery'
+
 function App() {
   const [session, setSession] = useState<Session | null>(null)
   const [checked, setChecked] = useState(false)
+  const [recovering, setRecovering] = useState(OPENED_FROM_RECOVERY_LINK)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
       setSession(data.session)
       setChecked(true)
     })
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'PASSWORD_RECOVERY') setRecovering(true)
       setSession(session)
     })
     return () => listener.subscription.unsubscribe()
@@ -39,6 +47,10 @@ function App() {
 
   if (!session) {
     return <Landing />
+  }
+
+  if (recovering) {
+    return <ResetPassword onDone={() => setRecovering(false)} />
   }
 
   return (

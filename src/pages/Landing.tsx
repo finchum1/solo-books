@@ -89,13 +89,39 @@ function SignInPanel({ mode, onModeChange }: { mode: AuthMode; onModeChange: (m:
   const [error, setError] = useState<string | null>(null)
   const [notice, setNotice] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const [forgot, setForgot] = useState(false)
   const isSignUp = mode === 'signup'
 
   function switchMode(next: AuthMode) {
     setError(null)
     setNotice(null)
     setConfirmPassword('')
+    setForgot(false)
     onModeChange(next)
+  }
+
+  function showForgot(on: boolean) {
+    setError(null)
+    setNotice(null)
+    setForgot(on)
+  }
+
+  async function handleReset(e: FormEvent) {
+    e.preventDefault()
+    setError(null)
+    setNotice(null)
+    setLoading(true)
+    // The reset email links back to this site; the app then shows a "choose a
+    // new password" screen (see App.tsx / ResetPassword.tsx).
+    const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin })
+    setLoading(false)
+    if (error) {
+      setError(error.message)
+    } else {
+      // Same message whether or not the address has an account, so this form
+      // can't be used to find out who is registered.
+      setNotice('If there is an account for that email, a reset link is on its way. Check your inbox and spam folder.')
+    }
   }
 
   async function handleSubmit(e: FormEvent) {
@@ -131,10 +157,53 @@ function SignInPanel({ mode, onModeChange }: { mode: AuthMode; onModeChange: (m:
     <Card className="relative max-w-md mx-auto p-6 sm:p-8" style={{ boxShadow: `0 0 0 1px ${panel.border}, 0 30px 60px -20px rgba(0,0,0,0.6)` }}>
       <div className="flex items-center justify-between gap-3 mb-6">
         <h2 className="text-2xl font-semibold tracking-tight" style={{ color: panel.ink }}>
-          {isSignUp ? 'Create your account' : 'Sign in'}
+          {forgot ? 'Reset your password' : isSignUp ? 'Create your account' : 'Sign in'}
         </h2>
-        <Tag>{isSignUp ? 'New account' : 'Welcome back'}</Tag>
+        <Tag>{forgot ? 'Account help' : isSignUp ? 'New account' : 'Welcome back'}</Tag>
       </div>
+      {forgot ? (
+        <form onSubmit={handleReset}>
+          <p className="text-sm mb-4" style={{ color: panel.inkDim }}>
+            Enter the email you signed up with and we'll send you a link to choose a new password.
+          </p>
+          <label className="block text-xs mb-1.5" style={{ color: panel.inkDim }}>
+            Email
+          </label>
+          <input
+            type="email"
+            required
+            autoComplete="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="sb-input w-full mb-6 rounded-lg px-3 py-2.5 text-sm focus:outline-none"
+            style={{ background: panel.bgRaised2, color: panel.ink, caretColor: panel.gold }}
+          />
+          {error && (
+            <p className="text-sm mb-4" style={{ color: panel.expense }} role="alert">
+              {error}
+            </p>
+          )}
+          {notice && (
+            <p className="text-sm mb-4" style={{ color: panel.income }} role="status">
+              {notice}
+            </p>
+          )}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full rounded-lg py-2.5 font-medium text-sm transition hover:brightness-110 active:scale-[0.98] disabled:opacity-60 disabled:hover:brightness-100"
+            style={{ background: panel.gold, color: panel.bgDeep }}
+          >
+            {loading ? 'Sending…' : 'Send reset link'}
+          </button>
+          <p className="text-xs text-center mt-4" style={{ color: panel.inkDim }}>
+            <button type="button" onClick={() => showForgot(false)} className="underline transition hover:opacity-75" style={{ color: panel.gold }}>
+              Back to sign in
+            </button>
+          </p>
+        </form>
+      ) : (
+      <>
       <form onSubmit={handleSubmit}>
         <label className="block text-xs mb-1.5" style={{ color: panel.inkDim }}>
           Email
@@ -158,9 +227,16 @@ function SignInPanel({ mode, onModeChange }: { mode: AuthMode; onModeChange: (m:
           minLength={isSignUp ? 8 : undefined}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className={`sb-input w-full rounded-lg px-3 py-2.5 text-sm focus:outline-none ${isSignUp ? 'mb-4' : 'mb-6'}`}
+          className={`sb-input w-full rounded-lg px-3 py-2.5 text-sm focus:outline-none ${isSignUp ? 'mb-4' : 'mb-2'}`}
           style={{ background: panel.bgRaised2, color: panel.ink, caretColor: panel.gold }}
         />
+        {!isSignUp && (
+          <div className="mb-5 text-right">
+            <button type="button" onClick={() => showForgot(true)} className="text-xs underline transition hover:opacity-75" style={{ color: panel.gold }}>
+              Forgot password?
+            </button>
+          </div>
+        )}
         {isSignUp && (
           <>
             <label className="block text-xs mb-1.5" style={{ color: panel.inkDim }}>
@@ -213,6 +289,8 @@ function SignInPanel({ mode, onModeChange }: { mode: AuthMode; onModeChange: (m:
           </>
         )}
       </p>
+      </>
+      )}
     </Card>
   )
 }
