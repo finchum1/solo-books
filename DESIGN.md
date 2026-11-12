@@ -141,7 +141,7 @@ A monochrome field with one champagne gold. Tokens are CSS variables (`--mk-*`) 
 
 **Display / Body / Label Font:** Hanken Grotesk (with system-ui, Segoe UI, Roboto, sans-serif), weights 400 to 800, for every headline, paragraph, label and figure.
 
-**Brand Font:** Libre Caslon Display (400 only, with Iowan Old Style, Palatino and Georgia fallbacks), used for the name and nothing else: the header and footer "Solo Books", the app sidebar and mobile header, the reset screen, and the giant footer wordmark. It has a single weight, so it is never set bold (the browser would fake it). Chosen by the user from ten candidates for being the most elegant; its hairline serifs make it a name-only face, never body or UI text. Token: `brandFont` in `lib/landingTheme.ts`, `font-brand` in Tailwind.
+**Brand Font:** Libre Caslon Display (400 only, with Iowan Old Style, Palatino and Georgia fallbacks), used for the name and nothing else: the header and footer "Solo Books", the app sidebar and mobile header, the reset screen, and the giant footer wordmark. It has a single weight, so it is never set bold (the browser would fake it). Chosen by the user from ten candidates for being the most elegant; its hairline serifs make it a name-only face, never body or UI text. Token: `brandFont` in `lib/landingTheme.ts`, `font-brand` in Tailwind. The S mark (`BrandMark`) is the same face's S, thickened with a 40-unit round-joined stroke because the face's hairlines vanish when small; the favicon and phone icons use a heavier stroke still. Do not remove the stroke.
 
 **Character:** Confident and plain. Weight and size do the hierarchy; large type is tightened, body is relaxed. Money is set in the same sans with tabular numerals, never a mono costume.
 

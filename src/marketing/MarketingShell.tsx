@@ -105,7 +105,7 @@ function Header({ signedIn }: { signedIn: boolean }) {
           className="mk-glass flex h-14 items-center justify-between gap-2 rounded-full pl-4 pr-2 sm:pl-5"
         >
           <Link to="/" className="flex items-center gap-2.5" aria-label="Solo Books home">
-            <BrandMark color={panel.goldText} size={24} />
+            <BrandMark color={panel.goldText} size={30} />
             <span className="whitespace-nowrap text-[21px] leading-none" style={{ color: panel.ink, fontFamily: brandFont }}>
               Solo Books
             </span>
@@ -217,7 +217,7 @@ function Footer({ signedIn }: { signedIn: boolean }) {
         <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div className="max-w-sm">
             <div className="mb-4 flex items-center gap-2.5">
-              <BrandMark color={panel.gold} size={30} />
+              <BrandMark color={panel.gold} size={36} />
               <span className="text-2xl leading-none" style={{ fontFamily: brandFont }}>Solo Books</span>
             </div>
             <p className="mb-6 text-[15px] leading-relaxed" style={{ color: panel.inkDim }}>

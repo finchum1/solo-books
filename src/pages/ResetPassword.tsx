@@ -50,7 +50,7 @@ export function ResetPassword({ onDone }: { onDone: () => void }) {
     >
       <div className="rounded-3xl relative w-full max-w-md p-6 sm:p-8" style={{ background: panel.bgRaised, boxShadow: `0 0 0 1px ${panel.border}, var(--mk-frame-shadow)` }}>
         <div className="flex items-center gap-2 mb-5">
-          <BrandMark color={panel.goldText} size={28} />
+          <BrandMark color={panel.goldText} size={32} />
           <span className="text-xl leading-none" style={{ fontFamily: brandFont }}>Solo Books</span>
         </div>
         <h1 className="text-2xl font-semibold tracking-tight mb-1">Choose a new password</h1>

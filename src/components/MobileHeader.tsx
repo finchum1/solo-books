@@ -15,7 +15,7 @@ export function MobileHeader() {
       style={{ paddingTop: 'calc(env(safe-area-inset-top) + 0.75rem)' }}
     >
       <div className="flex items-center gap-2 min-w-0">
-        <BrandMark color="var(--color-amber-400)" size={24} />
+        <BrandMark color="var(--color-amber-400)" size={28} />
         <span className="font-brand text-xl leading-none text-slate-900 dark:text-slate-100 truncate">Solo Books</span>
       </div>
       <div className="flex items-center gap-1 shrink-0">
