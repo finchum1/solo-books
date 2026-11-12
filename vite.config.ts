@@ -10,8 +10,10 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
+      includeAssets: ['icons/solo-s.svg', 'icons/solo-s-180.png'],
       manifest: {
+        // A stable identity, so an installed copy updates in place when the icons change.
+        id: '/',
         name: 'Solo Books',
         short_name: 'Solo Books',
         description: 'One ledger for every business you run.',
@@ -20,9 +22,11 @@ export default defineConfig({
         display: 'standalone',
         start_url: '/',
         icons: [
-          { src: '/pwa-192.png', sizes: '192x192', type: 'image/png' },
-          { src: '/pwa-512.png', sizes: '512x512', type: 'image/png' },
-          { src: '/pwa-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+          // The icon files carry the S in their NAME (solo-s-*): Chrome only re-downloads an installed
+          // app's icon when its URL changes, so when the logo changes again, rename these (solo-s2-*...).
+          { src: '/icons/solo-s-192.png', sizes: '192x192', type: 'image/png' },
+          { src: '/icons/solo-s-512.png', sizes: '512x512', type: 'image/png' },
+          { src: '/icons/solo-s-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
         ],
       },
       // Only precache the built app shell (JS/CSS/HTML/icons) -- no
