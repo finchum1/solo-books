@@ -234,4 +234,4 @@ Selectable business rows with a gold-filled 18px dot and digit-climbing totals; 
 - **Don't** nest Surfaces or add side-stripe accent borders.
 - **Don't** add display faces, a mono costume for numbers, or glyph/emoji icons; icons are inline SVG.
 - **Don't** invent testimonials, logos or invented metrics; sample data is labeled as sample.
-- **Don't** treat the small "New" badge on the Payroll nav link as a pattern to repeat; it is carried by the build as a defect, not a house device.
+- **Don't** reuse the small "New" badge on the Payroll nav link as a decoration. It is a deliberate, single status marker for the newest module (it sits on a nav item, not above a heading) and should be removed once Payroll is no longer new.
