@@ -2,13 +2,15 @@ import { useState } from 'react'
 import { PLReportPage } from './PLReportPage'
 import { ContractorReportPage } from './ContractorReportPage'
 import { ClientReportPage } from './ClientReportPage'
+import { PayrollReportPage } from './PayrollReportPage'
 
-type Tab = 'pl' | 'contractors' | 'clients'
+type Tab = 'pl' | 'contractors' | 'clients' | 'payroll'
 
 const TABS: { key: Tab; label: string }[] = [
   { key: 'pl', label: 'Profit & Loss' },
   { key: 'contractors', label: 'Contractors' },
   { key: 'clients', label: 'Clients' },
+  { key: 'payroll', label: 'Payroll' },
 ]
 
 export function ReportsPage() {
@@ -39,8 +41,10 @@ export function ReportsPage() {
         <PLReportPage />
       ) : tab === 'contractors' ? (
         <ContractorReportPage />
-      ) : (
+      ) : tab === 'clients' ? (
         <ClientReportPage />
+      ) : (
+        <PayrollReportPage />
       )}
     </div>
   )

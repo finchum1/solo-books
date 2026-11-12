@@ -12,6 +12,7 @@ import { ReportsPage } from './pages/ReportsPage'
 import { SettingsPage } from './pages/SettingsPage'
 import { ContractorsPage } from './pages/ContractorsPage'
 import { ClientsPage } from './pages/ClientsPage'
+import { PayrollPage } from './pages/PayrollPage'
 
 function App() {
   const [session, setSession] = useState<Session | null>(null)
@@ -51,6 +52,7 @@ function App() {
             <Route path="/ledger" element={<LedgerPage />} />
             <Route path="/contractors" element={<ContractorsPage />} />
             <Route path="/clients" element={<ClientsPage />} />
+            <Route path="/payroll" element={<PayrollPage />} />
             <Route path="/banking" element={<Navigate to="/" replace />} />
             <Route path="/reports" element={<ReportsPage />} />
             <Route path="/settings" element={<SettingsPage session={session} />} />

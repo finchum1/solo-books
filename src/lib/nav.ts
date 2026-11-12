@@ -9,5 +9,6 @@ export const NAV: NavItem[] = [
   { to: '/ledger', label: 'Ledger', end: false },
   { to: '/contractors', label: 'Contractors', end: false },
   { to: '/clients', label: 'Clients', end: false },
+  { to: '/payroll', label: 'Payroll', end: false },
   { to: '/reports', label: 'Reports', end: false },
 ]
