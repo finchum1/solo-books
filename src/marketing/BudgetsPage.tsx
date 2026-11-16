@@ -2,6 +2,7 @@ import { panel } from '../lib/landingTheme'
 import { Arrow, MkLink, Reveal, Shot, Wrap, usePageMeta } from './ui'
 import { DarkBand, H1, H2, H3, P, Surface, Ticks } from './blocks'
 import { BudgetSample } from './visuals'
+import { FaqSection } from './Faq'
 
 const STEPS = [
   { t: 'Pick a month and a business', d: 'A budget belongs to one business and one month, so each business gets its own plan.' },
@@ -159,6 +160,8 @@ export function BudgetsPage() {
           </Reveal>
         </Wrap>
       </section>
+
+      <FaqSection ids={['budget', 'budgetBusiness', 'budgetAlerts', 'budgetBank']} />
 
       <section className="relative overflow-hidden py-28 text-center sm:py-36" style={{ background: panel.bg }}>
         <Wrap className="relative">

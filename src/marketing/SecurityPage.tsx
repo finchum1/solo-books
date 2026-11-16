@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { panel } from '../lib/landingTheme'
 import { Arrow, MkLink, Reveal, Wrap, usePageMeta } from './ui'
 import { H1, H2, H3, HeroGlow, P } from './blocks'
+import { FaqSection } from './Faq'
 
 const SECTIONS = [
   {
@@ -80,6 +81,8 @@ export function SecurityPage() {
           </Reveal>
         </Wrap>
       </section>
+
+      <FaqSection ids={['private', 'sell', 'sensitive', 'delete', 'team', 'ai']} title="Privacy questions." tinted />
 
       <section className="py-28 text-center sm:py-36">
         <Wrap>

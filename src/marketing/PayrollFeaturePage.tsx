@@ -2,6 +2,7 @@ import { panel } from '../lib/landingTheme'
 import { Arrow, MkLink, Reveal, Shot, Wrap, usePageMeta } from './ui'
 import { DarkBand, H1, H2, H3, P, Surface, Ticks } from './blocks'
 import { PayrollSample } from './PayrollSample'
+import { FaqSection } from './Faq'
 
 const STEPS = [
   { t: 'Set up each employee', d: 'Pay rate and pay frequency, plus the choices from their signed federal W-4 and Oklahoma OK-W-4.' },
@@ -168,6 +169,8 @@ export function PayrollFeaturePage() {
           </Reveal>
         </Wrap>
       </section>
+
+      <FaqSection ids={['payrollDoes', 'payrollStates', 'payrollBonus', 'payrollDeductions', 'payrollForms', 'payrollBank']} />
 
       <section className="relative overflow-hidden py-28 text-center sm:py-36" style={{ background: panel.bg }}>
         <Wrap className="relative">

@@ -129,6 +129,9 @@ viewed on screen, or exported as a clean PDF to hand to an accountant or keep fo
   (matched entries keep date/type/amount), add_contractor, add_client, add_category, set_budget (write). No deletes; payroll/employee data never
   exposed; entries made are tagged transactions.source = 'ai:<token name>'. 401s deliberately omit OAuth discovery so Claude Code keeps using the
   static header. NOT built: OAuth, which claude.ai's website connectors need (they don't accept a static token); bank matching/reconciling by bots.
+- **FAQ (2026-11-17)**: all public questions live once in src/marketing/faqData.ts (answers must stay true to what is built; no pricing answer because no
+  pricing is stated anywhere). Full /faq page (grouped, anchor chips, FAQPage JSON-LD), plus FaqSection blocks on home, /features/budgets, /features/banking,
+  /features/payroll and /security. Footer links to /faq (not in the header: five links already fill it). When a feature changes, update faqData.ts.
 - **Planned next**: an optional live bank feed; auto-categorization rules; credit cards and loans are not supported yet.
 - **Public site (rebuilt 2026-11-12)**: real pages at /, /features, /features/payroll, /security, /signin,
   /signup, /privacy, /terms with a light/dark toggle, a floating liquid-glass pill header, and a footer that

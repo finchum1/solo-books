@@ -5,6 +5,7 @@ import { FeaturesPage } from './FeaturesPage'
 import { PayrollFeaturePage } from './PayrollFeaturePage'
 import { BudgetsPage } from './BudgetsPage'
 import { BankingPage } from './BankingPage'
+import { FaqPage } from './FaqPage'
 import { SecurityPage } from './SecurityPage'
 import { AuthPage } from './AuthPage'
 import { PrivacyPage, TermsPage } from '../pages/LegalPages'
@@ -23,6 +24,7 @@ export function PublicSite({ signedIn = false }: { signedIn?: boolean }) {
         <Route path="/features/payroll" element={<PayrollFeaturePage />} />
         <Route path="/features/budgets" element={<BudgetsPage />} />
         <Route path="/features/banking" element={<BankingPage />} />
+        <Route path="/faq" element={<FaqPage />} />
         <Route path="/security" element={<SecurityPage />} />
         <Route path="/signin" element={<AuthPage mode="signin" />} />
         <Route path="/signup" element={<AuthPage mode="signup" />} />

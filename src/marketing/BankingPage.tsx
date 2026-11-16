@@ -2,6 +2,7 @@ import { panel } from '../lib/landingTheme'
 import { Arrow, MkLink, Reveal, Shot, Wrap, usePageMeta } from './ui'
 import { DarkBand, H1, H2, P, Ticks } from './blocks'
 import { PayrollMatchVisual, ReconcileMathVisual, StatementImportVisual, SuggestionsVisual } from './visuals'
+import { FaqSection } from './Faq'
 
 const STEPS = [
   { t: 'Add your accounts', d: 'Checking and savings, for each business. Give each an opening balance as of a date.' },
@@ -185,6 +186,8 @@ export function BankingPage() {
           </Reveal>
         </Wrap>
       </section>
+
+      <FaqSection ids={['bank', 'files', 'fileKept', 'reconcile', 'difference', 'undoBank', 'liveFeed']} />
 
       <section className="relative overflow-hidden py-28 text-center sm:py-36" style={{ background: panel.bg }}>
         <Wrap className="relative">

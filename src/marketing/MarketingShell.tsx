@@ -268,6 +268,7 @@ function Footer({ signedIn }: { signedIn: boolean }) {
             <li><Link to="/features/budgets" className={fl}>Budgets</Link></li>
             <li><Link to="/features/banking" className={fl}>Banking</Link></li>
             <li><Link to="/security" className={fl}>Security</Link></li>
+            <li><Link to="/faq" className={fl}>FAQ</Link></li>
           </FooterCol>
           <FooterCol title="Account">
             <li><Link to={signedIn ? '/' : '/signin'} className={fl}>{signedIn ? 'Open the app' : 'Sign in'}</Link></li>

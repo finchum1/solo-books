@@ -5,6 +5,7 @@ import { RowDot, TickerTotal } from '../components/landing/primitives'
 import { Arrow, MkLink, Reveal, Shot, Wrap, usePageMeta } from './ui'
 import { DarkBand, H1, H2, H3, HeroGlow, P, Surface, Ticks } from './blocks'
 import { PayrollSample } from './PayrollSample'
+import { FaqSection } from './Faq'
 
 const SAMPLE_BUSINESSES = [
   { name: 'Riverside Landscaping', income: 16200, expenses: 8857 },
@@ -440,6 +441,7 @@ export function HomePage() {
       <Ritual />
       <Pocket />
       <Private />
+      <FaqSection ids={['what', 'notAccountant', 'bank', 'multiple', 'team', 'private']} tinted />
       <Close />
     </>
   )
