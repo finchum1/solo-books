@@ -1,5 +1,6 @@
 import { supabase } from './supabase'
 import { errMsg } from './errors'
+import { groupDifference } from './bankMatch'
 import type { BankLine, TxType } from './types'
 
 /**
@@ -41,6 +42,22 @@ export async function createMatch(args: {
     await supabase.from('bank_matches').delete().eq('id', matchId)
     throw fail(err, 'Could not save the match.')
   }
+}
+
+/** Re-derives a group's recorded difference (lines minus entries) from what is actually in it. */
+export async function recomputeDifference(matchId: string): Promise<number> {
+  const [l, e] = await Promise.all([
+    supabase.from('bank_transactions').select('amount').eq('match_id', matchId),
+    supabase.from('transactions').select('type,amount').eq('bank_match_id', matchId),
+  ])
+  if (l.error || e.error) throw fail(l.error ?? e.error, 'Could not update the match total.')
+  const diff = groupDifference(
+    (l.data ?? []).map((x) => ({ amount: Number(x.amount) })),
+    (e.data ?? []).map((x) => ({ type: x.type as TxType, amount: Number(x.amount) })),
+  )
+  const u = await supabase.from('bank_matches').update({ difference: diff }).eq('id', matchId)
+  if (u.error) throw fail(u.error, 'Could not update the match total.')
+  return diff
 }
 
 /** Takes a match group apart. Its lines go back to "to review". Optionally deletes the entries (when they were created from the line). */
@@ -124,5 +141,16 @@ export async function undoLine(line: Pick<BankLine, 'id' | 'status' | 'match_id'
     if (error) throw fail(error, 'Could not undo that transfer.')
     return
   }
-  if (line.match_id) return undoMatchGroup(line.match_id, line.status === 'imported')
+  if (line.match_id) {
+    // A group with several lines (a payroll run, say) loses just this line; the rest stay matched.
+    const others = await supabase.from('bank_transactions').select('id', { count: 'exact', head: true }).eq('match_id', line.match_id).neq('id', line.id)
+    if (others.error) throw fail(others.error, 'Could not undo that match.')
+    if ((others.count ?? 0) > 0) {
+      const r = await supabase.from('bank_transactions').update({ status: 'pending_review', match_id: null }).eq('id', line.id)
+      if (r.error) throw fail(r.error, 'Could not undo that match.')
+      await recomputeDifference(line.match_id)
+      return
+    }
+    return undoMatchGroup(line.match_id, line.status === 'imported')
+  }
 }

@@ -9,6 +9,10 @@ import { currentMonth, monthEnd, monthLabel, shiftMonth } from '../../lib/budget
 import { addDays, groupDifference, signedAmount, suggestMatches, suggestTransfers } from '../../lib/bankMatch'
 import type { MatchEntry, MatchLine, Suggestion, TransferPair } from '../../lib/bankMatch'
 import { addLineToLedger, createMatch, markTransfer, setIgnored, undoLine } from '../../lib/bankActions'
+import { suggestPayroll } from '../../lib/payrollMatch'
+import type { PayrollSuggestion } from '../../lib/payrollMatch'
+import { applyPayrollSuggestion, EMPTY_PAYROLL, loadPayrollContext } from '../../lib/payrollMatching'
+import type { PayrollContext } from '../../lib/payrollMatching'
 import type { BankAccount, BankLine, Transaction } from '../../lib/types'
 import { cardCls, fetchAllRows, fmtDate, ghostBtn, inputCls, money, primaryBtn } from './shared'
 
@@ -57,6 +61,7 @@ export function ReviewTab({
   const [lines, setLines] = useState<BankLine[]>([])
   const [others, setOthers] = useState<BankLine[]>([])
   const [entries, setEntries] = useState<Transaction[]>([])
+  const [payroll, setPayroll] = useState<PayrollContext>(EMPTY_PAYROLL)
   const [loading, setLoading] = useState(true)
   const [tick, setTick] = useState(0)
   const [selLines, setSelLines] = useState<Set<string>>(new Set())
@@ -94,7 +99,7 @@ export function ReviewTab({
         const from = month!
         const to = monthEnd(month!)
         const after = from > lockedThrough ? addDays(from, -1) : lockedThrough
-        const [l, o, e] = await Promise.all([
+        const [l, o, e, pr] = await Promise.all([
           fetchAllRows<BankLine>((a, b) =>
             supabase.from('bank_transactions').select('*').eq('bank_account_id', account.id).gt('posted_date', after).gte('posted_date', from).lte('posted_date', to).order('posted_date', { ascending: true }).order('id').range(a, b),
           ),
@@ -106,11 +111,14 @@ export function ReviewTab({
           fetchAllRows<Transaction>((a, b) =>
             supabase.from('transactions').select('*').eq('business_id', account.business_id).is('bank_match_id', null).gte('date', addDays(from, -10)).lte('date', addDays(to, 10)).order('date', { ascending: true }).order('id').range(a, b),
           ),
+          // Payroll suggestions are a bonus: if they can't load, the rest of Review still works.
+          loadPayrollContext(account.business_id, from, to).catch(() => EMPTY_PAYROLL),
         ])
         if (cancelled) return
         setLines(l)
         setOthers(o)
         setEntries(e)
+        setPayroll(pr)
         setError(null)
       } catch (err) {
         if (!cancelled) setError(errMsg(err, 'Failed to load this month.'))
@@ -124,12 +132,23 @@ export function ReviewTab({
     }
   }, [month, account.id, account.business_id, siblingAccountIds, lockedThrough, tick])
 
+  // A status message belongs to the month it was shown in.
+  useEffect(() => setNotice(null), [month])
+
   const todo = useMemo(() => lines.filter((l) => l.status === 'pending_review'), [lines])
   const reviewed = useMemo(() => lines.filter((l) => l.status !== 'pending_review'), [lines])
 
-  const suggestions = useMemo(() => suggestMatches(todo.map(toLine), entries.map(toEntry)), [todo, entries])
+  const payrollSuggestions = useMemo(
+    () => suggestPayroll({ runs: payroll.runs, lines: todo.map(toLine), remaining: payroll.remaining, lockedGroups: payroll.lockedGroups }),
+    [todo, payroll],
+  )
+  const payrollLineIds = useMemo(() => new Set(payrollSuggestions.map((s) => s.line.id)), [payrollSuggestions])
+  // A payroll piece is more specific than a one-to-one guess, so those lines are left to the payroll suggestions.
+  const suggestions = useMemo(() => suggestMatches(todo.filter((l) => !payrollLineIds.has(l.id)).map(toLine), entries.map(toEntry)), [todo, entries, payrollLineIds])
   const exact = suggestions.filter((s) => s.confidence === 'exact')
   const possible = suggestions.filter((s) => s.confidence === 'possible')
+  const payrollExact = payrollSuggestions.filter((s) => s.confidence === 'exact')
+  const payDateOf = (runId: string) => payroll.runs.find((r) => r.id === runId)?.payDate ?? ''
   const transfers = useMemo(
     () => suggestTransfers([...todo.map(toLine), ...others.map(toLine)]).filter((p) => p.out.accountId === account.id || p.into.accountId === account.id),
     [todo, others, account.id],
@@ -172,10 +191,15 @@ export function ReviewTab({
   const confirmSuggestion = (s: Suggestion) =>
     run(() => createMatch({ businessId: account.business_id, lineIds: [s.line.id], entryIds: [s.entry.id], difference: 0 }).then(() => undefined), 'Matched.')
 
+  const confirmPayroll = (s: PayrollSuggestion) =>
+    run(() => applyPayrollSuggestion({ businessId: account.business_id, lineId: s.line.id, runIds: s.runIds }), 'Matched to the payroll run.')
+
+  const sureCount = exact.length + payrollExact.length
   const confirmAllExact = () =>
     run(async () => {
       for (const s of exact) await createMatch({ businessId: account.business_id, lineIds: [s.line.id], entryIds: [s.entry.id], difference: 0 })
-    }, `Matched ${exact.length} line${exact.length === 1 ? '' : 's'}.`)
+      for (const s of payrollExact) await applyPayrollSuggestion({ businessId: account.business_id, lineId: s.line.id, runIds: s.runIds })
+    }, `Matched ${sureCount} line${sureCount === 1 ? '' : 's'}.`)
 
   const confirmTransfer = (p: TransferPair) => run(() => markTransfer([p.out.id, p.into.id]), 'Marked as a transfer between your accounts.')
 
@@ -228,13 +252,13 @@ export function ReviewTab({
         </p>
       )}
 
-      {(suggestions.length > 0 || transfers.length > 0) && (
+      {(suggestions.length > 0 || transfers.length > 0 || payrollSuggestions.length > 0) && (
         <section className={cardCls}>
           <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
             <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100">Suggestions</h3>
-            {exact.length > 1 && (
+            {sureCount > 1 && (
               <button type="button" disabled={busy} onClick={confirmAllExact} className={primaryBtn}>
-                Match all {exact.length} sure matches
+                Match all {sureCount} sure matches
               </button>
             )}
           </div>
@@ -255,6 +279,20 @@ export function ReviewTab({
                 </button>
               </li>
             ))}
+            {payrollSuggestions.map((s) => (
+              <li key={s.line.id} className="py-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+                <div className="flex-1 min-w-[14rem]">
+                  <div className="text-slate-800 dark:text-slate-200">{lineLabel(s.line)}</div>
+                  <div className="text-xs text-slate-500 dark:text-slate-400">
+                    ↔ Payroll of {s.runIds.map((id) => fmtDate(payDateOf(id))).join(' and ')}: {s.label}
+                  </div>
+                </div>
+                <span className={`text-xs ${s.confidence === 'exact' ? 'text-emerald-700 dark:text-emerald-400' : 'text-amber-700 dark:text-amber-400'}`}>{s.confidence === 'exact' ? 'Sure' : 'Possible'}</span>
+                <button type="button" disabled={busy} onClick={() => confirmPayroll(s)} className={ghostBtn}>
+                  Match
+                </button>
+              </li>
+            ))}
             {transfers.map((p) => (
               <li key={`${p.out.id}-${p.into.id}`} className="py-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
                 <div className="flex-1 min-w-[14rem]">
@@ -269,6 +307,23 @@ export function ReviewTab({
                 <button type="button" disabled={busy} onClick={() => confirmTransfer(p)} className={ghostBtn}>
                   Mark transfer
                 </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {payroll.partial.length > 0 && (
+        <section className={cardCls}>
+          <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100 mb-1">Payroll still being matched</h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">These runs have some of their cash found in your statements. The rest is usually tax deposits that haven't cleared yet.</p>
+          <ul className="divide-y divide-slate-200 dark:divide-slate-800">
+            {payroll.partial.map((p) => (
+              <li key={p.key} className="py-2.5 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-sm">
+                <span className="text-slate-800 dark:text-slate-200">Payroll of {p.payDates.map((d) => fmtDate(d)).join(' and ')}</span>
+                <span className="text-slate-600 dark:text-slate-300 tabular-nums">
+                  {money(p.covered)} of {money(p.total)} matched · <strong className="text-amber-700 dark:text-amber-400">{money(p.remaining)} still to find</strong>
+                </span>
               </li>
             ))}
           </ul>

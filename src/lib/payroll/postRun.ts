@@ -1,6 +1,7 @@
 import { supabase } from '../supabase'
 import type { PayrollRun } from '../types'
 import type { PayStubResult } from './calc'
+import { undoMatchGroup } from '../bankActions'
 
 export const WAGES_CATEGORY = 'Payroll Wages'
 export const EMPLOYER_TAXES_CATEGORY = 'Payroll Taxes (Employer)'
@@ -134,6 +135,14 @@ export async function savePayrollRun(args: {
 
 /** Deletes a run, its pay stubs (cascade), and the two ledger rows it created. */
 export async function deletePayrollRun(run: PayrollRun) {
+  // If the run's entries were matched to bank lines, release those lines first so they go back to "to review"
+  // instead of staying matched to an entry that no longer exists.
+  const entryIds = [run.wage_transaction_id, run.tax_transaction_id].filter((x): x is string => !!x)
+  if (entryIds.length) {
+    const { data, error: mErr } = await supabase.from('transactions').select('bank_match_id').in('id', entryIds).not('bank_match_id', 'is', null)
+    if (mErr) throw mErr
+    for (const g of new Set((data ?? []).map((r) => r.bank_match_id as string))) await undoMatchGroup(g)
+  }
   const { error } = await supabase.from('payroll_runs').delete().eq('id', run.id)
   if (error) throw error
   const txIds = [run.wage_transaction_id, run.tax_transaction_id].filter((x): x is string => !!x)
