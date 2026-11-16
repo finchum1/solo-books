@@ -104,6 +104,12 @@ viewed on screen, or exported as a clean PDF to hand to an accountant or keep fo
   slider) and /features/banking, linked from the header (NEW badges), footer, /features and the home page. The header's desktop nav
   switches to the menu below 1024px because five links no longer fit. The Banking page is deliberately NOT called "bank feeds":
   nothing connects to a bank, and it says so.
+- **App shell (2026-11-16)**: the desktop sidebar is a collapsible drawer modeled on The Agency Dashboard's: open (208-340px, drag the
+  right edge; default 240) or a 64px icon rail with hover name tags and a More popover; chevron or double-click on the edge toggles;
+  width remembered in localStorage (solobooks-nav). The user block at the bottom (headshot or initials + name) opens Settings, whose
+  first tab is Profile (headshot with drag/zoom cropper, name, theme, change password, sign out); Businesses and Categories follow.
+  The phone header shows the headshot instead of the gear. The photo is a 320px JPEG in the private `avatars` bucket (one folder per
+  user id, migration 0016), its path and the display name in auth user_metadata (avatar_path, full_name); shown via signed links.
 - **Planned next**: an optional live bank feed; auto-categorization rules; credit cards and loans are not supported yet.
 - **Public site (rebuilt 2026-11-12)**: real pages at /, /features, /features/payroll, /security, /signin,
   /signup, /privacy, /terms with a light/dark toggle, a floating liquid-glass pill header, and a footer that

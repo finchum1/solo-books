@@ -63,7 +63,7 @@ function App() {
     <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950">
       <Sidebar session={session} />
       <div className="flex min-w-0 flex-1 flex-col">
-        <MobileHeader />
+        <MobileHeader session={session} />
         <main className="min-w-0 flex-1 pb-20 md:pb-0">
           <Routes>
             <Route path="/" element={<HomePage />} />
