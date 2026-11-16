@@ -12,6 +12,7 @@ export interface NavItem {
 export const NAV: NavItem[] = [
   { to: '/', label: 'Home', end: true },
   { to: '/ledger', label: 'Ledger', end: false },
+  { to: '/budget', label: 'Budget', end: false, moreOnMobile: true },
   { to: '/contractors', label: 'Contractors', end: false, moreOnMobile: true },
   { to: '/clients', label: 'Clients', end: false, moreOnMobile: true },
   { to: '/payroll', label: 'Payroll', end: false },

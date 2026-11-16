@@ -14,6 +14,7 @@ import { SettingsPage } from './pages/SettingsPage'
 import { ContractorsPage } from './pages/ContractorsPage'
 import { ClientsPage } from './pages/ClientsPage'
 import { PayrollPage } from './pages/PayrollPage'
+import { BudgetPage } from './pages/BudgetPage'
 
 // Read once, at import time: a password-reset email link lands here with
 // `#...&type=recovery` in the URL, and supabase-js strips that hash as soon as
@@ -68,6 +69,7 @@ function App() {
             <Route path="/ledger" element={<LedgerPage />} />
             <Route path="/contractors" element={<ContractorsPage />} />
             <Route path="/clients" element={<ClientsPage />} />
+            <Route path="/budget" element={<BudgetPage />} />
             <Route path="/payroll" element={<PayrollPage />} />
             <Route path="/banking" element={<Navigate to="/" replace />} />
             <Route path="/reports" element={<ReportsPage />} />

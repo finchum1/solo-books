@@ -82,6 +82,11 @@ viewed on screen, or exported as a clean PDF to hand to an accountant or keep fo
   and employer taxes post to the ledger as two expenses; Payroll report with quarterly 941/940 totals and W-2
   box totals. **Calculates and records only**: it does not pay anyone, deposit taxes, or file; Oklahoma only; no
   pre-tax deductions or garnishments yet; never stores SSNs or bank details.
+- **Budget (added 2026-11-15)**: its own top-level module at /budget (not a Reports tab). Monthly spending limits and income
+  targets per business and category, compared with the live ledger; copy-last-month, fill-from-3-month-average and
+  apply-to-rest-of-year helpers; an all-businesses roll-up that is view-only. Table `budgets` (owner-scoped).
+- **Planned next (decided 2026-11-15)**: bank accounts for checking and savings only (no credit cards or loans yet), CSV/OFX
+  import, and reconciliation once a month against the statement, for every signed-up user, then an optional live feed.
 - **Public site (rebuilt 2026-11-12)**: real pages at /, /features, /features/payroll, /security, /signin,
   /signup, /privacy, /terms with a light/dark toggle, a floating liquid-glass pill header, and a footer that
   ends in a full-width "SOLO BOOKS" wordmark. Sign-up is open, email confirmation off, password reset by email
