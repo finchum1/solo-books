@@ -3,6 +3,8 @@ import { MarketingShell } from './MarketingShell'
 import { HomePage } from './HomePage'
 import { FeaturesPage } from './FeaturesPage'
 import { PayrollFeaturePage } from './PayrollFeaturePage'
+import { BudgetsPage } from './BudgetsPage'
+import { BankingPage } from './BankingPage'
 import { SecurityPage } from './SecurityPage'
 import { AuthPage } from './AuthPage'
 import { PrivacyPage, TermsPage } from '../pages/LegalPages'
@@ -19,6 +21,8 @@ export function PublicSite({ signedIn = false }: { signedIn?: boolean }) {
         <Route path="/" element={<HomePage />} />
         <Route path="/features" element={<FeaturesPage />} />
         <Route path="/features/payroll" element={<PayrollFeaturePage />} />
+        <Route path="/features/budgets" element={<BudgetsPage />} />
+        <Route path="/features/banking" element={<BankingPage />} />
         <Route path="/security" element={<SecurityPage />} />
         <Route path="/signin" element={<AuthPage mode="signin" />} />
         <Route path="/signup" element={<AuthPage mode="signup" />} />

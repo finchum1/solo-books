@@ -204,7 +204,7 @@ export function AuthPage({ mode }: { mode: Mode }) {
           </H1>
           <Ticks
             className="mt-8"
-            items={['A ledger for one business or several', 'Receipts attached to the expense they belong to', 'Contractor, client and Profit & Loss reports as PDFs', 'Payroll for your W-2 employees, built in']}
+            items={['Bookkeeping for one business or several', 'Receipts attached to the expense they belong to', 'Contractor, client and Profit & Loss reports as PDFs', 'Payroll for your W-2 employees, built in']}
           />
         </Reveal>
         <Reveal delay={0.08}>

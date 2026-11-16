@@ -19,9 +19,9 @@ function Hero() {
       <HeroGlow />
       <Wrap className="relative text-center">
         <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}>
-          <H1 className="mx-auto max-w-4xl">One ledger for every business you run.</H1>
+          <H1 className="mx-auto max-w-4xl">Bookkeeping made easy.</H1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed sm:text-xl" style={{ color: panel.inkDim }}>
-            Books, receipts, budgets, bank reconciliation and payroll. Private to your account, whether you run one business or several.
+            Track income and expenses, keep receipts, set budgets, match your bank statements and run payroll. All in one private place, for one business or several.
           </p>
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
             <MkLink to="/signup" size="lg">
@@ -36,7 +36,7 @@ function Hero() {
 
       <Wrap className="relative mt-14 sm:mt-20" width="max-w-5xl">
         <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }} className="relative">
-          <Shot name="ledger" priority alt="The Solo Books ledger: an add-transaction form with a receipt drop zone above a table of recent income and expenses across several businesses" />
+          <Shot name="ledger" priority alt="The Solo Books Ledger page: an add-transaction form with a receipt drop zone above a table of recent income and expenses across several businesses" />
           {/* Product, not decoration: what recording a payroll looks like. */}
           <motion.div
             initial={{ opacity: 0, y: 16, scale: 0.96 }}
@@ -147,7 +147,7 @@ function Tiles() {
                 <H3>Log it in seconds. Drag the receipt on.</H3>
                 <P className="mt-3">Income and expenses go in against the right business. Drop a photo or PDF of the receipt onto an expense; it&rsquo;s stored privately and opened later through a short-lived link.</P>
               </div>
-              <TileShot name="ledger" alt="The ledger's add-transaction form and recent transactions table" />
+              <TileShot name="ledger" alt="The Ledger page's add-transaction form and recent transactions table" />
             </Surface>
           </Reveal>
           <Reveal delay={0.08} className="lg:col-span-2">
@@ -220,8 +220,11 @@ function BanksBand() {
         <div className="mt-16 grid items-center gap-12 lg:grid-cols-[1fr_1.3fr] lg:gap-16">
           <Reveal>
             <H3>Know what’s left to spend.</H3>
-            <P className="mt-3">Set a monthly limit for each category and a target for each income stream. Bars show where you stand against your ledger, and turn from on track to over before the month is.</P>
+            <P className="mt-3">Set a monthly limit for each category and a target for each income stream. Bars show where you stand against what you have recorded, and turn from on track to over before the month is.</P>
             <Ticks className="mt-6" items={['Copy last month, or fill from your 3-month average', 'One budget per business, with a combined view']} />
+            <MkLink to="/features/budgets" kind="outline" className="mt-8">
+              How budgets work <Arrow />
+            </MkLink>
           </Reveal>
           <Reveal delay={0.08}>
             <Shot name="budget" alt="The Budget screen: monthly limits by category with bars showing what has been spent" />
@@ -230,7 +233,7 @@ function BanksBand() {
 
         <div className="mt-24 grid items-center gap-12 lg:grid-cols-[1.3fr_1fr] lg:gap-16 sm:mt-32">
           <Reveal className="relative order-2 lg:order-1">
-            <Shot name="banking" alt="The Review screen: suggested matches between bank statement lines and ledger entries" />
+            <Shot name="banking" alt="The Review screen: suggested matches between bank statement lines and your records" />
             {/* Product, not decoration: what finishing a month looks like. */}
             <div className="mk-glass absolute -bottom-6 right-2 w-[17.5rem] rounded-2xl p-4 sm:-right-6 sm:bottom-10 sm:w-72">
               <div className="flex items-center justify-between">
@@ -254,14 +257,14 @@ function BanksBand() {
             </div>
           </Reveal>
           <Reveal delay={0.08} className="order-1 lg:order-2">
-            <H3>Your statement, matched to your ledger.</H3>
-            <P className="mt-3">Upload the file your bank lets you download. Each line is matched to the entry it belongs to, or added to your ledger in a click. Then once a month, enter the statement’s ending balance and finish at $0.00.</P>
+            <H3>Your bank statement, matched to your records.</H3>
+            <P className="mt-3">Upload the file your bank lets you download. Each line is matched to the entry it belongs to, or added in a click. Then once a month, enter the statement’s ending balance and finish at $0.00.</P>
             <Ticks
               className="mt-6"
               items={['CSV, OFX and QFX files, with duplicates skipped', 'Payroll lines recognized from your pay stubs', 'Months lock when you finish, so they stay right']}
             />
-            <MkLink to="/features" kind="outline" className="mt-8">
-              See how it works <Arrow />
+            <MkLink to="/features/banking" kind="outline" className="mt-8">
+              How banking works <Arrow />
             </MkLink>
           </Reveal>
         </div>
@@ -277,7 +280,7 @@ function PayrollBand() {
         <Reveal>
           <H2>Payroll for your W‑2 employees. Built in.</H2>
           <P className="mt-5">
-            Enter the hours, add a bonus if there is one, and see every withholding before you record it. Solo Books works out the taxes, writes the pay stubs and puts the cost in your ledger.
+            Enter the hours, add a bonus if there is one, and see every withholding before you record it. Solo Books works out the taxes, writes the pay stubs and puts the cost in your books.
           </P>
           <Ticks
             className="mt-7"
@@ -285,7 +288,7 @@ function PayrollBand() {
               'Federal, Social Security, Medicare and Oklahoma withholding on the 2026 tables',
               'Bonuses taxed the way you choose: flat rate or combined with regular pay',
               'Pay stubs as PDFs, with year-to-date totals',
-              'Wages and employer taxes post to your ledger on their own',
+              'Wages and employer taxes are recorded in your books on their own',
               'Quarterly and year-end totals ready for Forms 941, 940 and W-2',
             ]}
           />
@@ -309,7 +312,7 @@ function PayrollBand() {
 function Ritual() {
   const steps = [
     { t: 'Log what happened', d: 'Income, expenses and receipts, against the right business. A few minutes, once a week.' },
-    { t: 'Match your bank statement', d: 'Upload the statement, confirm the suggested matches, and add anything the ledger missed.' },
+    { t: 'Match your bank statement', d: 'Upload the statement, confirm the suggested matches, and add anything you hadn’t recorded.' },
     { t: 'Run payroll', d: 'Hours in, taxes worked out, stubs written, cost posted, and the bank lines found for you.' },
     { t: 'Reconcile and report', d: 'Finish the month at $0.00, then pull Profit & Loss for everything or one business as a PDF.' },
   ]
@@ -426,7 +429,7 @@ function Close() {
 }
 
 export function HomePage() {
-  usePageMeta('Solo Books: one ledger for every business you run', 'Bookkeeping, receipts, budgets, bank statement reconciliation and payroll for owner-operators. One private ledger for one business or several.')
+  usePageMeta('Solo Books: bookkeeping made easy', 'Bookkeeping for owner-operators: track income and expenses, keep receipts, set budgets, reconcile your bank statements and run payroll. One private place for one business or several.')
   return (
     <>
       <Hero />

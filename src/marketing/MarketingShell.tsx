@@ -9,7 +9,9 @@ import { FitWordmark, MkLink, Wrap, useIsDark } from './ui'
 
 const NAV = [
   { to: '/features', label: 'Features', end: true },
-  { to: '/features/payroll', label: 'Payroll', end: true, isNew: true },
+  { to: '/features/payroll', label: 'Payroll', end: true },
+  { to: '/features/budgets', label: 'Budgets', end: true, isNew: true },
+  { to: '/features/banking', label: 'Banking', end: true, isNew: true },
   { to: '/security', label: 'Security', end: true },
 ]
 
@@ -141,7 +143,7 @@ function Header({ signedIn }: { signedIn: boolean }) {
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-1 md:flex" aria-label="Main">
+          <nav className="hidden items-center gap-1 lg:flex" aria-label="Main">
             {NAV.map((n) => (
               <NavLink key={n.to} to={n.to} end={n.end} className={({ isActive }) => linkCls(isActive)} style={({ isActive }) => ({ color: isActive ? panel.goldText : panel.ink })}>
                 {n.label}
@@ -177,7 +179,7 @@ function Header({ signedIn }: { signedIn: boolean }) {
               onClick={() => setOpen((o) => !o)}
               aria-expanded={open}
               aria-label="Menu"
-              className="grid h-9 w-9 place-items-center rounded-full transition hover:bg-[color-mix(in_srgb,var(--mk-ink)_8%,transparent)] md:hidden"
+              className="grid h-9 w-9 place-items-center rounded-full transition hover:bg-[color-mix(in_srgb,var(--mk-ink)_8%,transparent)] lg:hidden"
               style={{ color: panel.ink }}
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
@@ -195,7 +197,7 @@ function Header({ signedIn }: { signedIn: boolean }) {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -8, scale: 0.98 }}
               transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="mk-glass mt-2 rounded-3xl p-2 md:hidden"
+              className="mk-glass mt-2 rounded-3xl p-2 lg:hidden"
             >
               {NAV.map((n) => (
                 <NavLink key={n.to} to={n.to} end={n.end} className="flex items-center justify-between rounded-2xl px-4 py-3 text-[15px] font-medium" style={({ isActive }) => ({ color: isActive ? panel.goldText : panel.ink })}>
@@ -252,7 +254,7 @@ function Footer({ signedIn }: { signedIn: boolean }) {
               <span className="text-2xl leading-none" style={{ fontFamily: brandFont }}>Solo Books</span>
             </div>
             <p className="mb-6 text-[15px] leading-relaxed" style={{ color: panel.inkDim }}>
-              Books, receipts, budgets, bank reconciliation and payroll. One private ledger for the business, or businesses, you run.
+              Books, receipts, budgets, bank reconciliation and payroll. Everything stays private to your account, for the business, or businesses, you run.
             </p>
             {!signedIn && (
               <MkLink to="/signup" size="sm">
@@ -263,6 +265,8 @@ function Footer({ signedIn }: { signedIn: boolean }) {
           <FooterCol title="Product">
             <li><Link to="/features" className={fl}>Features</Link></li>
             <li><Link to="/features/payroll" className={fl}>Payroll</Link></li>
+            <li><Link to="/features/budgets" className={fl}>Budgets</Link></li>
+            <li><Link to="/features/banking" className={fl}>Banking</Link></li>
             <li><Link to="/security" className={fl}>Security</Link></li>
           </FooterCol>
           <FooterCol title="Account">

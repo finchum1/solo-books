@@ -7,7 +7,7 @@ const STEPS = [
   { t: 'Set up each employee', d: 'Pay rate and pay frequency, plus the choices from their signed federal W-4 and Oklahoma OK-W-4.' },
   { t: 'Enter the hours and any bonus', d: 'Hourly staff get regular and overtime hours. Salaried staff fill in on their own.' },
   { t: 'Review every figure', d: 'Gross pay, each withholding, net pay and what you owe as the employer, all on screen before anything is saved.' },
-  { t: 'Record it', d: 'One confirmation saves the pay stubs and adds two expenses to your ledger: gross wages, and your share of payroll taxes.' },
+  { t: 'Record it', d: 'One confirmation saves the pay stubs and adds two expenses to your books: gross wages, and your share of payroll taxes.' },
   { t: 'Pay and deposit', d: 'You pay your people and make the tax deposits. Solo Books tells you exactly what the numbers are.' },
 ]
 
@@ -21,7 +21,7 @@ const TAXES: [string, string][] = [
 ]
 
 export function PayrollFeaturePage() {
-  usePageMeta('Payroll | Solo Books', 'Run payroll for W-2 employees: 2026 federal and Oklahoma withholding, bonuses, pay stubs, ledger posting and Form 941, 940 and W-2 totals.')
+  usePageMeta('Payroll | Solo Books', 'Run payroll for W-2 employees: 2026 federal and Oklahoma withholding, bonuses, pay stubs, automatic bookkeeping entries and Form 941, 940 and W-2 totals.')
   return (
     <>
       <DarkBand className="pb-24 pt-36 sm:pb-32 sm:pt-48">
@@ -29,7 +29,7 @@ export function PayrollFeaturePage() {
           <Reveal>
             <H1 style={{ fontSize: 'clamp(2.4rem, 5.4vw, 4.4rem)' }}>Payroll, built into your books.</H1>
             <P className="mt-6 text-lg">
-              Run payroll for your W-2 employees without a second system. Enter hours, add a bonus, and Solo Books works out the taxes, writes the pay stubs and records the cost in your ledger.
+              Run payroll for your W-2 employees without a second system. Enter hours, add a bonus, and Solo Books works out the taxes, writes the pay stubs and records the cost in your books.
             </P>
             <div className="mt-9 flex flex-wrap gap-3">
               <MkLink to="/signup" size="lg">
@@ -136,7 +136,7 @@ export function PayrollFeaturePage() {
                 'A pay stub PDF per employee, or all of a run at once, with year-to-date totals',
                 'Quarterly totals laid out for Forms 941 and 940',
                 'Yearly totals for each employee’s W-2 boxes',
-                'Gross wages and employer taxes post to your ledger, so your Profit & Loss includes payroll',
+                'Gross wages and employer taxes are recorded in your books, so your Profit & Loss includes payroll',
                 'When you import your bank statement, the net-pay lines and tax deposits are recognized from your pay stubs, ready for you to confirm',
               ]}
             />
