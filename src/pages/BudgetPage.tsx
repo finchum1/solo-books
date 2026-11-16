@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { fetchAllRows } from '../lib/fetchAll'
 import { supabase } from '../lib/supabase'
 import { useBusinesses } from '../lib/useBusinesses'
+import { useAccess } from '../lib/access'
 import { useCategories } from '../lib/useCategories'
 import { StatCard } from '../components/StatCard'
 import type { Budget, Transaction, TxType } from '../lib/types'
@@ -173,7 +174,8 @@ function Section({
 
 export function BudgetPage() {
   const { businesses } = useBusinesses()
-  const { categories } = useCategories()
+  const access = useAccess()
+  const { categories: allCategories, forBusiness } = useCategories()
   const [businessId, setBusinessId] = useState('')
   const [month, setMonth] = useState(currentMonth())
   const [budgets, setBudgets] = useState<Budget[]>([])
@@ -192,7 +194,7 @@ export function BudgetPage() {
   // Default to the first business (a budget belongs to one business); "all" is a read-only roll-up.
   const effectiveId = businessId || businesses.find((b) => b.is_active)?.id || businesses[0]?.id || ''
   const combined = effectiveId === 'all'
-  const editable = !combined && !!effectiveId
+  const editable = !combined && !!effectiveId && access.canWrite(effectiveId)
 
   const reload = useCallback(() => setReloadTick((n) => n + 1), [])
 
@@ -230,6 +232,8 @@ export function BudgetPage() {
     }
   }, [effectiveId, combined, month, reloadTick, dataKey])
 
+  // One business uses its own category list when it has one; the combined view lists every category it can see.
+  const categories = useMemo(() => (effectiveId === 'all' ? allCategories : forBusiness(effectiveId)), [allCategories, forBusiness, effectiveId])
   const expenseRows = useMemo(() => buildRows({ type: 'expense', month, budgets, transactions, categories }), [month, budgets, transactions, categories])
   const incomeRows = useMemo(() => buildRows({ type: 'income', month, budgets, transactions, categories }), [month, budgets, transactions, categories])
   const exp = useMemo(() => totals(expenseRows), [expenseRows])

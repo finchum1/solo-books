@@ -15,7 +15,7 @@ const TABS: { key: Tab; label: string }[] = [
 ]
 
 export function PayrollPage() {
-  const { businesses } = useBusinesses()
+  const { payroll: businesses } = useBusinesses() // only businesses whose payroll you may open
   const { employees, loading: empLoading, error: empError, refetch: refetchEmployees } = useEmployees()
   const { settings, refetch: refetchSettings } = usePayrollSettings()
   const { runs, loading: runsLoading, error: runsError, refetch: refetchRuns } = usePayrollRuns()

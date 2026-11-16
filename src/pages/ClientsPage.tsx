@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
 import { supabase } from '../lib/supabase'
 import { useBusinesses } from '../lib/useBusinesses'
+import { useAccess } from '../lib/access'
 import { useClients } from '../lib/useClients'
 import type { Client } from '../lib/types'
 
@@ -13,6 +14,7 @@ const emptyDetails = { email: '', phone: '', address: '' }
 
 export function ClientsPage() {
   const { businesses } = useBusinesses()
+  const access = useAccess()
   const { clients, loading, error: fetchError, refetch } = useClients()
   const [businessId, setBusinessId] = useState('')
   const [name, setName] = useState('')
@@ -145,6 +147,7 @@ export function ClientsPage() {
             ))}
           </select>
         </div>
+        {access.canWrite(businessId) ? (
         <form onSubmit={handleAdd} className="flex gap-2">
           <input
             type="text"
@@ -162,6 +165,9 @@ export function ClientsPage() {
             {saving ? 'Adding…' : 'Add'}
           </button>
         </form>
+        ) : (
+          <p className="text-sm text-slate-500 dark:text-slate-400">You have view-only access to this business, so you can look but not add or change people.</p>
+        )}
         {businesses.length === 0 && (
           <p className="text-xs text-amber-600 dark:text-amber-400 mt-3">
             Add a business in Settings before adding clients.
@@ -213,7 +219,8 @@ export function ClientsPage() {
                       )}
                     </div>
                   )}
-                  <div className="flex items-center gap-3 shrink-0">
+  {access.canWrite(businessId) && (
+                <div className="flex items-center gap-3 shrink-0">
                     {editingId === c.id ? (
                       <>
                         <button
@@ -258,6 +265,7 @@ export function ClientsPage() {
                       </>
                     )}
                   </div>
+)}
                 </div>
                 {detailsId === c.id && (
                   <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-2">

@@ -38,7 +38,7 @@ function summarize(stubs: PayStub[]) {
 }
 
 export function PayrollReportPage() {
-  const { businesses } = useBusinesses()
+  const { payroll: businesses } = useBusinesses() // only businesses whose payroll you may open
   const { stubs, loading, error } = usePayStubs()
   const [businessId, setBusinessId] = useState('')
   const [year, setYear] = useState(String(TAX_YEAR))

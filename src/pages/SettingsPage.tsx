@@ -1,15 +1,17 @@
 import { useState } from 'react'
 import type { Session } from '@supabase/supabase-js'
 import { ProfileTab } from '../components/settings/ProfileTab'
+import { TeamTab } from '../components/settings/TeamTab'
 import { BusinessesPage } from './BusinessesPage'
 import { CategoriesPage } from './CategoriesPage'
 
-type Tab = 'profile' | 'businesses' | 'categories'
+type Tab = 'profile' | 'businesses' | 'categories' | 'team'
 
 const TABS: { key: Tab; label: string }[] = [
   { key: 'profile', label: 'Profile' },
   { key: 'businesses', label: 'Businesses' },
   { key: 'categories', label: 'Categories' },
+  { key: 'team', label: 'Team' },
 ]
 
 export function SettingsPage({ session }: { session: Session }) {
@@ -36,7 +38,7 @@ export function SettingsPage({ session }: { session: Session }) {
         </div>
       </div>
 
-      {tab === 'profile' ? <ProfileTab session={session} /> : tab === 'businesses' ? <BusinessesPage /> : <CategoriesPage />}
+      {tab === 'profile' ? <ProfileTab session={session} /> : tab === 'businesses' ? <BusinessesPage /> : tab === 'categories' ? <CategoriesPage /> : <TeamTab />}
     </div>
   )
 }

@@ -16,16 +16,21 @@ export interface StubToSave {
 
 const sum = (xs: number[]) => Math.round(xs.reduce((a, b) => a + b, 0) * 100) / 100
 
-/** Make sure the two expense categories payroll posts to exist for this account (categories are per-owner). */
-async function ensureCategories() {
-  const { data, error } = await supabase.from('categories').select('name').eq('type', 'expense')
+/**
+ * Make sure the two expense categories payroll posts to exist in the list this business uses: its own shared list if it has one
+ * (so the whole team sees them), otherwise the person's personal list.
+ */
+async function ensureCategories(businessId: string) {
+  const { data, error } = await supabase.from('categories').select('name,business_id').eq('type', 'expense')
   if (error) throw error
-  const existing = new Set((data ?? []).map((c: { name: string }) => c.name))
+  const rows = (data ?? []) as { name: string; business_id: string | null }[]
+  const shared = rows.some((c) => c.business_id === businessId)
+  const existing = new Set(rows.filter((c) => (shared ? c.business_id === businessId : !c.business_id)).map((c) => c.name))
   const missing = [WAGES_CATEGORY, EMPLOYER_TAXES_CATEGORY].filter((n) => !existing.has(n))
   if (missing.length === 0) return
   const { error: insErr } = await supabase
     .from('categories')
-    .insert(missing.map((name, i) => ({ name, type: 'expense', sort_order: 900 + i })))
+    .insert(missing.map((name, i) => ({ name, type: 'expense', sort_order: 900 + i, business_id: shared ? businessId : null })))
   if (insErr) throw insErr
 }
 
@@ -50,7 +55,7 @@ export async function savePayrollRun(args: {
   const totalEmployerTaxes = sum(stubs.map((s) => s.result.totalEmployerTaxes))
   const description = `Payroll ${payDate} (${stubs.length} employee${stubs.length === 1 ? '' : 's'})`
 
-  await ensureCategories()
+  await ensureCategories(businessId)
 
   const createdTx: string[] = []
   let runId: string | null = null

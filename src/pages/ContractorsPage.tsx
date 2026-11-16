@@ -3,10 +3,12 @@ import type { FormEvent } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useBusinesses } from '../lib/useBusinesses'
+import { useAccess } from '../lib/access'
 import { useContractors } from '../lib/useContractors'
 
 export function ContractorsPage() {
   const { businesses } = useBusinesses()
+  const access = useAccess()
   const { contractors, loading, error: fetchError, refetch } = useContractors()
   const [searchParams, setSearchParams] = useSearchParams()
   const [businessId, setBusinessId] = useState('')
@@ -131,6 +133,7 @@ export function ContractorsPage() {
             ))}
           </select>
         </div>
+        {access.canWrite(businessId) ? (
         <form onSubmit={handleAdd} className="flex gap-2">
           <input
             ref={nameInputRef}
@@ -149,6 +152,9 @@ export function ContractorsPage() {
             {saving ? 'Adding…' : 'Add'}
           </button>
         </form>
+        ) : (
+          <p className="text-sm text-slate-500 dark:text-slate-400">You have view-only access to this business, so you can look but not add or change people.</p>
+        )}
         {businesses.length === 0 && (
           <p className="text-xs text-amber-600 dark:text-amber-400 mt-3">
             Add a business in Settings before adding contractors.
@@ -192,6 +198,7 @@ export function ContractorsPage() {
                     {c.name}
                   </span>
                 )}
+{access.canWrite(businessId) && (
                 <div className="flex items-center gap-3 shrink-0">
                   {editingId === c.id ? (
                     <>
@@ -231,6 +238,7 @@ export function ContractorsPage() {
                     </>
                   )}
                 </div>
+)}
               </li>
             ))}
           </ul>

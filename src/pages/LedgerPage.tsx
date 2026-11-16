@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
 import { supabase } from '../lib/supabase'
 import { useBusinesses } from '../lib/useBusinesses'
+import { useAccess } from '../lib/access'
 import { useCategories } from '../lib/useCategories'
 import { useContractors } from '../lib/useContractors'
 import { useClients } from '../lib/useClients'
@@ -32,8 +33,9 @@ const emptyForm = {
 const PAGE = 200
 
 export function LedgerPage() {
-  const { businesses, loading: businessesLoading } = useBusinesses()
-  const { categories } = useCategories()
+  const { businesses, writable, loading: businessesLoading } = useBusinesses()
+  const access = useAccess()
+  const { forBusiness } = useCategories()
   const { contractors } = useContractors()
   const { clients } = useClients()
   const [transactions, setTransactions] = useState<Transaction[]>([])
@@ -52,7 +54,9 @@ export function LedgerPage() {
   const [filterBusiness, setFilterBusiness] = useState('all')
   const [filterType, setFilterType] = useState<'all' | TxType>('all')
 
-  const activeBusinesses = useMemo(() => businesses.filter((b) => b.is_active), [businesses])
+  // Only businesses you can add to are offered in the entry form; the list below shows everything you can see.
+  const activeBusinesses = useMemo(() => writable.filter((b) => b.is_active), [writable])
+  const viewOnly = !businessesLoading && businesses.length > 0 && writable.length === 0
 
   useEffect(() => {
     if (!form.business_id && activeBusinesses.length > 0) {
@@ -115,8 +119,8 @@ export function LedgerPage() {
   const businessName = (id: string) => businesses.find((b) => b.id === id)?.name ?? '—'
 
   const categoryOptions = useMemo(
-    () => categories.filter((c) => c.type === form.type && c.is_active).map((c) => c.name),
-    [categories, form.type],
+    () => forBusiness(form.business_id).filter((c) => c.type === form.type && c.is_active).map((c) => c.name),
+    [forBusiness, form.business_id, form.type],
   )
 
   const contractorOptions = useMemo(
@@ -229,6 +233,11 @@ export function LedgerPage() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8 space-y-8">
+      {viewOnly ? (
+        <p className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 px-4 py-3 text-sm text-slate-600 dark:text-slate-300">
+          You have view-only access, so you can read the books but not add or change entries.
+        </p>
+      ) : (
       <section className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
         <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-4">
           {form.id ? 'Edit transaction' : 'Add transaction'}
@@ -424,6 +433,7 @@ export function LedgerPage() {
           </p>
         )}
       </section>
+      )}
 
       <section className="bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">
         <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
@@ -517,6 +527,7 @@ export function LedgerPage() {
                       {tx.amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                     </td>
                     <td className="py-2 pr-3 text-right whitespace-nowrap">
+                      {access.canWrite(tx.business_id) && (<>
                       <button
                         onClick={() => startEdit(tx)}
                         className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 text-xs mr-3"
@@ -529,6 +540,7 @@ export function LedgerPage() {
                       >
                         Delete
                       </button>
+                      </>)}
                     </td>
                   </tr>
                 ))}

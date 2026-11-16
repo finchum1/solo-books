@@ -2,6 +2,8 @@ export type TxType = 'income' | 'expense'
 
 export interface Business {
   id: string
+  /** Who created it. Someone else's id means you are on its team. */
+  owner_id?: string
   name: string
   is_active: boolean
   sort_order: number
@@ -17,6 +19,8 @@ export interface Business {
 
 export interface Category {
   id: string
+  /** Set when the category belongs to one business's shared list; null for your personal list. */
+  business_id?: string | null
   name: string
   type: TxType
   is_active: boolean

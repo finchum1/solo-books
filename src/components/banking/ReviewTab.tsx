@@ -52,7 +52,7 @@ export function ReviewTab({
   startMonth?: string
   onChanged: () => void
 }) {
-  const { categories } = useCategories()
+  const { forBusiness } = useCategories()
   const { contractors } = useContractors()
   const { clients } = useClients()
 
@@ -212,7 +212,7 @@ export function ReviewTab({
   if (!month) return <p className="text-sm text-slate-500 dark:text-slate-400">Loading…</p>
 
   const lineLabel = (l: MatchLine) => `${fmtDate(l.date)} ${l.description || 'statement line'} ${money(l.amount)}`
-  const catOptions = (type: 'income' | 'expense') => categories.filter((c) => c.type === type && c.is_active).map((c) => c.name)
+  const catOptions = (type: 'income' | 'expense') => forBusiness(account.business_id).filter((c) => c.type === type && c.is_active).map((c) => c.name)
 
   return (
     <div className="space-y-5">

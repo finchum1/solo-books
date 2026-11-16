@@ -3,9 +3,11 @@ import type { FormEvent } from 'react'
 import { supabase } from '../lib/supabase'
 import { useBusinesses } from '../lib/useBusinesses'
 import { BusinessProfileEditor } from '../components/BusinessProfileEditor'
+import { ROLE_LABEL, useAccess } from '../lib/access'
 
 export function BusinessesPage() {
   const { businesses, loading, error: fetchError, refetch } = useBusinesses()
+  const access = useAccess()
   const [name, setName] = useState('')
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -135,6 +137,11 @@ export function BusinessesPage() {
                       {b.name}
                     </span>
                   )}
+                  {access.roleOf(b.id) && access.roleOf(b.id) !== 'owner' && (
+                    <span className="shrink-0 rounded-full bg-slate-200 dark:bg-slate-800 px-2 py-0.5 text-[11px] font-medium text-slate-600 dark:text-slate-300">
+                      Shared with you · {ROLE_LABEL[access.roleOf(b.id)!]}
+                    </span>
+                  )}
                   <div className="flex items-center gap-3 shrink-0">
                     {editingId === b.id ? (
                       <>
@@ -151,7 +158,7 @@ export function BusinessesPage() {
                           Cancel
                         </button>
                       </>
-                    ) : (
+                    ) : !access.canManage(b.id) ? null : (
                       <>
                         <button
                           onClick={() =>
@@ -173,12 +180,14 @@ export function BusinessesPage() {
                         >
                           {b.is_active ? 'Deactivate' : 'Reactivate'}
                         </button>
+                        {access.roleOf(b.id) === 'owner' && (
                         <button
                           onClick={() => handleDelete(b.id, b.name)}
                           className="text-xs text-slate-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400"
                         >
                           Delete
                         </button>
+                        )}
                       </>
                     )}
                   </div>

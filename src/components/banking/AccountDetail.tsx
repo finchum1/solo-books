@@ -16,6 +16,7 @@ export function AccountDetail({
   summary,
   business,
   businesses,
+  readOnly = false,
   onBack,
   onChanged,
 }: {
@@ -23,6 +24,8 @@ export function AccountDetail({
   summary: BankAccountSummary | undefined
   business: Business | undefined
   businesses: Business[]
+  /** A view-only teammate can look at the account and its lines but not change anything. */
+  readOnly?: boolean
   onBack: () => void
   onChanged: () => void
 }) {
@@ -219,14 +222,16 @@ export function AccountDetail({
               {account.mask ? ` · ending ${account.mask}` : ''}
             </p>
           </div>
-          <div className="flex flex-wrap gap-2">
-            <button type="button" onClick={() => { setNotice(null); setMode('import') }} className={primaryBtn}>
-              Import statement
-            </button>
-            <button type="button" onClick={() => setMode('edit')} className={ghostBtn}>
-              Edit
-            </button>
-          </div>
+          {!readOnly && (
+            <div className="flex flex-wrap gap-2">
+              <button type="button" onClick={() => { setNotice(null); setMode('import') }} className={primaryBtn}>
+                Import statement
+              </button>
+              <button type="button" onClick={() => setMode('edit')} className={ghostBtn}>
+                Edit
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -271,7 +276,7 @@ export function AccountDetail({
             ['review', toReview > 0 ? `Review (${toReview.toLocaleString()})` : 'Review'],
             ['reconcile', 'Reconcile'],
           ] as const
-        ).map(([id, label]) => (
+        ).filter(([id]) => !readOnly || id === 'lines').map(([id, label]) => (
           <button
             key={id}
             type="button"
@@ -341,20 +346,20 @@ export function AccountDetail({
                     {imp.lines_skipped > 0 && `, ${imp.lines_skipped} skipped`} · {fmtDate(imp.first_date)} to {fmtDate(imp.last_date)} · imported {fmtDate(imp.created_at.slice(0, 10))}
                   </div>
                 </div>
-                <button type="button" disabled={busyImport === imp.id} onClick={() => undoImport(imp)} className="text-xs text-slate-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 disabled:opacity-60">
+                {!readOnly && <button type="button" disabled={busyImport === imp.id} onClick={() => undoImport(imp)} className="text-xs text-slate-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 disabled:opacity-60">
                   Undo import
-                </button>
+                </button>}
               </li>
             ))}
           </ul>
         </section>
       )}
 
-      <div className="text-right">
+      {!readOnly && <div className="text-right">
         <button type="button" onClick={deleteAccount} className="text-xs text-slate-400 hover:text-rose-600 dark:hover:text-rose-400">
           Delete this account
         </button>
-      </div>
+      </div>}
     </div>
   )
 }

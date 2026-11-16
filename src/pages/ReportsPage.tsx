@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useAccess } from '../lib/access'
 import { PLReportPage } from './PLReportPage'
 import { ContractorReportPage } from './ContractorReportPage'
 import { ClientReportPage } from './ClientReportPage'
@@ -15,13 +16,15 @@ const TABS: { key: Tab; label: string }[] = [
 
 export function ReportsPage() {
   const [tab, setTab] = useState<Tab>('pl')
+  const access = useAccess()
+  const tabs = TABS.filter((t) => t.key !== 'payroll' || !access.ready || access.payrollIds.length > 0)
 
   return (
     <div>
       <div className="max-w-5xl mx-auto px-4 pt-8">
         <h1 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-4">Reports</h1>
         <div className="flex gap-1 border-b border-slate-200 dark:border-slate-800 mb-6 overflow-x-auto whitespace-nowrap">
-          {TABS.map((t) => (
+          {tabs.map((t) => (
             <button
               key={t.key}
               onClick={() => setTab(t.key)}

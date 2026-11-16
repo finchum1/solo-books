@@ -16,6 +16,9 @@ import { ClientsPage } from './pages/ClientsPage'
 import { PayrollPage } from './pages/PayrollPage'
 import { BudgetPage } from './pages/BudgetPage'
 import { BankingPage } from './pages/BankingPage'
+import { AccessProvider } from './lib/access'
+import { JoinPage } from './pages/JoinPage'
+import { pendingInvite } from './lib/team'
 
 // Read once, at import time: a password-reset email link lands here with
 // `#...&type=recovery` in the URL, and supabase-js strips that hash as soon as
@@ -43,6 +46,10 @@ function App() {
   // Privacy and Terms are public pages: reachable signed in or out, so they can be linked from anywhere.
   if (pathname === '/privacy' || pathname === '/terms') return <PublicSite signedIn={!!session} />
 
+  // An invitation link works whether or not you are signed in.
+  const join = pathname.match(/^\/join\/([A-Za-z0-9]+)\/?$/)
+  if (join && checked) return <JoinPage token={join[1]} session={session} />
+
   if (!checked) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 text-slate-500 dark:text-slate-400 text-sm">
@@ -55,11 +62,16 @@ function App() {
     return <PublicSite />
   }
 
+  // Signed up or in from an invitation link: carry on to it.
+  const waiting = pendingInvite.get()
+  if (waiting && !recovering) return <Navigate to={`/join/${waiting}`} replace />
+
   if (recovering) {
     return <ResetPassword onDone={() => setRecovering(false)} />
   }
 
   return (
+    <AccessProvider userId={session.user.id}>
     <div className="flex min-h-screen bg-slate-50 dark:bg-slate-950">
       <Sidebar session={session} />
       <div className="flex min-w-0 flex-1 flex-col">
@@ -84,6 +96,7 @@ function App() {
         <MobileNav />
       </div>
     </div>
+    </AccessProvider>
   )
 }
 

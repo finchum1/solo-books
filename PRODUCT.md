@@ -110,6 +110,15 @@ viewed on screen, or exported as a clean PDF to hand to an accountant or keep fo
   first tab is Profile (headshot with drag/zoom cropper, name, theme, change password, sign out); Businesses and Categories follow.
   The phone header shows the headshot instead of the gear. The photo is a 320px JPEG in the private `avatars` bucket (one folder per
   user id, migration 0016), its path and the display name in auth user_metadata (avatar_path, full_name); shown via signed links.
+- **Teams (built 2026-11-16, see supabase/migrations/0017_team_access.sql)**: several logins can share one business. Roles: owner (creator),
+  admin (all + manage people), bookkeeper (everything incl. payroll, no people), view-only (read, no payroll/pay stubs, can't change
+  anything). Access follows the business (business_id), not the creator; owner_id stays "created by". Join by invite link
+  (business_invites.token, single use, 7 days; sign-up doesn't verify email so the secret link, not the address, grants access):
+  Settings > Team creates it and api/send-invite.js emails it via Resend (needs RESEND_API_KEY in Vercel; without it the UI shows a
+  copy-link fallback). /join/<token> works signed in or out (pending token kept in localStorage 'pendingInvite'). Categories can be
+  shared per business (categories.business_id; a business with its own list uses only that list, else the person's personal list).
+  Roles are enforced by RLS via readable/writable/managed_business_ids(); src/lib/access.tsx only hides what would fail. Privacy policy
+  updated to say invited teammates can see a business's records.
 - **Planned next**: an optional live bank feed; auto-categorization rules; credit cards and loans are not supported yet.
 - **Public site (rebuilt 2026-11-12)**: real pages at /, /features, /features/payroll, /security, /signin,
   /signup, /privacy, /terms with a light/dark toggle, a floating liquid-glass pill header, and a footer that

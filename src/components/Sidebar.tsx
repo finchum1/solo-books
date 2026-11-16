@@ -11,6 +11,7 @@ import { MoreIcon, NavIcon } from './NavIcons'
 import { BrandMark } from './BrandMark'
 import { Avatar } from './Avatar'
 import { profileOf } from '../lib/profile'
+import { useAccess } from '../lib/access'
 
 /**
  * The desktop sidebar is a drawer. Open, it is a menu with labels, 208 to 340px wide (drag its right edge). Closed, it is a
@@ -35,7 +36,7 @@ function readNav(): { open: boolean; px: number } {
   return { open: true, px: DEFAULT_OPEN_PX }
 }
 
-const TOP = NAV.filter((n) => !n.inMoreFolder)
+const ALL_TOP = NAV.filter((n) => !n.inMoreFolder)
 const FOLDER = NAV.filter((n) => n.inMoreFolder)
 
 const linkCls = (isActive: boolean) =>
@@ -155,6 +156,9 @@ const SignOutIcon = () => (
 export function Sidebar({ session }: { session: Session }) {
   const { pathname } = useLocation()
   const me = profileOf(session.user)
+  const access = useAccess()
+  // Payroll is hidden from someone who may not open any business's payroll (a view-only teammate).
+  const TOP = ALL_TOP.filter((n) => n.to !== '/payroll' || !access.ready || access.payrollIds.length > 0)
   const [nav, setNav] = useState(readNav) // open or closed, and how wide it is when open
   const [live, setLive] = useState<number | null>(null) // its width while the edge is being dragged
   const drag = useRef<{ x: number; w: number; moved: boolean; samples: { x: number; t: number }[] } | null>(null)

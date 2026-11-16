@@ -3,8 +3,9 @@ import { NavLink, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { NAV } from '../lib/nav'
 import { MoreIcon, NavIcon } from './NavIcons'
+import { useAccess } from '../lib/access'
 
-const PRIMARY = NAV.filter((n) => !n.moreOnMobile)
+const ALL_PRIMARY = NAV.filter((n) => !n.moreOnMobile)
 const MORE = NAV.filter((n) => n.moreOnMobile)
 
 const TAB =
@@ -25,6 +26,8 @@ const IDLE = 'text-slate-500 dark:text-slate-400'
  */
 export function MobileNav() {
   const { pathname } = useLocation()
+  const access = useAccess()
+  const PRIMARY = ALL_PRIMARY.filter((n) => n.to !== '/payroll' || !access.ready || access.payrollIds.length > 0)
   const [open, setOpen] = useState(false)
   const moreActive = MORE.some((n) => pathname === n.to || pathname.startsWith(`${n.to}/`))
 

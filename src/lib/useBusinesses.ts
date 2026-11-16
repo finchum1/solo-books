@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useState } from 'react'
 import { supabase } from './supabase'
 import type { Business } from './types'
+import { useAccess } from './access'
 
 export function useBusinesses() {
+  const access = useAccess()
   const [businesses, setBusinesses] = useState<Business[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -29,5 +31,8 @@ export function useBusinesses() {
     refetch()
   }, [refetch])
 
-  return { businesses, loading, error, refetch }
+  // Everything you can SEE is in `businesses`; these are the ones you may add to or change, and whose payroll you may open.
+  const writable = businesses.filter((b) => access.canWrite(b.id))
+  const payroll = businesses.filter((b) => access.canPayroll(b.id))
+  return { businesses, writable, payroll, loading, error, refetch }
 }
