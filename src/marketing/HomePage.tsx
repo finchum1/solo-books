@@ -26,7 +26,7 @@ function Hero() {
           </p>
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
             <MkLink to="/signup" size="lg">
-              Get started <Arrow />
+              Request an invite <Arrow />
             </MkLink>
             <MkLink to="/features" kind="outline" size="lg">
               See what&rsquo;s inside
@@ -414,10 +414,10 @@ function Close() {
       <Wrap className="relative">
         <Reveal>
           <H2 className="mx-auto max-w-3xl">Start your books today.</H2>
-          <P className="mx-auto mt-5 text-center">Create an account in a minute. Add your first business, log a transaction, and see your numbers.</P>
+          <P className="mx-auto mt-5 text-center">Solo Books is open by invitation for now. Ask for an invite and we’ll get you set up with your first business.</P>
           <div className="mt-9 flex flex-wrap justify-center gap-3">
             <MkLink to="/signup" size="lg">
-              Get started <Arrow />
+              Request an invite <Arrow />
             </MkLink>
             <MkLink to="/signin" kind="outline" size="lg">
               Sign in
@@ -430,7 +430,7 @@ function Close() {
 }
 
 export function HomePage() {
-  usePageMeta('Solo Books: bookkeeping made easy', 'Bookkeeping for owner-operators: track income and expenses, keep receipts, set budgets, reconcile your bank statements and run payroll. One private place for one business or several.')
+  usePageMeta('Solo Books: bookkeeping made easy', 'Bookkeeping for owner-operators: track income and expenses, keep receipts, set budgets, reconcile your bank statements and run payroll. One private place for one business or several. Open by invitation.')
   return (
     <>
       <Hero />
@@ -441,7 +441,7 @@ export function HomePage() {
       <Ritual />
       <Pocket />
       <Private />
-      <FaqSection ids={['what', 'notAccountant', 'bank', 'multiple', 'team', 'private']} tinted />
+      <FaqSection ids={['what', 'access', 'notAccountant', 'bank', 'team', 'private']} tinted />
       <Close />
     </>
   )

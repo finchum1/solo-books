@@ -90,7 +90,7 @@ export function SecurityPage() {
             <H2 className="mx-auto max-w-3xl">Keep your books in one private place.</H2>
             <div className="mt-9 flex flex-wrap justify-center gap-3">
               <MkLink to="/signup" size="lg">
-                Get started <Arrow />
+                Request an invite <Arrow />
               </MkLink>
             </div>
           </Reveal>

@@ -14,6 +14,11 @@ export const FAQ: Record<string, Faq> = {
     a: 'Bookkeeping for people who run their own business. You record what comes in and goes out, keep receipts, set budgets, bring in your bank statements and check them each month, run payroll for your employees, and pull reports. It all lives in one private account, whether you run one business or several.',
     link: { to: '/features', label: 'See everything it does' },
   },
+  access: {
+    q: 'Can I sign up?',
+    a: 'Not on your own yet. Solo Books is open by invitation for now. Email terrence@latchpointstudios.com, tell us a little about your business, and we’ll set up your account.',
+    link: { to: '/signup', label: 'Request an invite' },
+  },
   notAccountant: {
     q: 'I’m not an accountant. Is this for me?',
     a: 'Yes, that is exactly who it is for. You don’t need to know debits and credits: you record what you earned and what you spent, and Solo Books does the adding up. If you work with an accountant, the PDF reports give them what they need.',
@@ -103,7 +108,7 @@ export const FAQ: Record<string, Faq> = {
   },
   team: {
     q: 'Can my bookkeeper or team use it?',
-    a: 'Yes. Invite people to a business by email. They sign in with their own account, and you choose what each can do: an Admin can also add and remove people, a Bookkeeper can do all the bookkeeping, and a View-only person can read the books but can’t change anything or see payroll. You can change or remove anyone at any time.',
+    a: 'Yes. Invite people to a business by email. They sign in with their own account (Solo Books is invite-only, so email us and we’ll set one up for anyone who doesn’t have one), and you choose what each can do: an Admin can also add and remove people, a Bookkeeper can do all the bookkeeping, and a View-only person can read the books but can’t change anything or see payroll. You can change or remove anyone at any time.',
   },
   teamPrivate: {
     q: 'Can someone I invite see my other businesses?',
@@ -150,7 +155,7 @@ export interface FaqGroup {
 
 /** The full /faq page, grouped by what people are trying to find out. */
 export const GROUPS: FaqGroup[] = [
-  { id: 'basics', title: 'The basics', blurb: 'What it is and who it’s for.', items: ['what', 'notAccountant', 'ledger', 'multiple', 'phone', 'export'] },
+  { id: 'basics', title: 'The basics', blurb: 'What it is and who it’s for.', items: ['what', 'access', 'notAccountant', 'ledger', 'multiple', 'phone', 'export'] },
   { id: 'banking', title: 'Bank statements and reconciling', blurb: 'Bringing your bank in without handing over a login.', items: ['bank', 'files', 'fileKept', 'reconcile', 'difference', 'undoBank', 'liveFeed'] },
   { id: 'budgets', title: 'Budgets', blurb: 'Planning the month and watching it.', items: ['budget', 'budgetBusiness', 'budgetAlerts', 'budgetBank'] },
   { id: 'payroll', title: 'Payroll', blurb: 'What it does for your W-2 employees, and what it doesn’t.', items: ['payrollDoes', 'payrollStates', 'payrollBonus', 'payrollDeductions', 'payrollForms', 'payrollBank'] },

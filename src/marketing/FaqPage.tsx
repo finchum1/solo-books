@@ -24,7 +24,7 @@ export function FaqPage() {
         <HeroGlow />
         <Wrap className="relative">
           <H1 className="max-w-4xl">Questions, answered.</H1>
-          <P className="mt-6 text-lg sm:text-xl">The things people ask before they sign up, in plain words. Can’t find yours? Email us and a real person will reply.</P>
+          <P className="mt-6 text-lg sm:text-xl">The things people ask before they begin, in plain words. Can’t find yours? Email us and a real person will reply.</P>
           <nav aria-label="Jump to a topic" className="mt-9 flex flex-wrap gap-2">
             {GROUPS.map((g) => (
               <a
@@ -61,7 +61,7 @@ export function FaqPage() {
             <P className="mx-auto mt-5 text-center">Ask us directly, or just try it. Adding a business and logging a first transaction takes a few minutes.</P>
             <div className="mt-9 flex flex-wrap justify-center gap-3">
               <MkLink to="/signup" size="lg">
-                Get started <Arrow />
+                Request an invite <Arrow />
               </MkLink>
               <a
                 href="mailto:terrence@latchpointstudios.com"

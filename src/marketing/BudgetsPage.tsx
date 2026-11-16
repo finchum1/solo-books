@@ -38,7 +38,7 @@ export function BudgetsPage() {
             </P>
             <div className="mt-9 flex flex-wrap gap-3">
               <MkLink to="/signup" size="lg">
-                Get started <Arrow />
+                Request an invite <Arrow />
               </MkLink>
             </div>
             <p className="mt-5 max-w-[52ch] text-sm leading-relaxed" style={{ color: panel.inkDim }}>
@@ -169,7 +169,7 @@ export function BudgetsPage() {
             <H2 className="mx-auto max-w-3xl">Plan the month before it plans you.</H2>
             <div className="mt-9 flex flex-wrap justify-center gap-3">
               <MkLink to="/signup" size="lg">
-                Get started <Arrow />
+                Request an invite <Arrow />
               </MkLink>
               <MkLink to="/features/banking" kind="outline" size="lg">
                 Bank statements and reconciliation

@@ -132,6 +132,13 @@ viewed on screen, or exported as a clean PDF to hand to an accountant or keep fo
 - **FAQ (2026-11-17)**: all public questions live once in src/marketing/faqData.ts (answers must stay true to what is built; no pricing answer because no
   pricing is stated anywhere). Full /faq page (grouped, anchor chips, FAQPage JSON-LD), plus FaqSection blocks on home, /features/budgets, /features/banking,
   /features/payroll and /security. Footer links to /faq (not in the header: five links already fill it). When a feature changes, update faqData.ts.
+- **Invite-only (2026-11-17)**: Terrence turned OFF public sign-up in Supabase (project zhzmrmlreqirxhqmwhpr: /auth/v1/settings shows disable_signup=true; it is
+  shared with Oaksteadly and Pipeline, so it affects them too). The public site no longer invites anyone to sign up: every "Get started" is "Request an invite",
+  /signup is an invite-only page with a ready-to-send mailto (src/marketing/access.ts), the sign-in page says invite-only, and AuthPage no longer calls signUp.
+  IMPORTANT consequence: a person invited to a business via Settings > Team must already HAVE an account (team invites attach an existing login to a business;
+  they cannot create one). New people's accounts are made by Terrence in the Supabase dashboard (Authentication > Users > Add user / Invite) until we build
+  something better (options: a Supabase "Before User Created" hook that allows sign-up only for emails with a pending invite; or a service-role function so an
+  admin can create an invitee's login). JoinPage tells signed-out visitors to ask the inviter for an account.
 - **Planned next**: an optional live bank feed; auto-categorization rules; credit cards and loans are not supported yet.
 - **Public site (rebuilt 2026-11-12)**: real pages at /, /features, /features/payroll, /security, /signin,
   /signup, /privacy, /terms with a light/dark toggle, a floating liquid-glass pill header, and a footer that

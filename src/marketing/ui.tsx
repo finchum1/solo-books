@@ -58,8 +58,17 @@ export function MkLink({
   className?: string
 }) {
   const hover = kind === 'primary' ? 'hover:brightness-105' : 'hover:bg-[color-mix(in_srgb,var(--mk-ink)_7%,transparent)]'
+  const cls = `${BUTTON_BASE} ${SIZES[size]} ${hover} ${className}`
+  // An email link (for example "request an invite") is a plain anchor, not a page in the site.
+  if (to.startsWith('mailto:')) {
+    return (
+      <a href={to} className={cls} style={buttonStyle(kind)}>
+        {children}
+      </a>
+    )
+  }
   return (
-    <Link to={to} className={`${BUTTON_BASE} ${SIZES[size]} ${hover} ${className}`} style={buttonStyle(kind)}>
+    <Link to={to} className={cls} style={buttonStyle(kind)}>
       {children}
     </Link>
   )

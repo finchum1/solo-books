@@ -25,7 +25,7 @@ export function BankingPage() {
             </P>
             <div className="mt-9 flex flex-wrap gap-3">
               <MkLink to="/signup" size="lg">
-                Get started <Arrow />
+                Request an invite <Arrow />
               </MkLink>
               <MkLink to="/features/budgets" kind="outline" size="lg">
                 Budgets
@@ -195,7 +195,7 @@ export function BankingPage() {
             <H2 className="mx-auto max-w-3xl">Close the month with confidence.</H2>
             <div className="mt-9 flex flex-wrap justify-center gap-3">
               <MkLink to="/signup" size="lg">
-                Get started <Arrow />
+                Request an invite <Arrow />
               </MkLink>
               <MkLink to="/features" kind="outline" size="lg">
                 All features

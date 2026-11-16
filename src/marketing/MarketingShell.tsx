@@ -170,7 +170,7 @@ function Header({ signedIn }: { signedIn: boolean }) {
                   </MkLink>
                 </span>
                 <MkLink to="/signup" size="sm">
-                  Get started
+                  Request invite
                 </MkLink>
               </>
             )}
@@ -258,7 +258,7 @@ function Footer({ signedIn }: { signedIn: boolean }) {
             </p>
             {!signedIn && (
               <MkLink to="/signup" size="sm">
-                Create your account
+                Request an invite
               </MkLink>
             )}
           </div>
@@ -272,7 +272,7 @@ function Footer({ signedIn }: { signedIn: boolean }) {
           </FooterCol>
           <FooterCol title="Account">
             <li><Link to={signedIn ? '/' : '/signin'} className={fl}>{signedIn ? 'Open the app' : 'Sign in'}</Link></li>
-            {!signedIn && <li><Link to="/signup" className={fl}>Create an account</Link></li>}
+            {!signedIn && <li><Link to="/signup" className={fl}>Request an invite</Link></li>}
           </FooterCol>
           <FooterCol title="Company">
             <li><Link to="/privacy" className={fl}>Privacy</Link></li>

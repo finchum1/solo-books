@@ -180,7 +180,7 @@ export function FeaturesPage() {
             <H2 className="mx-auto max-w-3xl">See it with your own numbers.</H2>
             <div className="mt-9 flex flex-wrap justify-center gap-3">
               <MkLink to="/signup" size="lg">
-                Get started <Arrow />
+                Request an invite <Arrow />
               </MkLink>
             </div>
           </Reveal>
