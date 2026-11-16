@@ -121,3 +121,15 @@ export interface PayStub {
   suta: number
   created_at: string
 }
+
+export interface Budget {
+  id: string
+  business_id: string
+  type: TxType
+  category: string
+  /** First day of the month, YYYY-MM-DD. */
+  month: string
+  amount: number
+  created_at: string
+  updated_at: string
+}
