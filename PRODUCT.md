@@ -119,6 +119,16 @@ viewed on screen, or exported as a clean PDF to hand to an accountant or keep fo
   shared per business (categories.business_id; a business with its own list uses only that list, else the person's personal list).
   Roles are enforced by RLS via readable/writable/managed_business_ids(); src/lib/access.tsx only hides what would fail. Privacy policy
   updated to say invited teammates can see a business's records.
+- **AI connections / MCP (built 2026-11-17, migration 0018)**: a Model Context Protocol server at /api/mcp (Streamable HTTP, stateless) for Claude
+  Code, the Claude and Grok (xAI) APIs and any MCP client, using a personal access token (`sb_` + 64 hex, shown once, stored hashed) made under
+  Settings > AI connections (read-only or read+write, all or chosen businesses, optional expiry, revocable; max 20 active; 600 calls/hour/token).
+  Design choice: NO service-role key. api/mcp.js holds only the anon key and forwards the token to two database functions (mcp_whoami, mcp_run);
+  the tools live in Postgres (_mcp_* functions), scoped to the token owner's readable/writable businesses (so team roles apply; a view-only
+  person's token can never write). Tools: list_businesses, list_categories, list_transactions, profit_and_loss, contractor_report,
+  client_report, get_budget, list_bank_accounts, list_bank_lines, list_contractors, list_clients (read); add_transaction, update_transaction
+  (matched entries keep date/type/amount), add_contractor, add_client, add_category, set_budget (write). No deletes; payroll/employee data never
+  exposed; entries made are tagged transactions.source = 'ai:<token name>'. 401s deliberately omit OAuth discovery so Claude Code keeps using the
+  static header. NOT built: OAuth, which claude.ai's website connectors need (they don't accept a static token); bank matching/reconciling by bots.
 - **Planned next**: an optional live bank feed; auto-categorization rules; credit cards and loans are not supported yet.
 - **Public site (rebuilt 2026-11-12)**: real pages at /, /features, /features/payroll, /security, /signin,
   /signup, /privacy, /terms with a light/dark toggle, a floating liquid-glass pill header, and a footer that

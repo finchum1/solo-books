@@ -2,16 +2,18 @@ import { useState } from 'react'
 import type { Session } from '@supabase/supabase-js'
 import { ProfileTab } from '../components/settings/ProfileTab'
 import { TeamTab } from '../components/settings/TeamTab'
+import { ConnectionsTab } from '../components/settings/ConnectionsTab'
 import { BusinessesPage } from './BusinessesPage'
 import { CategoriesPage } from './CategoriesPage'
 
-type Tab = 'profile' | 'businesses' | 'categories' | 'team'
+type Tab = 'profile' | 'businesses' | 'categories' | 'team' | 'ai'
 
 const TABS: { key: Tab; label: string }[] = [
   { key: 'profile', label: 'Profile' },
   { key: 'businesses', label: 'Businesses' },
   { key: 'categories', label: 'Categories' },
   { key: 'team', label: 'Team' },
+  { key: 'ai', label: 'AI connections' },
 ]
 
 export function SettingsPage({ session }: { session: Session }) {
@@ -39,7 +41,7 @@ export function SettingsPage({ session }: { session: Session }) {
         </div>
       </div>
 
-      {tab === 'profile' ? <ProfileTab session={session} /> : tab === 'businesses' ? <BusinessesPage /> : tab === 'categories' ? <CategoriesPage initialScope={catScope} /> : <TeamTab onOpenCategories={(id) => { setCatScope(id); setTab('categories') }} />}
+      {tab === 'profile' ? <ProfileTab session={session} /> : tab === 'businesses' ? <BusinessesPage /> : tab === 'categories' ? <CategoriesPage initialScope={catScope} /> : tab === 'team' ? <TeamTab onOpenCategories={(id) => { setCatScope(id); setTab('categories') }} /> : <ConnectionsTab />}
     </div>
   )
 }

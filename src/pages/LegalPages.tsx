@@ -12,7 +12,7 @@ import { Wrap, usePageMeta } from '../marketing/ui'
 const APP = 'Solo Books'
 const OPERATOR = 'Latchpoint Studios, LLC'
 const CONTACT = 'terrence@latchpointstudios.com'
-const UPDATED = 'November 16, 2026'
+const UPDATED = 'November 17, 2026'
 
 function Shell({ title, children }: { title: string; children: ReactNode }) {
   usePageMeta(`${title} | ${APP}`, `${title} for ${APP}, the bookkeeping and payroll app from ${OPERATOR}.`)
@@ -87,7 +87,9 @@ export function PrivacyPage() {
         exception is people you choose to invite: if you invite someone to a business, they can see that business's records, and depending on the role you
         give them (admin, bookkeeper, or view-only) change them. Only payroll and pay stub details are kept from view-only members. You can see who has
         access, change a person's role, or remove them at any time under Settings, Team, and they see nothing from your other businesses. The email address
-        you invite is used only to send that invitation. As the
+        you invite is used only to send that invitation. The same goes for any AI connection you make under Settings, AI connections: the AI app you give
+        that access key to can read your records through it, and change them if you allowed that, but never delete anything or see payroll. You choose
+        which businesses it may use and can revoke it at any time. As the
         operator, we can technically reach stored data in order to maintain the service. We do that only to fix a problem you have asked us to look into, to
         keep the service running and secure, or when the law requires it.
       </p>
