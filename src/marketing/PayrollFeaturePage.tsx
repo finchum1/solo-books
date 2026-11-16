@@ -137,6 +137,7 @@ export function PayrollFeaturePage() {
                 'Quarterly totals laid out for Forms 941 and 940',
                 'Yearly totals for each employee’s W-2 boxes',
                 'Gross wages and employer taxes post to your ledger, so your Profit & Loss includes payroll',
+                'When you import your bank statement, the net-pay lines and tax deposits are recognized from your pay stubs, ready for you to confirm',
               ]}
             />
           </Reveal>

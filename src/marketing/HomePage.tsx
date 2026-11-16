@@ -21,7 +21,7 @@ function Hero() {
         <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}>
           <H1 className="mx-auto max-w-4xl">One ledger for every business you run.</H1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed sm:text-xl" style={{ color: panel.inkDim }}>
-            Books, receipts, contractors, clients and now payroll. Private to your account, whether you run one business or several.
+            Books, receipts, budgets, bank reconciliation and payroll. Private to your account, whether you run one business or several.
           </p>
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
             <MkLink to="/signup" size="lg">
@@ -208,6 +208,68 @@ function Tiles() {
   )
 }
 
+function BanksBand() {
+  return (
+    <section className="py-24 sm:py-32" style={{ background: panel.bg }}>
+      <Wrap>
+        <Reveal className="max-w-3xl">
+          <H2>Budget it. Match it. Reconcile it.</H2>
+          <P className="mt-5">Plan the month, bring in your bank statement, and prove your books agree with the bank, without ever handing over a login.</P>
+        </Reveal>
+
+        <div className="mt-16 grid items-center gap-12 lg:grid-cols-[1fr_1.3fr] lg:gap-16">
+          <Reveal>
+            <H3>Know what’s left to spend.</H3>
+            <P className="mt-3">Set a monthly limit for each category and a target for each income stream. Bars show where you stand against your ledger, and turn from on track to over before the month is.</P>
+            <Ticks className="mt-6" items={['Copy last month, or fill from your 3-month average', 'One budget per business, with a combined view']} />
+          </Reveal>
+          <Reveal delay={0.08}>
+            <Shot name="budget" alt="The Budget screen: monthly limits by category with bars showing what has been spent" />
+          </Reveal>
+        </div>
+
+        <div className="mt-24 grid items-center gap-12 lg:grid-cols-[1.3fr_1fr] lg:gap-16 sm:mt-32">
+          <Reveal className="relative order-2 lg:order-1">
+            <Shot name="banking" alt="The Review screen: suggested matches between bank statement lines and ledger entries" />
+            {/* Product, not decoration: what finishing a month looks like. */}
+            <div className="mk-glass absolute -bottom-6 right-2 w-[17.5rem] rounded-2xl p-4 sm:-right-6 sm:bottom-10 sm:w-72">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-semibold" style={{ color: panel.ink }}>
+                  November reconciled
+                </span>
+                <span className="grid h-6 w-6 place-items-center rounded-full" style={{ background: panel.gold, color: panel.onGold }}>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                    <path d="M5 12.5l4.5 4.5L19 7.5" />
+                  </svg>
+                </span>
+              </div>
+              <div className="mt-3 flex items-baseline justify-between">
+                <span className="text-xs" style={{ color: panel.inkDim }}>
+                  Difference
+                </span>
+                <span className="text-xl font-semibold tabular-nums" style={{ color: panel.ink }}>
+                  $0.00
+                </span>
+              </div>
+            </div>
+          </Reveal>
+          <Reveal delay={0.08} className="order-1 lg:order-2">
+            <H3>Your statement, matched to your ledger.</H3>
+            <P className="mt-3">Upload the file your bank lets you download. Each line is matched to the entry it belongs to, or added to your ledger in a click. Then once a month, enter the statement’s ending balance and finish at $0.00.</P>
+            <Ticks
+              className="mt-6"
+              items={['CSV, OFX and QFX files, with duplicates skipped', 'Payroll lines recognized from your pay stubs', 'Months lock when you finish, so they stay right']}
+            />
+            <MkLink to="/features" kind="outline" className="mt-8">
+              See how it works <Arrow />
+            </MkLink>
+          </Reveal>
+        </div>
+      </Wrap>
+    </section>
+  )
+}
+
 function PayrollBand() {
   return (
     <DarkBand className="py-24 sm:py-32">
@@ -247,8 +309,9 @@ function PayrollBand() {
 function Ritual() {
   const steps = [
     { t: 'Log what happened', d: 'Income, expenses and receipts, against the right business. A few minutes, once a week.' },
-    { t: 'Run payroll', d: 'Hours in, taxes worked out, stubs written, cost posted. No second system to reconcile.' },
-    { t: 'Pull the report', d: 'Profit & Loss for everything or one business, as a PDF for your records or your accountant.' },
+    { t: 'Match your bank statement', d: 'Upload the statement, confirm the suggested matches, and add anything the ledger missed.' },
+    { t: 'Run payroll', d: 'Hours in, taxes worked out, stubs written, cost posted, and the bank lines found for you.' },
+    { t: 'Reconcile and report', d: 'Finish the month at $0.00, then pull Profit & Loss for everything or one business as a PDF.' },
   ]
   return (
     <section className="py-24 sm:py-32">
@@ -363,12 +426,13 @@ function Close() {
 }
 
 export function HomePage() {
-  usePageMeta('Solo Books: one ledger for every business you run', 'Bookkeeping, receipts, contractors, clients and payroll for owner-operators. One private ledger for one business or several.')
+  usePageMeta('Solo Books: one ledger for every business you run', 'Bookkeeping, receipts, budgets, bank statement reconciliation and payroll for owner-operators. One private ledger for one business or several.')
   return (
     <>
       <Hero />
       <Mechanism />
       <Tiles />
+      <BanksBand />
       <PayrollBand />
       <Ritual />
       <Pocket />

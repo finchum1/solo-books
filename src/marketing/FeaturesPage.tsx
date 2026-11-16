@@ -65,8 +65,41 @@ function RosterVisual() {
   )
 }
 
+function StatementImportVisual() {
+  const rows: [string, string, string][] = [
+    ['Nov 3', 'SHELL OIL 5521', '-118.64'],
+    ['Nov 5', 'DEPOSIT OAKRIDGE DENTAL', '7,750.00'],
+    ['Nov 7', 'HOME DEPOT #1823', '-412.30'],
+  ]
+  return (
+    <Surface className="p-6 sm:p-8" style={{ boxShadow: `0 0 0 1px ${panel.border}, var(--mk-frame-shadow)` }}>
+      <div className="flex items-center justify-between rounded-xl px-4 py-3 text-sm" style={{ background: panel.bgRaised2 }}>
+        <span style={{ color: panel.ink }}>riverside-operating-nov.csv</span>
+        <span style={{ color: panel.goldText }}>Columns recognized</span>
+      </div>
+      <div className="mt-4 text-xs font-medium uppercase tracking-wide" style={{ color: panel.inkDim }}>
+        Preview
+      </div>
+      {rows.map(([d, n, a]) => (
+        <div key={n} className="flex items-baseline gap-4 py-3 text-[15px]" style={{ borderTop: `1px solid ${panel.border}` }}>
+          <span className="w-14 shrink-0 tabular-nums" style={{ color: panel.inkDim }}>{d}</span>
+          <span className="flex-1" style={{ color: panel.ink }}>{n}</span>
+          <span className="tabular-nums" style={{ color: a.startsWith('-') ? panel.expense : panel.income }}>{a}</span>
+        </div>
+      ))}
+      <div className="mt-4 flex items-center justify-between pt-4 text-sm" style={{ borderTop: `1px solid ${panel.borderStrong}` }}>
+        <span style={{ color: panel.ink }}>
+          <strong>142</strong> new lines
+        </span>
+        <span style={{ color: panel.inkDim }}>12 already imported, skipped</span>
+      </div>
+      <div className="mt-4 text-xs" style={{ color: panel.inkDim }}>Sample data</div>
+    </Surface>
+  )
+}
+
 export function FeaturesPage() {
-  usePageMeta('Features | Solo Books', 'Ledger, receipts, contractors and clients, reports with PDF export, multiple businesses and payroll, in one private account.')
+  usePageMeta('Features | Solo Books', 'Ledger, receipts, contractors and clients, budgets, bank statement import with matching and monthly reconciliation, payroll and PDF reports, in one private account.')
   return (
     <>
       <section className="relative overflow-hidden pb-20 pt-36 sm:pt-48">
@@ -74,7 +107,7 @@ export function FeaturesPage() {
         <Wrap className="relative">
           <H1 className="max-w-4xl">Everything you need to keep clean books.</H1>
           <P className="mt-6 text-lg sm:text-xl">
-            A ledger, receipts, contractors and clients, reports and payroll. Made for the owner who does their own bookkeeping, for one business or for several.
+            A ledger, receipts, budgets, bank reconciliation, payroll and reports. Made for the owner who does their own bookkeeping, for one business or for several.
           </P>
         </Wrap>
       </section>
@@ -105,6 +138,32 @@ export function FeaturesPage() {
           body="Profit & Loss with income and expenses by category. Combined across every business or for one. Pick a month, a quarter, a year or your own dates."
           points={['Profit & Loss, contractor, client and payroll reports', 'Every report exports as a clean PDF', 'The PDF lists the businesses it covers']}
           visual={<Shot name="reports" alt="The Profit and Loss report" />}
+        />
+        <Row
+          title="Set a budget. See where you stand."
+          body="Give each category a monthly limit, and each income category a target. Solo Books compares them with your ledger as you go, so you see what is left to spend before the month is over."
+          points={['Bars that turn from on track to over, with a mark for where today falls', 'Copy last month, fill blanks from your 3-month average, or carry a month through the rest of the year', 'One budget per business, plus a combined roll-up']}
+          visual={<Shot name="budget" alt="The Budget screen: each category with its monthly limit, what has been spent, and what is left" />}
+        />
+        <Row
+          flip
+          title="Bring in your bank statements."
+          body="Add your checking and savings accounts, then upload the file your bank lets you download. Solo Books works out the columns for you and shows a preview before anything is saved."
+          points={['CSV, OFX and QFX files from any bank', 'Statements that overlap are de-duplicated, so a re-download never doubles anything', 'Undo an import any time. Nothing connects to your bank, and you never share a login']}
+          visual={<StatementImportVisual />}
+        />
+        <Row
+          title="Match every line to your ledger."
+          body="Each statement line is either already in your ledger, or it isn’t. Solo Books lines them up by amount, date and wording, and you confirm. A line with no entry becomes one in a click."
+          points={['Sure matches in one click, or review them one at a time', 'Transfers between your own accounts are kept out of income and expenses', 'Payroll lines are recognized from your pay stubs: net pay, and the tax deposits that come weeks later']}
+          visual={<Shot name="banking" alt="The Review screen: suggested matches between bank statement lines and ledger entries, including a payroll run" />}
+        />
+        <Row
+          flip
+          title="Reconcile once a month."
+          body="Enter the statement’s closing date and ending balance. If your reviewed lines add up to it, the difference is $0.00 and you finish. If not, it shows you the gap instead of letting it slide."
+          points={['Finishing locks that month’s lines so they can’t change by accident', 'Reopen the latest month if you need to fix something', 'A new month starts from the last one’s ending balance']}
+          visual={<Shot name="reconcile" alt="The Reconcile screen: starting balance, statement ending balance and a difference of zero" />}
         />
       </Wrap>
 

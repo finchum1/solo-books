@@ -1,0 +1,114 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Solo Books: Budget and Banking quick-start</title>
+<style>
+  @page { size: Letter; margin: 0.42in 0.55in; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 8.8pt; line-height: 1.33; color: #241f16; margin: 0; }
+  header { border-bottom: 2px solid #957a50; padding-bottom: 6px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: flex-end; }
+  .brand { font-size: 8pt; letter-spacing: .14em; text-transform: uppercase; color: #957a50; font-weight: 700; }
+  h1 { font-size: 19pt; margin: 1px 0 0; letter-spacing: -.01em; font-family: "Baskerville", "Georgia", serif; font-weight: 600; }
+  .meta { text-align: right; font-size: 8pt; color: #6f5a39; }
+  h2 { font-size: 8.4pt; text-transform: uppercase; letter-spacing: .1em; color: #957a50; margin: 9px 0 4px; }
+  p { margin: 0 0 3px; }
+  .lead { font-size: 9.5pt; }
+  .steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .step { border: 1px solid #e2d6c2; background: #faf5ec; border-radius: 4px; padding: 6px 7px 5px; }
+  .step .n { display: inline-block; width: 15px; height: 15px; border-radius: 50%; background: #957a50; color: #fff; text-align: center; font-size: 7.8pt; line-height: 15px; font-weight: 700; margin-right: 4px; }
+  .step b { color: #241f16; font-size: 8.8pt; }
+  .step .where { display: block; font-size: 7.3pt; text-transform: uppercase; letter-spacing: .07em; color: #957a50; margin: 2px 0 3px; font-weight: 700; }
+  .step p { font-size: 8.2pt; line-height: 1.3; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  table { width: 100%; border-collapse: collapse; }
+  td { padding: 2.6px 6px 2.6px 0; border-bottom: 1px solid #ede3d4; vertical-align: top; }
+  td:first-child { white-space: nowrap; font-weight: 700; padding-right: 10px; width: 24%; }
+  ul { margin: 2px 0 0; padding-left: 14px; }
+  li { margin-bottom: 2.2px; }
+  .box { margin-top: 8px; padding: 6px 9px; border-left: 3px solid #957a50; background: #faf5ec; font-size: 8.4pt; }
+  .tie { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-top: 3px; }
+  .tie div { border: 1px solid #e2d6c2; border-radius: 4px; padding: 4px 7px; font-size: 8.2pt; }
+  .tie b { display: block; font-size: 11pt; font-variant-numeric: tabular-nums; }
+  .ok { color: #1f7a4d; }
+  .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 4px; vertical-align: -1px; }
+  .routine { counter-reset: r; list-style: none; padding: 0; margin: 2px 0 0; }
+  .routine li { counter-increment: r; padding-left: 20px; position: relative; margin-bottom: 3px; }
+  .routine li::before { content: counter(r); position: absolute; left: 0; top: 0; width: 14px; height: 14px; border-radius: 50%; border: 1.3px solid #957a50; color: #957a50; text-align: center; font-size: 7.4pt; line-height: 12px; font-weight: 700; }
+  footer { margin-top: 7px; font-size: 7.4pt; color: #8a7757; display: flex; justify-content: space-between; }
+</style></head>
+<body>
+<header>
+  <div><div class="brand">Solo Books</div><h1>Budget &amp; Banking: Quick Start</h1></div>
+  <div class="meta">About 20 minutes to set up,<br>then about 15 minutes a month</div>
+</header>
+
+<p class="lead"><b>Budget</b> is your plan for the month. <b>Banking</b> brings in your bank statement, matches every line to your ledger, and proves once a month that your books agree with the bank. Solo Books never connects to your bank: you download a statement file from your bank's website and upload it yourself.</p>
+
+<h2>Your first session</h2>
+<div class="steps">
+  <div class="step"><span class="n">1</span><b>Add an account</b><span class="where">Banking &rarr; Add account</span>
+    <p>Name it, pick Checking or Savings, and enter its <b>opening balance</b> as of a date: the balance on your bank's statement at the end of the day before your first imported transaction.</p></div>
+  <div class="step"><span class="n">2</span><b>Import a statement</b><span class="where">Account &rarr; Import statement</span>
+    <p>On your bank's site choose "Download transactions" or "Export" (CSV, OFX or QFX). Drop the file in. Check the preview, then import. Overlapping files are never double-counted.</p></div>
+  <div class="step"><span class="n">3</span><b>Review the lines</b><span class="where">Account &rarr; Review tab</span>
+    <p>Press <b>Match all sure matches</b>. For each line left, choose <b>Add to Ledger</b> (it isn't recorded yet), <b>Transfer</b> (money between your own accounts) or <b>Ignore</b>.</p></div>
+  <div class="step"><span class="n">4</span><b>Reconcile the month</b><span class="where">Account &rarr; Reconcile tab</span>
+    <p>Enter the statement's <b>closing date</b> and <b>ending balance</b>. When the difference is $0.00 and nothing is left to review, press <b>Finish</b>.</p></div>
+  <div class="step"><span class="n">5</span><b>Set a budget</b><span class="where">Budget (left menu)</span>
+    <p>Type a monthly limit beside each expense category and a target beside each income category. Use <b>Copy from last month</b> or <b>Fill blanks from my 3-month average</b> to start fast.</p></div>
+</div>
+
+<div class="cols">
+  <div>
+    <h2>How matching works</h2>
+    <table>
+      <tr><td>Sure</td><td>One line and one ledger entry with the same amount, close dates, and nobody else competing for them. Safe to match all at once.</td></tr>
+      <tr><td>Possible</td><td>A good guess, but something is unclear (two candidates, or the dates are a few days apart). Look, then confirm.</td></tr>
+      <tr><td>Group match</td><td>Tick several lines and the entries they pay for, then match. Use it when one deposit covers several invoices. A difference is allowed, and you can note why.</td></tr>
+      <tr><td>Payroll</td><td>Net pay and tax deposits are recognized from your pay stubs, even when one tax deposit covers several runs. A card shows how much of a payroll is still unaccounted for.</td></tr>
+      <tr><td>Transfer</td><td>Both sides of a move between your accounts are kept out of income and expenses.</td></tr>
+    </table>
+  </div>
+  <div>
+    <h2>Checking your work</h2>
+    <p>The reconcile screen adds it up for you:</p>
+    <div class="tie">
+      <div>Starting balance<b>$13,045.50</b></div>
+      <div>+ this month's lines<b>$1,893.33</b></div>
+      <div>Books say<b>$14,938.83</b></div>
+    </div>
+    <p style="margin-top:4px">If that equals the statement's ending balance, the difference is <b class="ok">$0.00</b>. If it doesn't, look for a missing line, a duplicate, a wrong amount, or a mistyped balance.</p>
+    <h2>Good to know</h2>
+    <ul>
+      <li><b>Finishing a month locks its lines</b> so they can't change by accident. Use <b>Reopen</b> on the latest month to fix something.</li>
+      <li>Each month starts from the last one's ending balance. Reconcile in order, one statement at a time.</li>
+      <li>Deleting a ledger entry that was matched sends its bank line back to <b>Review</b>. Undo on a line removes only that line from a group.</li>
+      <li>Wrong columns in the preview? Pick the right ones before importing. An import can be undone until you review its lines.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="cols" style="margin-top:2px">
+  <div>
+    <h2>Reading your Budget</h2>
+    <ul>
+      <li><span class="dot" style="background:#1f9d68"></span><b>Green</b> is on track. <span class="dot" style="background:#b8975c"></span><b>Gold</b> means you are close to the limit. <span class="dot" style="background:#d4493f"></span><b>Red</b> means you are over.</li>
+      <li>The thin mark on each bar shows where today falls in the month, so you can see if spending is running ahead of the calendar.</li>
+      <li>A category with spending but no limit shows <b>Not budgeted</b>. Type a number to give it one.</li>
+      <li>The budget belongs to one business. <b>All businesses</b> is a view-only roll-up.</li>
+    </ul>
+  </div>
+  <div>
+    <h2>Your monthly routine</h2>
+    <ol class="routine">
+      <li><b>Download</b> the month's statement from your bank.</li>
+      <li><b>Import</b> it, then <b>Review</b>: match all sure matches, handle the rest.</li>
+      <li>Run payroll as usual. The bank lines it caused are found for you.</li>
+      <li><b>Reconcile</b> to the statement's ending balance and finish at $0.00.</li>
+      <li>Glance at the <b>Budget</b> and pull your Profit &amp; Loss if you need it.</li>
+    </ol>
+  </div>
+</div>
+
+<div class="box"><b>Privacy:</b> only each transaction's date, amount and description are saved. The file itself is never kept. Solo Books never asks for your bank login or full account number, so please keep account numbers out of descriptions and notes too.</div>
+
+<footer><span>Solo Books &middot; solobooks.latchpointstudios.com</span><span>Calculates and records. It does not move money or file anything for you.</span></footer>
+</body></html>

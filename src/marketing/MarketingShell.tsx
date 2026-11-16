@@ -252,7 +252,7 @@ function Footer({ signedIn }: { signedIn: boolean }) {
               <span className="text-2xl leading-none" style={{ fontFamily: brandFont }}>Solo Books</span>
             </div>
             <p className="mb-6 text-[15px] leading-relaxed" style={{ color: panel.inkDim }}>
-              Books, receipts, contractors, clients and payroll. One private ledger for the business, or businesses, you run.
+              Books, receipts, budgets, bank reconciliation and payroll. One private ledger for the business, or businesses, you run.
             </p>
             {!signedIn && (
               <MkLink to="/signup" size="sm">

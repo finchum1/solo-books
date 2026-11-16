@@ -118,7 +118,7 @@ export function BrowserFrame({ children, className = '' }: { children: ReactNode
   )
 }
 
-export type ShotName = 'home' | 'ledger' | 'reports' | 'payroll' | 'payroll-report' | 'mobile-home' | 'mobile-payroll'
+export type ShotName = 'home' | 'ledger' | 'reports' | 'payroll' | 'payroll-report' | 'budget' | 'banking' | 'reconcile' | 'mobile-home' | 'mobile-payroll'
 
 /** A real app screenshot that follows the page theme (light or dark capture). */
 export function Shot({ name, alt, frame = true, className = '', priority = false }: { name: ShotName; alt: string; frame?: boolean; className?: string; priority?: boolean }) {

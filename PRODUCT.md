@@ -74,7 +74,7 @@ viewed on screen, or exported as a clean PDF to hand to an accountant or keep fo
   Client reports aggregate by name text, so the same name used across two businesses is treated as one in a
   combined-scope report. Clients carry optional email/phone/address.
 - **Removed, no longer part of the product**: Invoicing/quotes/Sales (unwired, tables left empty in the database)
-  and Banking/SimpleFIN (removed 2026-09-02, may return). Do not market either.
+  and SimpleFIN live bank feed (removed 2026-09-02, may return). Do not market either; the manual-upload Banking module below is different and is advertised.
 - **Payroll (added 2026-11-11)**: per-business employee roster with W-4 and Oklahoma OK-W-4 setup; run payroll
   (hourly regular/overtime or salary) with optional bonuses taxed as supplemental wages (flat 22% federal /
   4.5% Oklahoma, or combined with regular pay; bonus-only runs use flat); 2026 IRS Pub. 15-T and OTC OW-2 tables,
@@ -85,14 +85,21 @@ viewed on screen, or exported as a clean PDF to hand to an accountant or keep fo
 - **Budget (added 2026-11-15)**: its own top-level module at /budget (not a Reports tab). Monthly spending limits and income
   targets per business and category, compared with the live ledger; copy-last-month, fill-from-3-month-average and
   apply-to-rest-of-year helpers; an all-businesses roll-up that is view-only. Table `budgets` (owner-scoped).
-- **Banking, step 1 (built 2026-11-15)**: its own module at /banking. Checking and savings accounts per business (name, optional last
+- **Banking (built 2026-11-15)**: its own module at /banking. Checking and savings accounts per business (name, optional last
   4 digits, opening balance as of a date); import a bank's CSV or OFX/QFX download (columns, date order and sign auto-detected and
-  confirmable on a preview; overlapping statements are de-duplicated; each import can be undone); statement lines are listed and
-  searchable with a running balance. Reuses the bank_accounts / bank_transactions tables, plus bank_imports. No bank login, no live
-  connection, no full account numbers; only parsed lines are saved, never the file. Matching to the ledger and monthly
-  reconciliation are the next steps.
-- **Planned next (decided 2026-11-15)**: bank accounts for checking and savings only (no credit cards or loans yet), CSV/OFX
-  import, and reconciliation once a month against the statement, for every signed-up user, then an optional live feed.
+  confirmable on a preview; overlapping statements are de-duplicated; each import can be undone). Each account has three tabs:
+  **Lines** (searchable statement lines), **Review** (suggested matches between statement lines and ledger entries, one-to-one or
+  group matches with a recorded difference, add-to-ledger, transfers between own accounts kept out of income/expense, ignore),
+  and **Reconcile** (once a month: closing date + ending balance, difference must be $0.00 with nothing unreviewed, finishing
+  locks the lines, only the latest month can be reopened). **Payroll auto-match**: net-pay lines and tax deposits (federal,
+  Oklahoma, FUTA/SUTA, combined or spanning several runs) are recognized from the saved pay stubs and proposed for confirmation;
+  never applied automatically. No bank login, no live connection, no full account numbers; only parsed lines are saved, never the
+  file. Tables: bank_accounts, bank_transactions, bank_imports, bank_matches, bank_reconciliations.
+- **Marketing (updated 2026-11-15)**: Budget and Banking are advertised on / and /features (new screenshots shot-budget, shot-banking,
+  shot-reconcile in public/landing, light and dark, from sample data) and the payroll page mentions bank-line recognition. A
+  new-user one-page PDF lives in docs/ (Solo-Books-Budget-and-Banking-Quick-Start.pdf, source .html next to it). The older shots
+  (home, ledger, reports, payroll, mobile) predate the new S logo and the More folder and could be retaken.
+- **Planned next**: an optional live bank feed; auto-categorization rules; credit cards and loans are not supported yet.
 - **Public site (rebuilt 2026-11-12)**: real pages at /, /features, /features/payroll, /security, /signin,
   /signup, /privacy, /terms with a light/dark toggle, a floating liquid-glass pill header, and a footer that
   ends in a full-width "SOLO BOOKS" wordmark. Sign-up is open, email confirmation off, password reset by email
