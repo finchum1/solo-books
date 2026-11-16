@@ -7,6 +7,7 @@ import type { BonusMethod } from '../../lib/payroll/taxTables'
 import { savePayrollRun } from '../../lib/payroll/postRun'
 import { num } from '../../lib/usePayroll'
 import { inputCls, labelCls } from './EmployeeForm'
+import { errMsg } from '../../lib/errors'
 
 const today = () => new Date().toISOString().slice(0, 10)
 
@@ -164,7 +165,7 @@ export function RunPayrollTab({
       setDone(`Payroll recorded for ${payDate}. Pay stubs are in History.`)
       onSaved()
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to record payroll.')
+      setError(errMsg(err, 'Failed to record payroll.'))
     } finally {
       setSaving(false)
     }

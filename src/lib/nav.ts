@@ -18,6 +18,7 @@ export const NAV: NavItem[] = [
   { to: '/', label: 'Home', end: true },
   { to: '/ledger', label: 'Ledger', end: false },
   { to: '/budget', label: 'Budget', end: false, moreOnMobile: true },
+  { to: '/banking', label: 'Banking', end: false, moreOnMobile: true },
   { to: '/contractors', label: 'Contractors', end: false, moreOnMobile: true, inMoreFolder: true },
   { to: '/clients', label: 'Clients', end: false, moreOnMobile: true, inMoreFolder: true },
   { to: '/payroll', label: 'Payroll', end: false },

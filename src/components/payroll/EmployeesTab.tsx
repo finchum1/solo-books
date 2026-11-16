@@ -3,6 +3,7 @@ import { supabase } from '../../lib/supabase'
 import type { Employee, PayrollSettings } from '../../lib/types'
 import { PAY_FREQUENCY_LABELS } from '../../lib/payroll/taxTables'
 import { EmployeeForm, inputCls, labelCls } from './EmployeeForm'
+import { errMsg } from '../../lib/errors'
 
 function money(n: number) {
   return n.toLocaleString(undefined, { style: 'currency', currency: 'USD' })
@@ -45,7 +46,7 @@ function SutaSettings({
       setSaved(true)
       onSaved()
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to save settings.')
+      setError(errMsg(err, 'Failed to save settings.'))
     } finally {
       setSaving(false)
     }
@@ -115,7 +116,7 @@ export function EmployeesTab({
       if (error) throw error
       refetchEmployees()
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to update employee.')
+      setError(errMsg(err, 'Failed to update employee.'))
     }
   }
 
@@ -131,7 +132,7 @@ export function EmployeesTab({
       }
       refetchEmployees()
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to delete employee.')
+      setError(errMsg(err, 'Failed to delete employee.'))
     }
   }
 

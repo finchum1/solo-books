@@ -18,6 +18,7 @@ import {
   totals,
 } from '../lib/budget'
 import type { BudgetRow, Health } from '../lib/budget'
+import { errMsg } from '../lib/errors'
 
 const money = (n: number) => n.toLocaleString(undefined, { style: 'currency', currency: 'USD' })
 const money0 = (n: number) => n.toLocaleString(undefined, { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })
@@ -218,7 +219,7 @@ export function BudgetPage() {
         setLoadedKey(dataKey)
       } catch (err) {
         if (!cancelled) {
-          setLoadError(err instanceof Error ? err.message : 'Failed to load the budget.')
+          setLoadError(errMsg(err, 'Failed to load the budget.'))
           setLoadedKey(dataKey)
         }
       }
@@ -271,7 +272,7 @@ export function BudgetPage() {
         if (error) throw error
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to save that budget.')
+      setError(errMsg(err, 'Failed to save that budget.'))
     }
     reload()
   }
@@ -297,7 +298,7 @@ export function BudgetPage() {
       }
       setNotice(add.length ? `Copied ${add.length} budget${add.length === 1 ? '' : 's'} from ${monthLabel(shiftMonth(month, -1))}. Categories you'd already budgeted were left alone.` : `Nothing to copy: ${monthLabel(shiftMonth(month, -1))} has no budgets that aren't already set here.`)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to copy.')
+      setError(errMsg(err, 'Failed to copy.'))
     } finally {
       setBusy(false)
       reload()
@@ -320,7 +321,7 @@ export function BudgetPage() {
       if (ins.error) throw ins.error
       setNotice(`Applied to ${later.length} more month${later.length === 1 ? '' : 's'} (through ${monthLabel(later[later.length - 1])}).`)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to apply to the rest of the year.')
+      setError(errMsg(err, 'Failed to apply to the rest of the year.'))
     } finally {
       setBusy(false)
       reload()
@@ -353,7 +354,7 @@ export function BudgetPage() {
       }
       setNotice(add.length ? `Filled ${add.length} categor${add.length === 1 ? 'y' : 'ies'} from your last three months' average. Adjust any of them.` : 'No history to go on: there were no transactions in the three months before this one, or everything is already budgeted.')
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fill from history.')
+      setError(errMsg(err, 'Failed to fill from history.'))
     } finally {
       setBusy(false)
       reload()

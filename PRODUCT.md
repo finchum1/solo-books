@@ -85,6 +85,12 @@ viewed on screen, or exported as a clean PDF to hand to an accountant or keep fo
 - **Budget (added 2026-11-15)**: its own top-level module at /budget (not a Reports tab). Monthly spending limits and income
   targets per business and category, compared with the live ledger; copy-last-month, fill-from-3-month-average and
   apply-to-rest-of-year helpers; an all-businesses roll-up that is view-only. Table `budgets` (owner-scoped).
+- **Banking, step 1 (built 2026-11-15)**: its own module at /banking. Checking and savings accounts per business (name, optional last
+  4 digits, opening balance as of a date); import a bank's CSV or OFX/QFX download (columns, date order and sign auto-detected and
+  confirmable on a preview; overlapping statements are de-duplicated; each import can be undone); statement lines are listed and
+  searchable with a running balance. Reuses the bank_accounts / bank_transactions tables, plus bank_imports. No bank login, no live
+  connection, no full account numbers; only parsed lines are saved, never the file. Matching to the ledger and monthly
+  reconciliation are the next steps.
 - **Planned next (decided 2026-11-15)**: bank accounts for checking and savings only (no credit cards or loans yet), CSV/OFX
   import, and reconciliation once a month against the statement, for every signed-up user, then an optional live feed.
 - **Public site (rebuilt 2026-11-12)**: real pages at /, /features, /features/payroll, /security, /signin,

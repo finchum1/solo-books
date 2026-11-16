@@ -49,6 +49,13 @@ const ICONS: Record<string, (props: { size: number }) => ReactElement> = {
       <path d="M15 3.5A9 9 0 0 1 20.5 9H15Z" />
     </svg>
   ),
+  '/banking': ({ size }) => (
+    <svg width={size} height={size} {...ICON_PROPS}>
+      <path d="M3 10 12 4l9 6" />
+      <path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8" />
+      <path d="M3 21h18" />
+    </svg>
+  ),
   '/payroll': ({ size }) => (
     <svg width={size} height={size} {...ICON_PROPS}>
       <rect x="2" y="6" width="20" height="12" rx="2" />

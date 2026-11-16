@@ -133,3 +133,50 @@ export interface Budget {
   created_at: string
   updated_at: string
 }
+
+export interface BankAccount {
+  id: string
+  business_id: string
+  name: string
+  org_name: string | null
+  account_type: 'checking' | 'savings'
+  opening_balance: number
+  opening_balance_date: string | null
+  mask: string | null
+  is_active: boolean
+  connection_id: string | null
+  created_at: string
+}
+
+export interface BankImport {
+  id: string
+  bank_account_id: string
+  filename: string | null
+  source: 'csv' | 'ofx'
+  rows_in_file: number
+  lines_added: number
+  lines_skipped: number
+  first_date: string | null
+  last_date: string | null
+  created_at: string
+}
+
+export interface BankLine {
+  id: string
+  bank_account_id: string
+  posted_date: string | null
+  amount: number
+  description: string | null
+  status: 'pending_review' | 'imported' | 'ignored'
+  import_id: string | null
+}
+
+export interface BankAccountSummary {
+  bank_account_id: string
+  line_count: number
+  counted_count: number
+  counted_sum: number
+  first_date: string | null
+  last_date: string | null
+  unreviewed_count: number
+}

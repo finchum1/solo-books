@@ -18,7 +18,7 @@ const SECTIONS = [
   },
   {
     t: 'What we deliberately don’t collect',
-    d: 'No Social Security numbers, no bank account or routing numbers, no card numbers. The app has no fields for them and never connects to your bank, so there is nothing of that kind to lose. Please keep them out of notes and description fields too.',
+    d: 'No bank logins, no full account or routing numbers, no Social Security numbers, no card numbers. The app has no fields for them. It doesn’t connect to your bank: you download a statement file and upload it yourself, and only the transactions in it (date, amount, description) are saved, never the file. Please keep sensitive numbers out of notes and description fields too.',
   },
   {
     t: 'Where it runs',

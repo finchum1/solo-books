@@ -4,6 +4,7 @@ import type { PayStubPDFItem } from '../../lib/pdf/PayStubPDF'
 import { deletePayrollRun } from '../../lib/payroll/postRun'
 import { getLogoUrl } from '../../lib/logos'
 import { num } from '../../lib/usePayroll'
+import { errMsg } from '../../lib/errors'
 
 function money(n: number) {
   return n.toLocaleString(undefined, { style: 'currency', currency: 'USD' })
@@ -92,7 +93,7 @@ export function HistoryTab({
       }
     } catch (err) {
       newTab?.close()
-      setError(err instanceof Error ? err.message : 'Failed to generate PDF.')
+      setError(errMsg(err, 'Failed to generate PDF.'))
     } finally {
       setBusy(null)
     }
@@ -111,7 +112,7 @@ export function HistoryTab({
       await deletePayrollRun(run)
       onChanged()
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to delete payroll run.')
+      setError(errMsg(err, 'Failed to delete payroll run.'))
     } finally {
       setBusy(null)
     }

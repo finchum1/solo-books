@@ -8,6 +8,7 @@ import {
   PAY_FREQUENCY_LABELS,
 } from '../../lib/payroll/taxTables'
 import type { FederalFilingStatus, OklahomaFilingStatus, PayFrequency } from '../../lib/payroll/taxTables'
+import { errMsg } from '../../lib/errors'
 
 export const inputCls =
   'w-full rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 px-3 py-2 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500'
@@ -99,7 +100,7 @@ export function EmployeeForm({
       if (error) throw error
       onSaved()
     } catch (err) {
-      const msg = err instanceof Error ? err.message : 'Failed to save employee.'
+      const msg = errMsg(err, 'Failed to save employee.')
       setError(msg.includes('duplicate') ? 'This business already has an employee with that name.' : msg)
     } finally {
       setSaving(false)

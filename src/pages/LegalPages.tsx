@@ -12,7 +12,7 @@ import { Wrap, usePageMeta } from '../marketing/ui'
 const APP = 'Solo Books'
 const OPERATOR = 'Latchpoint Studios, LLC'
 const CONTACT = 'terrence@latchpointstudios.com'
-const UPDATED = 'November 11, 2026'
+const UPDATED = 'November 15, 2026'
 
 function Shell({ title, children }: { title: string; children: ReactNode }) {
   usePageMeta(`${title} | ${APP}`, `${title} for ${APP}, the bookkeeping and payroll app from ${OPERATOR}.`)
@@ -58,10 +58,17 @@ export function PrivacyPage() {
           <strong>Payroll information</strong>, if you use the payroll feature: your employees' names, pay rates and pay frequency, the tax elections from
           their W-4 and Oklahoma OK-W-4, hours, bonuses, and the pay stubs and tax amounts the app calculates.
         </li>
+        <li>
+          <strong>Bank statement information</strong>, if you use the banking feature: the name you give a checking or savings account, an optional last four
+          digits, its opening balance, and the transactions (date, amount, and the description your bank printed) from the statement files you choose to upload.
+          Solo Books does not connect to your bank. You download the file from your bank and upload it yourself.
+        </li>
       </ul>
       <p>
-        <strong>What we deliberately do not collect:</strong> Social Security numbers, bank account or routing numbers, and card numbers. The app has no fields
-        for them and does not connect to your bank. Please do not type them into description or notes fields either.
+        <strong>What we deliberately do not collect:</strong> your online banking username or password, full bank account or routing numbers, Social Security
+        numbers, and card numbers. The app has no fields for them. A statement file you upload can contain more than the transactions, so only the lines
+        (date, amount, description) are read and saved, and the file itself is not kept. Please do not type any of these into description or notes fields
+        either.
       </p>
       <p>
         Your sign-in comes from an account system that other apps from {OPERATOR} also use. Creating a {APP} account may create an empty account record
@@ -174,7 +181,7 @@ export function TermsPage() {
         <li>Use the app only for lawful business purposes.</li>
         <li>Do not try to access other people's data, interfere with the app's operation, or probe it for weaknesses without our written permission.</li>
         <li>Do not upload content you have no right to use, or that is unlawful, deceptive, or infringing.</li>
-        <li>Do not enter Social Security numbers, bank account numbers, or card numbers into the app.</li>
+        <li>Do not enter Social Security numbers, full bank account or routing numbers, online banking passwords, or card numbers into the app.</li>
       </ul>
 
       <h2>Your content</h2>

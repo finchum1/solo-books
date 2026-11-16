@@ -160,7 +160,7 @@ export function PayrollFeaturePage() {
                 'It doesn’t file anything. You file Forms 941 and 940, your Oklahoma returns and W-2s yourself, using the totals it gives you.',
                 'It supports Oklahoma employers. Other states aren’t built yet.',
                 'No pre-tax deductions (such as a 401(k) or health premiums) or garnishments yet.',
-                'It never stores Social Security numbers or bank details.',
+                'It never stores Social Security numbers or bank logins.',
               ]}
             />
             <P className="mt-6">Tax tables are for 2026 and updated each year. Have a CPA or payroll professional look over your setup before your first run.</P>

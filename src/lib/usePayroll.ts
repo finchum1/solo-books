@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { supabase } from './supabase'
 import type { Employee, PayrollRun, PayrollSettings, PayStub } from './types'
+import { errMsg } from './errors'
 
 /**
  * Small fetch-on-mount hook factory shared by the payroll tables, matching the
@@ -23,7 +24,7 @@ function useTable<T>(table: string, orderBy: { column: string; ascending: boolea
       setRows(data as T[])
       setError(null)
     } catch (err) {
-      setError(err instanceof Error ? err.message : `Failed to load ${table}.`)
+      setError(errMsg(err, `Failed to load ${table}.`))
     } finally {
       setLoading(false)
     }

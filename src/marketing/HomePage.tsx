@@ -312,7 +312,7 @@ function Private() {
   const facts = [
     { t: 'Your records stay yours', d: 'Each account is separated from every other by rules enforced in the database itself, not just in the app.' },
     { t: 'Receipts stay private', d: 'Files are never public. They open only through a short-lived link made for your signed-in account.' },
-    { t: 'No Social Security or bank numbers', d: 'The app has no fields for them and never connects to your bank, so there is nothing of that kind to leak.' },
+    { t: 'No bank logins, no sensitive numbers', d: 'It never asks for your bank password, full account number or Social Security number. You upload statement files yourself, and only the transactions are saved.' },
   ]
   return (
     <section className="py-24 sm:py-32">
