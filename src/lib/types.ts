@@ -56,6 +56,8 @@ export interface Transaction {
   receipt_path: string | null
   contractor: string | null
   client: string | null
+  /** Set when this entry is matched to bank statement line(s). */
+  bank_match_id?: string | null
   created_at: string
 }
 
@@ -161,14 +163,31 @@ export interface BankImport {
   created_at: string
 }
 
+export type BankLineStatus = 'pending_review' | 'matched' | 'imported' | 'transfer' | 'ignored'
+
 export interface BankLine {
   id: string
   bank_account_id: string
+  business_id: string
   posted_date: string | null
   amount: number
   description: string | null
-  status: 'pending_review' | 'imported' | 'ignored'
+  status: BankLineStatus
   import_id: string | null
+  match_id: string | null
+  transfer_pair_id: string | null
+  reconciliation_id: string | null
+}
+
+export interface BankReconciliation {
+  id: string
+  bank_account_id: string
+  period_start: string
+  statement_end_date: string
+  start_balance: number
+  statement_end_balance: number
+  lines_count: number
+  finished_at: string
 }
 
 export interface BankAccountSummary {

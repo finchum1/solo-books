@@ -1,12 +1,15 @@
 import { useCallback, useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
-import type { BankAccount, BankAccountSummary, BankImport, BankLine, Business } from '../../lib/types'
+import type { BankAccount, BankAccountSummary, BankImport, BankLine, BankReconciliation, Business } from '../../lib/types'
 import { AccountForm } from './AccountForm'
 import { ImportWizard } from './ImportWizard'
+import { ReviewTab } from './ReviewTab'
+import { ReconcileTab } from './ReconcileTab'
 import { cardCls, fmtDate, ghostBtn, inputCls, money, primaryBtn } from './shared'
 import { errMsg } from '../../lib/errors'
 
 const PAGE = 100
+const STATUS_LABEL: Record<BankLine['status'], string> = { pending_review: 'To review', matched: 'Matched', imported: 'In Ledger', transfer: 'Transfer', ignored: 'Ignored' }
 
 export function AccountDetail({
   account,
@@ -34,6 +37,9 @@ export function AccountDetail({
   const [imports, setImports] = useState<BankImport[]>([])
   const [tick, setTick] = useState(0)
   const [busyImport, setBusyImport] = useState<string | null>(null)
+  const [tab, setTab] = useState<'lines' | 'review' | 'reconcile'>('lines')
+  const [reconciliations, setReconciliations] = useState<BankReconciliation[]>([])
+  const [siblingIds, setSiblingIds] = useState<string[]>([])
 
   const refresh = useCallback(() => {
     setTick((n) => n + 1)
@@ -53,7 +59,7 @@ export function AccountDetail({
       try {
         let q = supabase
           .from('bank_transactions')
-          .select('id,bank_account_id,posted_date,amount,description,status,import_id')
+          .select('id,bank_account_id,business_id,posted_date,amount,description,status,import_id,match_id,transfer_pair_id,reconciliation_id')
           .eq('bank_account_id', account.id)
           .order('posted_date', { ascending: false })
           .order('id', { ascending: false })
@@ -90,11 +96,37 @@ export function AccountDetail({
     }
   }, [account.id, tick])
 
+  useEffect(() => {
+    let cancelled = false
+    supabase
+      .from('bank_reconciliations')
+      .select('*')
+      .eq('bank_account_id', account.id)
+      .order('statement_end_date', { ascending: false })
+      .then(({ data }) => !cancelled && setReconciliations((data ?? []) as BankReconciliation[]))
+    return () => {
+      cancelled = true
+    }
+  }, [account.id, tick])
+
+  useEffect(() => {
+    let cancelled = false
+    supabase
+      .from('bank_accounts')
+      .select('id')
+      .eq('business_id', account.business_id)
+      .is('connection_id', null)
+      .then(({ data }) => !cancelled && setSiblingIds((data ?? []).map((r) => r.id as string)))
+    return () => {
+      cancelled = true
+    }
+  }, [account.business_id])
+
   async function loadMore() {
     setLoadingLines(true)
     let q = supabase
       .from('bank_transactions')
-      .select('id,bank_account_id,posted_date,amount,description,status,import_id')
+      .select('id,bank_account_id,business_id,posted_date,amount,description,status,import_id,match_id,transfer_pair_id,reconciliation_id')
       .eq('bank_account_id', account.id)
       .order('posted_date', { ascending: false })
       .order('id', { ascending: false })
@@ -134,6 +166,8 @@ export function AccountDetail({
     onBack()
   }
 
+  const lockedThrough = [account.opening_balance_date, reconciliations[0]?.statement_end_date].filter(Boolean).sort().pop() as string
+  const toReview = summary?.unreviewed_count ?? 0
   const balance = account.opening_balance + (summary?.counted_sum ?? 0)
   const before = (summary?.line_count ?? 0) - (summary?.counted_count ?? 0)
 
@@ -159,6 +193,7 @@ export function AccountDetail({
     return (
       <ImportWizard
         account={account}
+        reconciledThrough={reconciliations[0]?.statement_end_date ?? null}
         onCancel={() => setMode('view')}
         onDone={(msg) => {
           setMode('view')
@@ -229,6 +264,31 @@ export function AccountDetail({
         )}
       </section>
 
+      <div role="tablist" aria-label="Account sections" className="flex gap-1 border-b border-slate-200 dark:border-slate-800">
+        {(
+          [
+            ['lines', 'Lines'],
+            ['review', toReview > 0 ? `Review (${toReview.toLocaleString()})` : 'Review'],
+            ['reconcile', 'Reconcile'],
+          ] as const
+        ).map(([id, label]) => (
+          <button
+            key={id}
+            type="button"
+            role="tab"
+            aria-selected={tab === id}
+            onClick={() => setTab(id)}
+            className={`px-4 py-2 text-sm font-medium -mb-px border-b-2 transition ${tab === id ? 'border-emerald-600 text-emerald-700 dark:text-emerald-400' : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'}`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {tab === 'review' && <ReviewTab account={account} siblingAccountIds={siblingIds} lockedThrough={lockedThrough} onChanged={refresh} />}
+      {tab === 'reconcile' && <ReconcileTab account={account} reconciliations={reconciliations} onChanged={refresh} onGoReview={() => setTab('review')} />}
+
+      {tab === 'lines' && (
       <section className={cardCls}>
         <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
           <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Statement lines</h3>
@@ -252,6 +312,7 @@ export function AccountDetail({
                 <div key={l.id} className="flex items-center gap-3 py-2.5 text-sm">
                   <span className="w-24 shrink-0 text-slate-500 dark:text-slate-400 tabular-nums">{fmtDate(l.posted_date)}</span>
                   <span className="flex-1 min-w-0 truncate text-slate-800 dark:text-slate-200">{l.description || <em className="text-slate-400">no description</em>}</span>
+                  {l.status !== 'pending_review' && <span className="shrink-0 text-xs text-slate-500 dark:text-slate-400">{l.reconciliation_id ? 'Reconciled' : STATUS_LABEL[l.status]}</span>}
                   <span className={`tabular-nums ${Number(l.amount) < 0 ? 'text-rose-600 dark:text-rose-400' : 'text-emerald-700 dark:text-emerald-400'}`}>{money(Number(l.amount))}</span>
                 </div>
               ))}
@@ -265,8 +326,9 @@ export function AccountDetail({
           </>
         )}
       </section>
+      )}
 
-      {imports.length > 0 && (
+      {tab === 'lines' && imports.length > 0 && (
         <section className={cardCls}>
           <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-3">Imports</h3>
           <ul className="divide-y divide-slate-200 dark:divide-slate-800">

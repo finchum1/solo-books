@@ -29,7 +29,7 @@ interface Parsed {
 
 const colName = (rows: string[][], headerRow: number, i: number) => (headerRow >= 0 ? rows[headerRow][i] || `Column ${i + 1}` : `Column ${i + 1}`)
 
-export function ImportWizard({ account, onDone, onCancel }: { account: BankAccount; onDone: (message: string) => void; onCancel: () => void }) {
+export function ImportWizard({ account, reconciledThrough, onDone, onCancel }: { account: BankAccount; /** Lines dated on or before this belong to a finished reconciliation and are not imported. */ reconciledThrough?: string | null; onDone: (message: string) => void; onCancel: () => void }) {
   const [parsed, setParsed] = useState<Parsed | null>(null)
   const [readError, setReadError] = useState<string | null>(null)
   const [dragging, setDragging] = useState(false)
@@ -107,15 +107,17 @@ export function ImportWizard({ account, onDone, onCancel }: { account: BankAccou
     }
   }, [idsKey, first, last, account.id])
 
-  const duplicates = built && existingIds ? built.lines.filter((l) => existingIds.has(l.externalId)).length : 0
-  const fresh = built ? built.lines.length - duplicates : 0
+  const closedLines = built && reconciledThrough ? built.lines.filter((l) => l.date <= reconciledThrough).length : 0
+  const importable = built ? built.lines.filter((l) => !reconciledThrough || l.date > reconciledThrough) : []
+  const duplicates = existingIds ? importable.filter((l) => existingIds.has(l.externalId)).length : 0
+  const fresh = importable.length - duplicates
 
-  const beforeOpening = account.opening_balance_date && built ? built.lines.filter((l) => l.date <= account.opening_balance_date!).length : 0
+  const beforeOpening = account.opening_balance_date && built ? importable.filter((l) => l.date <= account.opening_balance_date!).length : 0
   const mostlyPositive = built && !splitColumns && built.lines.length >= 5 && built.lines.filter((l) => l.amount > 0).length / built.lines.length > 0.85
   const maskMismatch = parsed?.source === 'ofx' && parsed.ofx!.accountLast4 && account.mask && parsed.ofx!.accountLast4 !== account.mask
 
   async function runImport() {
-    if (!built || !summary || built.lines.length === 0) return
+    if (!built || !summary || importable.length === 0) return
     setImporting(true)
     setImportError(null)
     let importId: string | null = null
@@ -136,8 +138,8 @@ export function ImportWizard({ account, onDone, onCancel }: { account: BankAccou
       if (impErr) throw impErr
       importId = imp.id as string
       let added = 0
-      for (let i = 0; i < built.lines.length; i += CHUNK) {
-        const slice = built.lines.slice(i, i + CHUNK).map((l) => ({
+      for (let i = 0; i < importable.length; i += CHUNK) {
+        const slice = importable.slice(i, i + CHUNK).map((l) => ({
           bank_account_id: account.id,
           business_id: account.business_id,
           import_id: importId,
@@ -152,7 +154,7 @@ export function ImportWizard({ account, onDone, onCancel }: { account: BankAccou
         if (error) throw error
         added += data?.length ?? 0
       }
-      const skipped = built.lines.length - added
+      const skipped = importable.length - added
       if (added === 0) {
         await supabase.from('bank_imports').delete().eq('id', importId)
       } else {
@@ -161,7 +163,7 @@ export function ImportWizard({ account, onDone, onCancel }: { account: BankAccou
       }
       onDone(
         added === 0
-          ? `Nothing new: all ${built.lines.length} lines were already imported.`
+          ? `Nothing new: all ${importable.length} lines were already imported.`
           : `Imported ${added} new line${added === 1 ? '' : 's'}${skipped ? ` (${skipped} already there, skipped)` : ''}.`,
       )
     } catch (err) {
@@ -364,6 +366,11 @@ export function ImportWizard({ account, onDone, onCancel }: { account: BankAccou
                 {mostlyPositive && (
                   <p className="text-amber-700 dark:text-amber-400">
                     Nearly every amount is positive. If this file shows withdrawals as positive numbers, tick "Withdrawals are shown as positive numbers".
+                  </p>
+                )}
+                {closedLines > 0 && (
+                  <p className="text-amber-700 dark:text-amber-400">
+                    {closedLines} line{closedLines === 1 ? ' is' : 's are'} dated on or before {fmtDate(reconciledThrough)}, a period you've already reconciled. {closedLines === 1 ? 'It' : 'They'} won't be imported. Reopen that reconciliation first if you need to add {closedLines === 1 ? 'it' : 'them'}.
                   </p>
                 )}
                 {beforeOpening > 0 && (

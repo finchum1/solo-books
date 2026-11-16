@@ -5,6 +5,8 @@ import { useBusinesses } from '../lib/useBusinesses'
 import { useCategories } from '../lib/useCategories'
 import { useContractors } from '../lib/useContractors'
 import { useClients } from '../lib/useClients'
+import { undoMatchGroup } from '../lib/bankActions'
+import { errMsg } from '../lib/errors'
 import { deleteReceipt, getReceiptUrl, uploadReceipt } from '../lib/receipts'
 import { Combobox } from '../components/Combobox'
 import { ReceiptDropZone } from '../components/ReceiptDropZone'
@@ -168,15 +170,19 @@ export function LedgerPage() {
     }
   }
 
-  async function handleDelete(id: string, receiptPath: string | null) {
-    if (!confirm('Delete this transaction? This cannot be undone.')) return
+  async function handleDelete(id: string, receiptPath: string | null, matchId: string | null) {
+    const msg = matchId
+      ? 'This entry is matched to bank statement lines. Deleting it puts those lines back to "To review" on the Banking page. Delete it? This cannot be undone.'
+      : 'Delete this transaction? This cannot be undone.'
+    if (!confirm(msg)) return
     try {
+      if (matchId) await undoMatchGroup(matchId)
       const { error } = await supabase.from('transactions').delete().eq('id', id)
       if (error) throw error
       if (receiptPath) await deleteReceipt(receiptPath)
       fetchTransactions()
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to delete transaction.')
+      setError(errMsg(err, 'Failed to delete transaction.'))
     }
   }
 
@@ -489,7 +495,7 @@ export function LedgerPage() {
                         Edit
                       </button>
                       <button
-                        onClick={() => handleDelete(tx.id, tx.receipt_path)}
+                        onClick={() => handleDelete(tx.id, tx.receipt_path, tx.bank_match_id ?? null)}
                         className="text-slate-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 text-xs"
                       >
                         Delete
