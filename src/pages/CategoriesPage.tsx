@@ -184,12 +184,12 @@ function CategoryList({
   )
 }
 
-export function CategoriesPage() {
+export function CategoriesPage({ initialScope = null }: { initialScope?: string | null }) {
   const { categories, loading, error: fetchError, refetch } = useCategories()
   const { businesses } = useBusinesses()
   const access = useAccess()
   const [error, setError] = useState<string | null>(null)
-  const [scopeChoice, setScopeChoice] = useState<string | null>(null)
+  const [scopeChoice, setScopeChoice] = useState<string | null>(initialScope)
   const [busy, setBusy] = useState(false)
 
   const writable = businesses.filter((b) => access.canWrite(b.id))

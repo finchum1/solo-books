@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
+import { supabase } from '../../lib/supabase'
 import { useBusinesses } from '../../lib/useBusinesses'
 import { ROLE_HELP, ROLE_LABEL, useAccess } from '../../lib/access'
 import type { Role } from '../../lib/access'
@@ -18,7 +19,7 @@ const ASSIGNABLE: Exclude<Role, 'owner'>[] = ['admin', 'bookkeeper', 'viewer']
 const initials = (name: string) => name.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase() || '?'
 const daysLeft = (iso: string) => Math.max(0, Math.ceil((new Date(iso).getTime() - Date.now()) / 86_400_000))
 
-export function TeamTab() {
+export function TeamTab({ onOpenCategories }: { onOpenCategories?: (businessId: string) => void }) {
   const { businesses } = useBusinesses()
   const access = useAccess()
   const mine = businesses.filter((b) => access.roleOf(b.id))
@@ -39,6 +40,7 @@ export function TeamTab() {
   const [role, setRole] = useState<Exclude<Role, 'owner'>>('bookkeeper')
   const [fresh, setFresh] = useState<{ link: string; emailed: boolean; to: string; problem: string | null } | null>(null)
   const [copied, setCopied] = useState<string | null>(null)
+  const [hasSharedCats, setHasSharedCats] = useState<boolean | null>(null)
 
   const load = useCallback(async () => {
     if (!current) return
@@ -54,6 +56,21 @@ export function TeamTab() {
       setLoading(false)
     }
   }, [current, manage])
+
+  // Without a shared category list, each person falls back to their own personal one, so teammates would not file things the same way.
+  useEffect(() => {
+    setHasSharedCats(null)
+    if (!current) return
+    let cancelled = false
+    supabase
+      .from('categories')
+      .select('id', { count: 'exact', head: true })
+      .eq('business_id', current)
+      .then(({ count, error }) => !cancelled && !error && setHasSharedCats((count ?? 0) > 0))
+    return () => {
+      cancelled = true
+    }
+  }, [current])
 
   useEffect(() => {
     setFresh(null)
@@ -207,6 +224,20 @@ export function TeamTab() {
         )}
         {!manage && myRole && <p className="mt-4 text-xs text-slate-500 dark:text-slate-400">You are {ROLE_LABEL[myRole].toLowerCase() === 'view-only' ? 'view-only' : `a ${ROLE_LABEL[myRole].toLowerCase()}`} here. Only an owner or admin can add or remove people.</p>}
       </section>
+
+      {current && access.canWrite(current) && hasSharedCats === false && (
+        <section className="rounded-2xl border border-amber-300/60 dark:border-amber-500/30 bg-amber-50 dark:bg-amber-500/10 p-5">
+          <h2 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Set up a shared category list</h2>
+          <p className="mt-1 text-sm text-slate-700 dark:text-slate-300">
+            {business?.name} doesn't have its own categories yet, so each person would use their own list. Create one list that everyone on the team uses. Admins and bookkeepers can add and rename categories in it, and view-only people can see it.
+          </p>
+          {onOpenCategories && (
+            <button type="button" onClick={() => onOpenCategories(current)} className={`${primary} mt-3`}>
+              Set up categories
+            </button>
+          )}
+        </section>
+      )}
 
       {manage && (
         <section className={cardCls}>

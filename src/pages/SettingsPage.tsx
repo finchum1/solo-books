@@ -16,6 +16,7 @@ const TABS: { key: Tab; label: string }[] = [
 
 export function SettingsPage({ session }: { session: Session }) {
   const [tab, setTab] = useState<Tab>('profile')
+  const [catScope, setCatScope] = useState<string | null>(null)
 
   return (
     <div>
@@ -38,7 +39,7 @@ export function SettingsPage({ session }: { session: Session }) {
         </div>
       </div>
 
-      {tab === 'profile' ? <ProfileTab session={session} /> : tab === 'businesses' ? <BusinessesPage /> : tab === 'categories' ? <CategoriesPage /> : <TeamTab />}
+      {tab === 'profile' ? <ProfileTab session={session} /> : tab === 'businesses' ? <BusinessesPage /> : tab === 'categories' ? <CategoriesPage initialScope={catScope} /> : <TeamTab onOpenCategories={(id) => { setCatScope(id); setTab('categories') }} />}
     </div>
   )
 }
