@@ -98,7 +98,7 @@ viewed on screen, or exported as a clean PDF to hand to an accountant or keep fo
 - **Marketing (updated 2026-11-15)**: Budget and Banking are advertised on / and /features (new screenshots shot-budget, shot-banking,
   shot-reconcile in public/landing, light and dark, from sample data) and the payroll page mentions bank-line recognition. A
   new-user one-page PDF lives in docs/ (Solo-Books-Budget-and-Banking-Quick-Start.pdf, source .html next to it). The older shots
-  (home, ledger, reports, payroll, mobile) predate the new S logo and the More folder and could be retaken.
+  (home, ledger, reports, payroll, payroll-report, mobile) were retaken 2026-11-15 with the new logo and the More folder; sample data is Riverside Landscaping / Northgate Consulting / Blue Harbor Coffee Co. and the Payroll shot's three employees reproduce the $5,924.85 net the home-page overlay card quotes.
 - **Planned next**: an optional live bank feed; auto-categorization rules; credit cards and loans are not supported yet.
 - **Public site (rebuilt 2026-11-12)**: real pages at /, /features, /features/payroll, /security, /signin,
   /signup, /privacy, /terms with a light/dark toggle, a floating liquid-glass pill header, and a footer that
