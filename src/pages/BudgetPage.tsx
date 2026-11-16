@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { fetchAllRows } from '../lib/fetchAll'
 import { supabase } from '../lib/supabase'
 import { useBusinesses } from '../lib/useBusinesses'
 import { useCategories } from '../lib/useCategories'
@@ -209,12 +210,11 @@ export function BudgetPage() {
           bq = bq.eq('business_id', effectiveId)
           tq = tq.eq('business_id', effectiveId)
         }
-        const [b, t] = await Promise.all([bq, tq])
+        const [b, tData] = await Promise.all([bq, fetchAllRows<Transaction>((x, y) => tq.order('id').range(x, y))])
         if (b.error) throw b.error
-        if (t.error) throw t.error
         if (cancelled) return
         setBudgets(b.data as Budget[])
-        setTransactions(t.data as Transaction[])
+        setTransactions(tData)
         setLoadError(null)
         setLoadedKey(dataKey)
       } catch (err) {
@@ -333,14 +333,16 @@ export function BudgetPage() {
     setError(null)
     setNotice(null)
     try {
-      const { data, error } = await supabase
-        .from('transactions')
-        .select('*')
-        .eq('business_id', effectiveId)
-        .gte('date', shiftMonth(month, -3))
-        .lte('date', monthEnd(shiftMonth(month, -1)))
-      if (error) throw error
-      const hist = data as Transaction[]
+      const hist = await fetchAllRows<Transaction>((x, y) =>
+        supabase
+          .from('transactions')
+          .select('*')
+          .eq('business_id', effectiveId)
+          .gte('date', shiftMonth(month, -3))
+          .lte('date', monthEnd(shiftMonth(month, -1)))
+          .order('id')
+          .range(x, y),
+      )
       const have = new Set(budgets.map((b) => `${b.type}|${catKey(b.category)}`))
       const add: { type: TxType; category: string; amount: number }[] = []
       for (const type of ['expense', 'income'] as const) {

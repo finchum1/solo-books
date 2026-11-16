@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { fetchAllRows } from '../lib/fetchAll'
 import { supabase } from '../lib/supabase'
 import { useBusinesses } from '../lib/useBusinesses'
 import { StatCard } from '../components/StatCard'
@@ -22,9 +23,8 @@ export function HomePage() {
     async function load() {
       setLoading(true)
       try {
-        const { data, error } = await supabase.from('transactions').select('*').gte('date', startOfYear())
-        if (error) throw error
-        setTransactions((data ?? []) as Transaction[])
+        const data = await fetchAllRows<Transaction>((a, b) => supabase.from('transactions').select('*').gte('date', startOfYear()).order('id').range(a, b))
+        setTransactions(data)
         setError(null)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load overview.')

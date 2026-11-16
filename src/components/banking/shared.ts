@@ -16,15 +16,4 @@ export function fmtDate(ymd: string | null | undefined): string {
   return new Date(y, m - 1, d).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
 }
 
-/** Reads every row of a query that may hold more than the API's per-request limit. */
-export async function fetchAllRows<T>(page: (from: number, to: number) => PromiseLike<{ data: T[] | null; error: { message: string } | null }>): Promise<T[]> {
-  const out: T[] = []
-  const SIZE = 1000
-  for (let from = 0; ; from += SIZE) {
-    const { data, error } = await page(from, from + SIZE - 1)
-    if (error) throw new Error(error.message)
-    out.push(...(data ?? []))
-    if (!data || data.length < SIZE) break
-  }
-  return out
-}
+export { fetchAllRows } from '../../lib/fetchAll'

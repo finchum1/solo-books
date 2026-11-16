@@ -29,12 +29,16 @@ const emptyForm = {
   client: '',
 }
 
+const PAGE = 200
+
 export function LedgerPage() {
   const { businesses, loading: businessesLoading } = useBusinesses()
   const { categories } = useCategories()
   const { contractors } = useContractors()
   const { clients } = useClients()
   const [transactions, setTransactions] = useState<Transaction[]>([])
+  const [hasMore, setHasMore] = useState(false)
+  const [loadingMore, setLoadingMore] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
@@ -56,7 +60,7 @@ export function LedgerPage() {
     }
   }, [activeBusinesses, form.business_id])
 
-  async function fetchTransactions() {
+  async function fetchTransactions(count = PAGE) {
     setLoading(true)
     try {
       let query = supabase
@@ -64,17 +68,42 @@ export function LedgerPage() {
         .select('*')
         .order('date', { ascending: false })
         .order('created_at', { ascending: false })
-        .limit(200)
+        .order('id', { ascending: false })
+        .range(0, count - 1)
       if (filterBusiness !== 'all') query = query.eq('business_id', filterBusiness)
       if (filterType !== 'all') query = query.eq('type', filterType)
       const { data, error } = await query
       if (error) throw error
       setTransactions(data as Transaction[])
+      setHasMore((data?.length ?? 0) === count)
       setError(null)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load transactions.')
+      setError(errMsg(err, 'Failed to load transactions.'))
     } finally {
       setLoading(false)
+    }
+  }
+
+  async function showMore() {
+    setLoadingMore(true)
+    try {
+      let query = supabase
+        .from('transactions')
+        .select('*')
+        .order('date', { ascending: false })
+        .order('created_at', { ascending: false })
+        .order('id', { ascending: false })
+        .range(transactions.length, transactions.length + PAGE - 1)
+      if (filterBusiness !== 'all') query = query.eq('business_id', filterBusiness)
+      if (filterType !== 'all') query = query.eq('type', filterType)
+      const { data, error } = await query
+      if (error) throw error
+      setTransactions((prev) => [...prev, ...(data as Transaction[])])
+      setHasMore((data?.length ?? 0) === PAGE)
+    } catch (err) {
+      setError(errMsg(err, 'Failed to load more transactions.'))
+    } finally {
+      setLoadingMore(false)
     }
   }
 
@@ -162,7 +191,7 @@ export function LedgerPage() {
         : await supabase.from('transactions').insert(payload)
       if (error) throw error
       cancelEdit()
-      fetchTransactions()
+      fetchTransactions(Math.max(PAGE, transactions.length))
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to save transaction.')
     } finally {
@@ -180,7 +209,7 @@ export function LedgerPage() {
       const { error } = await supabase.from('transactions').delete().eq('id', id)
       if (error) throw error
       if (receiptPath) await deleteReceipt(receiptPath)
-      fetchTransactions()
+      fetchTransactions(Math.max(PAGE, transactions.length))
     } catch (err) {
       setError(errMsg(err, 'Failed to delete transaction.'))
     }
@@ -505,6 +534,18 @@ export function LedgerPage() {
                 ))}
               </tbody>
             </table>
+            {hasMore && (
+              <div className="pt-4 text-center">
+                <button
+                  type="button"
+                  onClick={showMore}
+                  disabled={loadingMore}
+                  className="rounded-lg px-4 py-2 text-sm text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-800 disabled:opacity-60 transition"
+                >
+                  {loadingMore ? 'Loading…' : 'Show older transactions'}
+                </button>
+              </div>
+            )}
           </div>
         )}
       </section>

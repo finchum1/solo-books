@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { fetchAllRows } from '../lib/fetchAll'
 import { supabase } from '../lib/supabase'
 import { useBusinesses } from '../lib/useBusinesses'
 import { getLogoUrl } from '../lib/logos'
@@ -48,9 +49,8 @@ export function ClientReportPage() {
         if (businessId !== 'all') query = query.eq('business_id', businessId)
         if (range.from) query = query.gte('date', range.from)
         if (range.to) query = query.lte('date', range.to)
-        const { data, error } = await query
-        if (error) throw error
-        setTransactions(data as Transaction[])
+        const data = await fetchAllRows<Transaction>((a, b) => query.order('id').range(a, b))
+        setTransactions(data)
         setError(null)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load client payments.')
