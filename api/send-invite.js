@@ -26,7 +26,7 @@ export function buildEmail({ business, inviter, role, link }) {
     '',
     `Accept the invitation: ${link}`,
     '',
-    'The link works once and expires in 7 days. Sign in to your Solo Books account to accept it. Solo Books is invite-only, so if you do not have an account yet, reply to the person who invited you.',
+    'The link works once and expires in 7 days. Open it to sign in, or to create your account if you do not have one yet.',
     "If you weren't expecting this, you can ignore this email.",
   ].join('\n')
   const html = `<!doctype html><html><body style="margin:0;padding:24px;background:#f6f6f4;font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;color:#0a0b0d">
@@ -35,7 +35,7 @@ export function buildEmail({ business, inviter, role, link }) {
     <h1 style="font-size:20px;line-height:1.3;margin:0 0 12px">${esc(who)} invited you to join ${esc(business)}</h1>
     <p style="font-size:15px;line-height:1.55;color:#585a61;margin:0 0 24px">You'll be ${esc(roleText)}.</p>
     <a href="${esc(link)}" style="display:inline-block;background:#cbb078;color:#1a1408;text-decoration:none;font-weight:600;font-size:15px;padding:12px 22px;border-radius:999px">Accept the invitation</a>
-    <p style="font-size:13px;line-height:1.5;color:#585a61;margin:24px 0 0">The link works once and expires in 7 days. Sign in to your Solo Books account to accept it. Solo Books is invite-only, so if you don't have an account yet, reply to the person who invited you.</p>
+    <p style="font-size:13px;line-height:1.5;color:#585a61;margin:24px 0 0">The link works once and expires in 7 days. Open it to sign in, or to create your account if you don't have one yet.</p>
     <p style="font-size:12px;line-height:1.5;color:#8a8c93;margin:16px 0 0">If the button doesn't work, paste this into your browser:<br><span style="word-break:break-all">${esc(link)}</span></p>
     <p style="font-size:12px;color:#8a8c93;margin:16px 0 0">If you weren't expecting this, you can ignore this email.</p>
   </div></body></html>`

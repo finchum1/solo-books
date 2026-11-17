@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
@@ -7,8 +7,10 @@ import { BrandMark } from '../components/BrandMark'
 import { Reveal, Wrap, usePageMeta } from './ui'
 import { H1, HeroGlow, Ticks } from './blocks'
 import { CONTACT_EMAIL, REQUEST_INVITE_HREF } from './access'
+import { pendingInvite, previewInvite } from '../lib/team'
+import type { InvitePreview } from '../lib/team'
 
-/** 'signup' is the invite-only page: Solo Books has no public sign-up, so there is no form for it. */
+/** 'signup' is invite-only: it shows a create-account form only for someone holding an invitation link; everyone else sees how to request one. */
 type Mode = 'signin' | 'signup'
 
 const inputStyle = { background: panel.bgRaised2, color: panel.ink, caretColor: panel.goldText }
@@ -69,7 +71,7 @@ function InviteOnly() {
         </Link>
       </p>
       <p className="mt-3 text-center text-sm" style={{ color: panel.inkDim }}>
-        Were you sent an invitation link? Open that link and sign in there.
+        Were you sent an invitation link? Open that link again to get set up.
       </p>
       <p className="mt-5 text-center text-xs" style={{ color: panel.inkDim }}>
         <Link to="/terms" className="underline" style={{ color: panel.goldText }}>
@@ -82,6 +84,88 @@ function InviteOnly() {
       </p>
     </div>
   )
+}
+
+/** Create an account, for someone who opened an invitation link. The session that results sends them back to /join/<token> (see App). */
+function InviteSignUp({ invite }: { invite: InvitePreview }) {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirm, setConfirm] = useState('')
+  const [error, setError] = useState<string | null>(null)
+  const [notice, setNotice] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
+
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault()
+    setError(null)
+    setNotice(null)
+    if (password.length < 8) return setError('Use a password of at least 8 characters.')
+    if (password !== confirm) return setError('Those passwords do not match.')
+    setLoading(true)
+    const { data, error } = await supabase.auth.signUp({ email, password })
+    setLoading(false)
+    if (error) return setError(error.message)
+    // With a session, the app carries them to the invitation. Without one, the project wants the email confirmed first.
+    if (!data.session) setNotice('Check your email to confirm your address, then open your invitation link again.')
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <h2 className="text-2xl font-semibold tracking-tight" style={{ color: panel.ink }}>
+        Create your account
+      </h2>
+      <p className="mb-5 mt-2 text-[15px]" style={{ color: panel.inkDim }}>
+        You were invited to join <strong style={{ color: panel.ink }}>{invite.business_name}</strong>. Create an account and you’ll go straight to it.
+      </p>
+      <Label>Email</Label>
+      <input type="email" required autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inputCls} style={inputStyle} />
+      <Label>Password</Label>
+      <input type="password" required minLength={8} autoComplete="new-password" value={password} onChange={(e) => setPassword(e.target.value)} className={inputCls} style={inputStyle} />
+      <Label>Confirm password</Label>
+      <input type="password" required minLength={8} autoComplete="new-password" value={confirm} onChange={(e) => setConfirm(e.target.value)} className={inputCls} style={inputStyle} />
+      {error && <Message kind="error">{error}</Message>}
+      {notice && <Message kind="ok">{notice}</Message>}
+      <SubmitButton loading={loading}>{loading ? 'Creating account…' : 'Create account'}</SubmitButton>
+      <p className="mt-5 text-center text-sm" style={{ color: panel.inkDim }}>
+        Already have an account?{' '}
+        <Link to="/signin" className="underline" style={{ color: panel.goldText }}>
+          Sign in
+        </Link>
+      </p>
+      <p className="mt-3 text-center text-xs" style={{ color: panel.inkDim }}>
+        By creating an account you agree to the{' '}
+        <Link to="/terms" className="underline" style={{ color: panel.goldText }}>
+          Terms of Service
+        </Link>{' '}
+        and{' '}
+        <Link to="/privacy" className="underline" style={{ color: panel.goldText }}>
+          Privacy Policy
+        </Link>
+        .
+      </p>
+    </form>
+  )
+}
+
+/** Shows the create-account form only when the stored invitation is still good; otherwise the invite-only card. */
+function SignUpGate() {
+  const token = pendingInvite.get()
+  const [invite, setInvite] = useState<InvitePreview | null | 'none'>(token ? null : 'none')
+
+  useEffect(() => {
+    if (!token) return
+    let live = true
+    previewInvite(token)
+      .then((p) => live && setInvite(p.status === 'valid' ? p : 'none'))
+      .catch(() => live && setInvite('none'))
+    return () => {
+      live = false
+    }
+  }, [token])
+
+  if (invite === null) return <p style={{ color: panel.inkDim }}>Checking your invitation…</p>
+  if (invite === 'none') return <InviteOnly />
+  return <InviteSignUp invite={invite} />
 }
 
 function Form() {
@@ -203,7 +287,7 @@ export function AuthPage({ mode }: { mode: Mode }) {
         </Reveal>
         <Reveal delay={0.08}>
           <div className="rounded-3xl p-7 sm:p-9" style={{ background: panel.bgRaised, boxShadow: `0 0 0 1px ${panel.border}, var(--mk-frame-shadow)` }}>
-            {mode === 'signup' ? <InviteOnly /> : <Form />}
+            {mode === 'signup' ? <SignUpGate /> : <Form />}
           </div>
         </Reveal>
       </Wrap>

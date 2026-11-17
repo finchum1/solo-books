@@ -242,7 +242,7 @@ export function TeamTab({ onOpenCategories }: { onOpenCategories?: (businessId: 
       {manage && (
         <section className={cardCls}>
           <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-1">Invite someone</h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">They get an email with a link that lasts 7 days, and they accept it after signing in to their own account. Solo Books is invite-only, so someone new needs an account set up first: email terrence@latchpointstudios.com and we'll create it.</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">They get an email with a link that lasts 7 days, and they accept it after signing in, or creating their own account right from the link.</p>
           <form onSubmit={submit} className="space-y-3">
             <div>
               <label htmlFor="invite-email" className={labelCls}>

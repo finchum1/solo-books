@@ -108,7 +108,7 @@ export const FAQ: Record<string, Faq> = {
   },
   team: {
     q: 'Can my bookkeeper or team use it?',
-    a: 'Yes. Invite people to a business by email. They sign in with their own account (Solo Books is invite-only, so email us and we’ll set one up for anyone who doesn’t have one), and you choose what each can do: an Admin can also add and remove people, a Bookkeeper can do all the bookkeeping, and a View-only person can read the books but can’t change anything or see payroll. You can change or remove anyone at any time.',
+    a: 'Yes. Invite people to a business by email. They sign in with their own account, or create one right from your invitation link, and you choose what each can do: an Admin can also add and remove people, a Bookkeeper can do all the bookkeeping, and a View-only person can read the books but can’t change anything or see payroll. You can change or remove anyone at any time.',
   },
   teamPrivate: {
     q: 'Can someone I invite see my other businesses?',

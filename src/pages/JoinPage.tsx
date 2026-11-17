@@ -9,7 +9,7 @@ import { errMsg } from '../lib/errors'
 
 /**
  * The page an invitation link opens (/join/<token>), for someone signed in or not. Signed out, it explains the invitation and
- * sends them to sign in (there is no public sign-up: new accounts are set up for people), remembering the link so they land back here. Signed in, one button accepts it.
+ * sends them to sign in or create an account (an invitation is the only way to sign up), remembering the link so they land back here. Signed in, one button accepts it.
  */
 export function JoinPage({ token, session }: { token: string; session: Session | null }) {
   const [preview, setPreview] = useState<InvitePreview | null>(null)
@@ -33,7 +33,7 @@ export function JoinPage({ token, session }: { token: string; session: Session |
   const valid = preview?.status === 'valid'
   const dead = preview && !valid
 
-  function go(path: '/signin') {
+  function go(path: '/signin' | '/signup') {
     pendingInvite.set(token)
     window.location.assign(path)
   }
@@ -95,11 +95,14 @@ export function JoinPage({ token, session }: { token: string; session: Session |
               </>
             ) : (
               <div className="space-y-3">
-                <button type="button" onClick={() => go('/signin')} className="w-full rounded-full px-5 py-3 text-sm font-semibold transition" style={{ background: panel.gold, color: panel.onGold }}>
-                  Sign in to accept
+                <button type="button" onClick={() => go('/signup')} className="w-full rounded-full px-5 py-3 text-sm font-semibold transition" style={{ background: panel.gold, color: panel.onGold }}>
+                  Create an account
+                </button>
+                <button type="button" onClick={() => go('/signin')} className="w-full rounded-full px-5 py-3 text-sm font-semibold transition" style={{ color: panel.ink, boxShadow: `0 0 0 1px ${panel.border}` }}>
+                  I already have an account
                 </button>
                 <p className="pt-2 text-xs leading-relaxed" style={{ color: panel.inkDim }}>
-                  Solo Books is invite-only, so accounts are set up for people. No account yet? Ask {preview.inviter || 'the person who invited you'} to arrange one, then open this link again.
+                  Solo Books is invite-only, and this invitation is what lets you create an account. Use the email you want to sign in with from now on.
                 </p>
               </div>
             )}
